@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Snake Deluxe (Online Leaderboard)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+        :root {
+            /* Define color theme using CSS variables */
+            --bg-color: #1a1a2e;
+            --primary-color: #00bcd4;
+            --secondary-color: #ffeb3b;
+            --accent-color: #ff4081;
+            --food-color: #ff5252; /* Apple Red */
+            --snake-head-color: #4caf50; /* Snake Head Green */
+            --snake-head-gradient-end: #388e3c; /* Darker green for gradient */
+            --snake-body-color: #8bc34a; /* Snake Body Light Green */
+            --snake-body-gradient-end: #689f38; /* Darker light green */
+            --obstacle-color: #795548; /* Obstacle Brown */
+            --text-color: #e0e0e0;
+            --border-color: #4dd0e1;
+            --canvas-bg-color: #263238; /* Canvas Background */
+            --canvas-grid-color: rgba(255,255,255,0.04); /* Grid lines */
+            --highlight-bg-color: rgba(0, 188, 212, 0.3); /* Highlight Background */
+            --font-family: 'Press Start 2P', cursive;
+        }
+
+        body {
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            margin: 0; background: linear-gradient(45deg, var(--bg-color), #2c3e50);
+            font-family: var(--font-family); color: var(--text-color); flex-direction: column;
+            text-align: center; overflow: hidden;
+        }
+
+        h1 { color: var(--secondary-color); text-shadow: 2px 2px 0px var(--accent-color); margin-bottom: 15px; font-size: 2em; }
+
+        #game-area {
+            position: relative; border: 5px solid var(--border-color); border-radius: 15px;
+            box-shadow: 0 0 25px rgba(0, 188, 212, 0.6); background-color: var(--canvas-bg-color);
+            background-image: linear-gradient(var(--canvas-grid-color) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--canvas-grid-color) 1px, transparent 1px);
+            background-size: 20px 20px; /* Match grid size */
+        }
+
+        canvas { display: block; border-radius: 10px; }
+
+        #ui-container {
+            display: flex; justify-content: center; align-items: center; /* Centered score */
+            width: 400px; margin-top: 15px; padding: 0 10px; box-sizing: border-box;
+        }
+
+        #score { /* Keep score */
+            font-size: 1em; color: var(--secondary-color); background-color: rgba(0, 0, 0, 0.3);
+            padding: 5px 10px; border-radius: 5px;
+        }
+        /* Removed #high-score display */
+
+        /* Overlays - Using display for visibility */
+        .overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.88); color: var(--text-color);
+            display: none; /* Hidden by default */
+            flex-direction: column; justify-content: center; align-items: center;
+            border-radius: 10px; text-align: center; font-size: 1em; z-index: 10;
+            padding: 25px; box-sizing: border-box;
+        }
+        .overlay.visible { display: flex; /* Show using flex */ }
+
+
+        /* Larger elements within username overlay */
+        #username-overlay h2 { font-size: 1.8em; margin-bottom: 20px; }
+        #username-overlay p { font-size: 1.1em; margin-bottom: 20px; }
+        #username-overlay input[type="text"] { font-size: 1.2em; padding: 12px; margin-bottom: 20px; }
+        #username-overlay button { font-size: 1.1em; padding: 14px 28px; margin-top: 15px; }
+
+        /* General Overlay elements styling (if not overridden above) */
+        .overlay h2 { color: var(--primary-color); margin-bottom: 15px; font-size: 1.5em; }
+        .overlay p { margin-bottom: 15px; }
+        .overlay input[type="text"], .overlay input[type="search"] {
+            font-family: var(--font-family); font-size: 1em; padding: 10px; margin-bottom: 15px;
+            border: 2px solid var(--border-color); background-color: var(--bg-color); color: var(--text-color);
+            border-radius: 5px; text-align: center; width: 80%; max-width: 250px;
+        }
+        .overlay input[type="text"]:focus, .overlay input[type="search"]:focus { outline: none; box-shadow: 0 0 10px var(--primary-color); }
+        .overlay button {
+            font-family: var(--font-family); font-size: 1em; padding: 12px 25px; margin-top: 10px; cursor: pointer;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); color: white;
+            border: none; border-radius: 8px; box-shadow: 0 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.1s ease; text-transform: uppercase;
+        }
+        .overlay button:hover { filter: brightness(1.1); }
+        .overlay button:active { box-shadow: 0 2px rgba(0, 0, 0, 0.3); transform: translateY(2px); }
+
+        /* How to Play Button */
+        #how-to-play-button {
+            background: none; border: 1px solid var(--primary-color); color: var(--primary-color); padding: 6px 12px;
+            margin-top: 5px; margin-bottom: 20px; border-radius: 5px; cursor: pointer; display: inline-flex;
+            align-items: center; font-size: 0.9em; text-transform: none; box-shadow: none;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        #how-to-play-button svg { width: 18px; height: 18px; margin-right: 6px; stroke: currentColor; }
+        #how-to-play-button:hover { background-color: rgba(0, 188, 212, 0.1); color: var(--border-color); }
+        #how-to-play-button:active { transform: none; background-color: rgba(0, 188, 212, 0.2); }
+
+        /* Instructions Text */
+        #instructions-text {
+            background-color: rgba(0, 0, 0, 0.2); border-radius: 5px; padding: 15px;
+            margin-top: -15px; margin-bottom: 20px; width: 90%; max-width: 320px; box-sizing: border-box;
+            text-align: left; font-size: 0.9em; line-height: 1.5;
+            display: none; /* Hidden by default */
+        }
+         #instructions-text ul { padding-left: 20px; margin-top: 5px; margin-bottom: 5px; }
+         #instructions-text li { margin-bottom: 8px; }
+
+        /* Leaderboard Specific */
+         #leaderboard-overlay input[type="search"] { font-size: 0.9em; margin-bottom: 5px; max-width: 200px; }
+         #leaderboard-notice { font-size: 0.7em; color: var(--text-color); opacity: 0.7; margin-top: 0; margin-bottom: 10px; font-style: italic; }
+        #leaderboard-list { list-style: none; padding: 0; margin: 0; max-height: 165px; overflow-y: auto; width: 90%; max-width: 320px; }
+        #leaderboard-list li { display: flex; justify-content: space-between; padding: 6px 5px; border-bottom: 1px dashed var(--primary-color); transition: background-color 0.3s ease; border-radius: 3px;}
+        #leaderboard-list li:last-child { border-bottom: none; }
+        #leaderboard-list .rank { color: var(--primary-color); margin-right: 10px; min-width: 2em; text-align: right;}
+        #leaderboard-list .name { color: var(--secondary-color); text-align: left; flex-grow: 1; margin-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        #leaderboard-list .score { color: var(--accent-color); text-align: right; } /* Class name for score display */
+        #leaderboard-list li.highlighted-rank { background-color: var(--highlight-bg-color); border-left: 3px solid var(--secondary-color); padding-left: 2px; }
+
+        /* Game Over Rank Info */
+        #player-rank-info { color: var(--secondary-color); font-size: 1em; margin-top: -5px; margin-bottom: 10px; min-height: 1.2em; }
+
+        #message-box {
+            position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
+            background-color: var(--accent-color); color: white; padding: 10px 20px; border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); z-index: 1000; font-size: 0.9em; opacity: 0;
+            transition: opacity 0.5s ease-in-out, bottom 0.3s ease-in-out;
+        }
+        #message-box.visible { opacity: 1; bottom: 20px; }
+
+    </style>
+</head>
+<body>
+
+    <h1>Super Snake Deluxe</h1>
+
+    <div id="ui-container">
+        <div id="score">Score: 0</div>
+        </div>
+
+    <div id="game-area">
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+
+        <div id="username-overlay" class="overlay">
+            <h2>Enter Your Name</h2>
+            <p>For the Leaderboard!</p>
+            <input type="text" id="username-input" maxlength="10" placeholder="AAA">
+            <button id="how-to-play-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>How to Play?</button>
+            <div id="instructions-text"><ul><li>Use <strong>Arrow Keys</strong> or <strong>WASD</strong> to move the snake.</li><li>Eat the red apples <span style="color: var(--food-color)">●</span> to grow longer and score points!</li><li>Avoid hitting the walls, your own body, or the brown blocks <span style="color: var(--obstacle-color)">■</span> (obstacles).</li><li>Get the highest score to make the Leaderboard!</li></ul></div>
+            <button id="start-game-button">Start Game</button>
+            <button id="show-leaderboard-button-start">View Leaderboard</button>
+        </div>
+
+        <div id="game-over-overlay" class="overlay">
+            <h2>Game Over!</h2>
+            <div id="final-score" style="font-size: 1.2em; margin-bottom: 5px;">Score: 0</div>
+            <div id="player-rank-info"></div>
+            <button id="restart-button">Play Again</button>
+            <button id="show-leaderboard-button-gameover">View Leaderboard</button>
+        </div>
+
+        <div id="leaderboard-overlay" class="overlay">
+            <h2>Leaderboard</h2>
+            <input type="search" id="leaderboard-search" placeholder="Search rank (e.g., 3) + Enter">
+            <p id="leaderboard-notice">Note: Scores may be reset periodically.</p>
+            <ul id="leaderboard-list"><li>Loading...</li></ul> <button id="close-leaderboard-button">Back</button>
+        </div>
+    </div>
+    <div id="message-box"></div>
+
+    <script>
+        // --- Enhanced Game Setup ---
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // UI Elements
+        const scoreElement = document.getElementById('score');
+        // const highScoreElement = document.getElementById('high-score'); // Removed
+        const usernameOverlay = document.getElementById('username-overlay');
+        const gameOverOverlay = document.getElementById('game-over-overlay');
+        const leaderboardOverlay = document.getElementById('leaderboard-overlay');
+        const finalScoreElement = document.getElementById('final-score');
+        const usernameInput = document.getElementById('username-input');
+        const startGameButton = document.getElementById('start-game-button');
+        const restartButton = document.getElementById('restart-button');
+        const showLeaderboardButtonStart = document.getElementById('show-leaderboard-button-start');
+        const showLeaderboardButtonGameOver = document.getElementById('show-leaderboard-button-gameover');
+        const closeLeaderboardButton = document.getElementById('close-leaderboard-button');
+        const leaderboardList = document.getElementById('leaderboard-list');
+        const messageBox = document.getElementById('message-box');
+        const howToPlayButton = document.getElementById('how-to-play-button');
+        const instructionsText = document.getElementById('instructions-text');
+        const leaderboardSearchInput = document.getElementById('leaderboard-search');
+        const playerRankInfo = document.getElementById('player-rank-info');
+
+        // --- Color Variables ---
+        const computedStyle = getComputedStyle(document.documentElement);
+        const foodColor = computedStyle.getPropertyValue('--food-color').trim();
+        const snakeHeadColor = computedStyle.getPropertyValue('--snake-head-color').trim();
+        const snakeHeadGradientEnd = computedStyle.getPropertyValue('--snake-head-gradient-end').trim();
+        const snakeBodyColor = computedStyle.getPropertyValue('--snake-body-color').trim();
+        const snakeBodyGradientEnd = computedStyle.getPropertyValue('--snake-body-gradient-end').trim();
+        const obstacleColor = computedStyle.getPropertyValue('--obstacle-color').trim();
+        const canvasBgColor = computedStyle.getPropertyValue('--canvas-bg-color').trim();
+        const canvasGridColor = computedStyle.getPropertyValue('--canvas-grid-color').trim();
+
+        // Game Constants & State Variables
+        const gridSize = 20; const canvasSize = 400; const tileCount = canvasSize / gridSize;
+        let gameState = 'username'; let snake, dx, dy, food, obstacles, score, /* highScore removed */ gameLoopTimeout, gameSpeed, changingDirection, isGameOver, username;
+        let eatSound, gameOverSound; let audioReady = false;
+        let lastUpdateTime = 0; let accumulatedTime = 0; let animationFrameId = null;
+        let currentLeaderboardData = []; // Cache leaderboard data
+
+        // --- API Endpoints ---
+        // !!! IMPORTANT: This URL comes from your `wrangler deploy` output !!!
+        const WORKER_URL = 'https://flat-mode-f83b.shoorviraj83.workers.dev'; // <-- Verified URL
+        // Define specific paths handled by the worker
+        const LEADERBOARD_ENDPOINT = `${WORKER_URL}/api/leaderboard`;
+        const SCORE_ENDPOINT = `${WORKER_URL}/api/scores`;
+
+
+        // --- Initialization Functions --- (Audio unchanged)
+        function initAudio() { /* ... */ if (audioReady || typeof Tone === 'undefined') { return; } try { eatSound = new Tone.Synth({ oscillator: { type: 'triangle' }, envelope: { attack: 0.01, decay: 0.1, sustain: 0.1, release: 0.1 } }).toDestination(); gameOverSound = new Tone.NoiseSynth({ noise: { type: 'brown' }, envelope: { attack: 0.05, decay: 0.5, sustain: 0, release: 0.2 } }).toDestination(); if (Tone.context.state !== 'running') { if (!window.toneStartedPromise) { window.toneStartedPromise = Tone.start(); } window.toneStartedPromise.then(() => { audioReady = true; }).catch(e => { console.error("Tone.start() failed:", e); audioReady = false; }).finally(() => { window.toneStartedPromise = null; }); } else { audioReady = true; } } catch (e) { console.error("Error setting up Tone.js sounds:", e); audioReady = false; } }
+        function playEatSound() { /* ... */ if (audioReady && eatSound && Tone.context.state === 'running') { try { eatSound.triggerAttackRelease('C5', '8n', Tone.now()); } catch (e) { console.error("Error playing eat sound:", e); } } }
+        function playGameOverSound() { /* ... */ if (audioReady && gameOverSound && Tone.context.state === 'running') { try { gameOverSound.triggerAttackRelease('1n', Tone.now()); } catch (e) { console.error("Error playing game over sound:", e); } } }
+
+        // --- Leaderboard API Functions ---
+
+        /** Fetches leaderboard data from the API */
+        async function loadLeaderboard() {
+            leaderboardList.innerHTML = '<li>Loading...</li>';
+            leaderboardSearchInput.disabled = true;
+            try {
+                // console.log(`Fetching from: ${LEADERBOARD_ENDPOINT}`); // Debug
+                const response = await fetch(LEADERBOARD_ENDPOINT);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const data = await response.json();
+                // console.log("API Response Data:", data); // Debug
+                if (data && data.success && Array.isArray(data.results)) {
+                     currentLeaderboardData = data.results;
+                     return currentLeaderboardData;
+                } else throw new Error("Invalid data format received from API");
+            } catch (error) {
+                console.error("Error loading leaderboard:", error);
+                leaderboardList.innerHTML = '<li>Error loading scores!</li>';
+                currentLeaderboardData = [];
+                return [];
+            }
+        }
+
+        /** Saves a score via the API */
+        async function saveScoreToAPI(name, currentScore) { // Renamed internal variable
+            if (!name || currentScore <= 0) return;
+            try {
+                // console.log(`Saving to: ${SCORE_ENDPOINT}`); // Debug
+                const response = await fetch(SCORE_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    // Ensure the body matches the worker expectation (name, score_value)
+                    body: JSON.stringify({
+                        name: name.toUpperCase().substring(0, 10),
+                        score_value: currentScore // Send score as score_value
+                    }),
+                });
+                if (!response.ok) {
+                     let errorMsg = `HTTP error! status: ${response.status}`;
+                     try { const errorData = await response.json(); if (errorData && errorData.error) errorMsg += ` - ${errorData.error}`; } catch (e) { /* Ignore */ }
+                     throw new Error(errorMsg);
+                }
+                const result = await response.json();
+                if (!result || !result.success) { throw new Error(result.error || "API reported failure"); }
+                // console.log("Score save result:", result); // Debug
+            } catch (error) {
+                console.error("Error saving score via API:", error);
+                showMessage("Could not save score online.", 2000); // Show error to user
+            }
+        }
+
+        /** Displays the leaderboard UI using fetched data */
+        async function displayLeaderboard() {
+            const board = await loadLeaderboard(); // Fetch/get cached data
+            leaderboardList.innerHTML = '';
+            leaderboardSearchInput.value = '';
+            clearLeaderboardHighlight();
+
+            if (board.length === 0 && leaderboardList.innerHTML.includes('Error')) {
+                 leaderboardSearchInput.disabled = true;
+            } else if (board.length === 0) {
+                leaderboardList.innerHTML = '<li>No scores yet!</li>';
+                leaderboardSearchInput.disabled = true;
+            } else {
+                leaderboardSearchInput.disabled = false;
+                board.forEach((entry, index) => {
+                    const li = document.createElement('li'); const rank = index + 1;
+                    const safeName = String(entry.name || '???').replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                    // Use score_value from the API response
+                    const safeScore = parseInt(entry.score_value || 0);
+                    li.innerHTML = `<span class="rank">#${rank}</span><span class="name">${safeName}</span><span class="score">${safeScore}</span>`;
+                    leaderboardList.appendChild(li);
+                });
+            }
+            switchState('leaderboard'); // Show the overlay
+        }
+
+        /** Clears any highlight from leaderboard items */
+        function clearLeaderboardHighlight() { const items = leaderboardList.querySelectorAll('li'); items.forEach(item => item.classList.remove('highlighted-rank')); }
+
+        /** Handles leaderboard search logic using cached data */
+        function handleLeaderboardSearch() {
+            clearLeaderboardHighlight(); const rankToFind = parseInt(leaderboardSearchInput.value.trim()); const items = leaderboardList.querySelectorAll('li');
+            if (!isNaN(rankToFind) && rankToFind >= 1 && rankToFind <= items.length && !items[0].textContent.includes('Loading') && !items[0].textContent.includes('Error')) {
+                const targetItem = items[rankToFind - 1];
+                if (targetItem) { targetItem.classList.add('highlighted-rank'); targetItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
+            } else if (leaderboardSearchInput.value.trim() !== '') { showMessage("Invalid rank.", 1500); leaderboardSearchInput.value = ''; }
+        }
+
+        /** Calculates and displays player rank on Game Over screen using cached data */
+        function displayPlayerRank() {
+             playerRankInfo.textContent = '';
+             if (score <= 0 || currentLeaderboardData.length === 0) return;
+             const currentName = (username || 'AAA').toUpperCase().substring(0, 10);
+             // Find rank using score_value
+             const playerIndex = currentLeaderboardData.findIndex(entry => entry.name === currentName && entry.score_value === score);
+             if (playerIndex > -1) { const rank = playerIndex + 1; playerRankInfo.textContent = `You ranked #${rank}!`; }
+        }
+
+
+        /** Initializes or resets game variables */
+        function initGameVariables() {
+            snake = [{ x: Math.floor(tileCount / 2), y: Math.floor(tileCount / 2) }]; dx = 0; dy = 0; changingDirection = false; score = 0; gameSpeed = 150; isGameOver = false;
+            food = { x: -1, y: -1 }; obstacles = []; playerRankInfo.textContent = '';
+            lastUpdateTime = 0; accumulatedTime = 0;
+            if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; }
+            try { generateFood(); obstacles = generateObstacles(5); } catch (e) { console.error("Error generating obstacles or food:", e); showMessage("Error setting up board!", 3000); switchState('username'); throw e; }
+            updateScoreDisplay();
+            // No local high score load needed
+        }
+
+        // --- Drawing Functions --- (With Gradients - unchanged)
+        function clearCanvas() { ctx.fillStyle = canvasBgColor; ctx.fillRect(0, 0, canvasSize, canvasSize); ctx.fillStyle = canvasGridColor; for (let i = 1; i < tileCount; i++) { ctx.fillRect(i * gridSize - 0.5, 0, 1, canvasSize); ctx.fillRect(0, i * gridSize - 0.5, canvasSize, 1); } }
+        function drawSnakePart(segment, index) { const x = segment.x * gridSize; const y = segment.y * gridSize; const r = gridSize * 0.3; const gradient = ctx.createLinearGradient(x, y, x + gridSize, y + gridSize); gradient.addColorStop(0, snakeBodyColor); gradient.addColorStop(1, snakeBodyGradientEnd); ctx.fillStyle = gradient; ctx.strokeStyle = 'rgba(0,0,0,0.3)'; ctx.beginPath(); ctx.roundRect(x + 1, y + 1, gridSize - 2, gridSize - 2, r); ctx.fill(); ctx.stroke(); }
+        function drawSnakeHead(head) { const x = head.x * gridSize; const y = head.y * gridSize; const r = gridSize * 0.3; const gradient = ctx.createLinearGradient(x, y, x + gridSize, y + gridSize); gradient.addColorStop(0, snakeHeadColor); gradient.addColorStop(1, snakeHeadGradientEnd); ctx.fillStyle = gradient; ctx.strokeStyle = 'rgba(0,0,0,0.5)'; ctx.beginPath(); ctx.roundRect(x + 1, y + 1, gridSize - 2, gridSize - 2, r); ctx.fill(); ctx.stroke(); ctx.fillStyle = '#FFFFFF'; const eyeSize = gridSize / 6; const pupilSize = eyeSize / 2; let e1X, e1Y, e2X, e2Y, p1X, p1Y, p2X, p2Y; const o = gridSize * 0.25; if (dx === 1) { e1X = x + gridSize * 0.6; e1Y = y + o; e2X = x + gridSize * 0.6; e2Y = y + gridSize - o - eyeSize; p1X = e1X + eyeSize / 2; p1Y = e1Y; p2X = e2X + eyeSize / 2; p2Y = e2Y; } else if (dx === -1) { e1X = x + gridSize * 0.4 - eyeSize; e1Y = y + o; e2X = x + gridSize * 0.4 - eyeSize; e2Y = y + gridSize - o - eyeSize; p1X = e1X - eyeSize / 2; p1Y = e1Y; p2X = e2X - eyeSize / 2; p2Y = e2Y; } else if (dy === 1) { e1X = x + o; e1Y = y + gridSize * 0.6; e2X = x + gridSize - o - eyeSize; e2Y = y + gridSize * 0.6; p1X = e1X; p1Y = e1Y + eyeSize / 2; p2X = e2X; p2Y = e2Y + eyeSize / 2; } else { e1X = x + o; e1Y = y + gridSize * 0.4 - eyeSize; e2X = x + gridSize - o - eyeSize; e2Y = y + gridSize * 0.4 - eyeSize; p1X = e1X; p1Y = e1Y - eyeSize / 2; p2X = e2X; p2Y = e2Y - eyeSize / 2; } ctx.beginPath(); ctx.arc(e1X + eyeSize / 2, e1Y + eyeSize / 2, eyeSize, 0, Math.PI * 2); ctx.fill(); ctx.beginPath(); ctx.arc(e2X + eyeSize / 2, e2Y + eyeSize / 2, eyeSize, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#000000'; ctx.beginPath(); ctx.arc(p1X + pupilSize, p1Y + pupilSize, pupilSize, 0, Math.PI * 2); ctx.fill(); ctx.beginPath(); ctx.arc(p2X + pupilSize, p2Y + pupilSize, pupilSize, 0, Math.PI * 2); ctx.fill(); }
+        function drawSnake() { snake.forEach((seg, i) => { if (i === 0) drawSnakeHead(seg); else drawSnakePart(seg, i); }); }
+        function drawFood() { /* ... */ const r = gridSize / 2; const x = food.x * gridSize + r; const y = food.y * gridSize + r; const p = Math.sin(Date.now() * 0.01) * 0.05 + 0.9; ctx.fillStyle = foodColor; ctx.beginPath(); ctx.arc(x, y, r * p, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = snakeHeadColor; const sw = gridSize * 0.15; const sh = gridSize * 0.3; ctx.fillRect(x - sw / 2, y - r * p - sh + 3, sw, sh); ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'; ctx.beginPath(); ctx.arc(x - r * 0.3, y - r * 0.4, r * 0.2 * p, 0, Math.PI * 2); ctx.fill(); }
+        function drawObstacles() { /* ... */ ctx.fillStyle = obstacleColor; ctx.strokeStyle = 'rgba(0,0,0,0.5)'; obstacles.forEach(o => { const x = o.x * gridSize; const y = o.y * gridSize; ctx.beginPath(); ctx.roundRect(x + 2, y + 2, gridSize - 4, gridSize - 4, gridSize * 0.1); ctx.fill(); ctx.stroke(); }); }
+
+        // --- Game Logic --- (Generation, Movement, Collision - unchanged)
+        function moveSnake() { /* ... */ if (dx === 0 && dy === 0) return; const head = { x: snake[0].x + dx, y: snake[0].y + dy }; snake.unshift(head); if (head.x === food.x && head.y === food.y) { score += 10; playEatSound(); updateScoreDisplay(); generateFood(); if (gameSpeed > 60) gameSpeed -= 2; } else { snake.pop(); } }
+        function generateObstacles(count) { /* ... */ const newObstacles = []; const occupied = [...(snake || []), ...(food && food.x !== -1 ? [food] : [])]; let attempts = 0; while (newObstacles.length < count && attempts < tileCount * tileCount) { const obsX = Math.floor(Math.random() * tileCount); const obsY = Math.floor(Math.random() * tileCount); const isOccupied = occupied.some(p => p.x === obsX && p.y === obsY) || newObstacles.some(o => o.x === obsX && o.y === obsY) || obsX < 1 || obsX >= tileCount - 1 || obsY < 1 || obsY >= tileCount - 1 || (obsX > tileCount*0.4 && obsX < tileCount*0.6 && obsY > tileCount*0.4 && obsY < tileCount*0.6); if (!isOccupied) { newObstacles.push({ x: obsX, y: obsY }); occupied.push({ x: obsX, y: obsY }); } attempts++; } if(attempts >= tileCount * tileCount) console.warn("Could not generate all obstacles."); return newObstacles; }
+        function generateFood() { /* ... */ const occupied = [...(snake || []), ...(obstacles || [])]; let attempts = 0; while (attempts < tileCount * tileCount) { food = { x: Math.floor(Math.random() * tileCount), y: Math.floor(Math.random() * tileCount) }; let collision = occupied.some(p => p.x === food.x && p.y === food.y); if (!collision) break; attempts++; } if(attempts >= tileCount * tileCount) console.warn("Could not generate food."); }
+        function checkGameOver() { /* ... */ const head = snake[0]; if (!head) return true; if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) return true; for (let i = 1; i < snake.length; i++) { if (head.x === snake[i].x && head.y === snake[i].y) return true; } if (obstacles.some(obs => obs.x === head.x && obs.y === head.y)) return true; return false; }
+        function changeDirection(event) { /* ... */ if (gameState !== 'playing' || changingDirection) return; const LEFT_KEY = 37; const RIGHT_KEY = 39; const UP_KEY = 38; const DOWN_KEY = 40; const A_KEY = 65; const D_KEY = 68; const W_KEY = 87; const S_KEY = 83; const keyPressed = event.keyCode; let newDx = dx; let newDy = dy; if ((keyPressed === LEFT_KEY || keyPressed === A_KEY) && dx !== 1) { newDx = -1; newDy = 0; } else if ((keyPressed === UP_KEY || keyPressed === W_KEY) && dy !== 1) { newDx = 0; newDy = -1; } else if ((keyPressed === RIGHT_KEY || keyPressed === D_KEY) && dx !== -1) { newDx = 1; newDy = 0; } else if ((keyPressed === DOWN_KEY || keyPressed === S_KEY) && dy !== -1) { newDx = 0; newDy = 1; } else { return; } if (dx !== newDx || dy !== newDy) { dx = newDx; dy = newDy; changingDirection = true; } }
+        function updateScoreDisplay() { scoreElement.textContent = `Score: ${score}`; }
+        function showMessage(message, duration = 2000) { messageBox.textContent = message; messageBox.classList.add('visible'); setTimeout(() => { messageBox.classList.remove('visible'); }, duration); }
+        function switchState(newState) { /* ... */ gameState = newState; usernameOverlay.classList.remove('visible'); gameOverOverlay.classList.remove('visible'); leaderboardOverlay.classList.remove('visible'); switch (newState) { case 'username': if (usernameOverlay) usernameOverlay.classList.add('visible'); instructionsText.style.display = 'none'; break; case 'playing': break; case 'gameover': if (gameOverOverlay) { finalScoreElement.textContent = `Score: ${score}`; displayPlayerRank(); gameOverOverlay.classList.add('visible'); } break; case 'leaderboard': if (leaderboardOverlay) leaderboardOverlay.classList.add('visible'); break; } }
+
+        // --- Main Game Loop (Using requestAnimationFrame) ---
+        function gameLoop(currentTime) {
+            if (gameState !== 'playing') { animationFrameId = null; return; }
+            if (lastUpdateTime === 0) lastUpdateTime = currentTime;
+            const deltaTime = currentTime - lastUpdateTime;
+            lastUpdateTime = currentTime;
+            accumulatedTime += deltaTime;
+            while (accumulatedTime >= gameSpeed) {
+                 if (isGameOver) break;
+                 changingDirection = false; moveSnake(); isGameOver = checkGameOver();
+                 if (isGameOver) {
+                     playGameOverSound();
+                     // Save score via API (async, but don't necessarily wait here)
+                     saveScoreToAPI(username, score).then(() => {
+                         // Maybe refresh leaderboard data in background after saving?
+                         // loadLeaderboard(); // Optional: pre-fetch for next view
+                     });
+                     switchState('gameover'); // Switch state immediately
+                     animationFrameId = null;
+                     return;
+                 }
+                 accumulatedTime -= gameSpeed;
+            }
+            try { clearCanvas(); drawObstacles(); drawFood(); drawSnake(); } catch(e) { console.error("Error during drawing:", e); showMessage("An error occurred during drawing!", 3000); switchState('gameover'); animationFrameId = null; return; }
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+        function startGameLoop() { lastUpdateTime = 0; accumulatedTime = 0; if (animationFrameId) { cancelAnimationFrame(animationFrameId); } animationFrameId = requestAnimationFrame(gameLoop); }
+
+        // --- Event Listeners ---
+        startGameButton.addEventListener('click', () => { username = usernameInput.value.trim() || 'AAA'; initAudio(); try { initGameVariables(); } catch (initError) { return; } switchState('playing'); showMessage(`Go, ${username}! Use Arrows/WASD.`, 2500); startGameLoop(); });
+        restartButton.addEventListener('click', () => { try { initGameVariables(); } catch (initError) { return; } switchState('playing'); showMessage("Let's try again!", 1500); startGameLoop(); });
+        showLeaderboardButtonStart.addEventListener('click', displayLeaderboard); // Calls displayLeaderboard which now fetches
+        showLeaderboardButtonGameOver.addEventListener('click', displayLeaderboard); // Calls displayLeaderboard which now fetches
+        closeLeaderboardButton.addEventListener('click', () => { leaderboardSearchInput.value = ''; clearLeaderboardHighlight(); switchState(isGameOver ? 'gameover' : 'username'); });
+        document.addEventListener('keydown', changeDirection);
+        howToPlayButton.addEventListener('click', () => { instructionsText.style.display = instructionsText.style.display === 'block' ? 'none' : 'block'; });
+        leaderboardSearchInput.addEventListener('keydown', (event) => { if (event.key === 'Enter') { event.preventDefault(); handleLeaderboardSearch(); } });
+        leaderboardSearchInput.addEventListener('input', () => { if (leaderboardSearchInput.value.trim() === '') { clearLeaderboardHighlight(); } });
+
+        // --- Initial Setup ---
+        switchState('username');
+        // loadHighScore(); // Remove local high score loading
+
+    </script>
+
+</body>
+</html>
