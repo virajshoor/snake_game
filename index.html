@@ -98,6 +98,46 @@
         #leaderboard-list .score { color: var(--accent-color); text-align: right; }
         #leaderboard-list li.highlighted-rank { background-color: var(--highlight-bg-color); border-left: 3px solid var(--secondary-color); padding-left: 2px; }
 
+        /* Search container for input and button */
+        .leaderboard-search-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 5px;
+            width: 90%;
+            max-width: 240px;
+        }
+        .leaderboard-search-container input[type="search"] {
+            margin-bottom: 0;
+            flex-grow: 1;
+        }
+        #leaderboard-search-button {
+            font-family: var(--font-family);
+            font-size: 0.7em;
+            padding: 9px 10px;
+            background: var(--primary-color);
+            color: var(--bg-color);
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #leaderboard-search-button svg {
+            width: 16px;
+            height: 16px;
+        }
+        #leaderboard-search-button:hover {
+            filter: brightness(1.1);
+        }
+        #leaderboard-search-button:active {
+            box-shadow: none;
+            transform: translateY(1px);
+        }
+
         /* Game Over Rank Info */
         #player-rank-info { color: var(--secondary-color); font-size: 0.9em; margin-top: -5px; margin-bottom: 10px; min-height: 1.1em; }
 
@@ -133,7 +173,16 @@
             <h2>Game Over!</h2><div id="final-score" style="font-size: 1.2em; margin-bottom: 5px;">Score: 0</div><div id="player-rank-info"></div><button id="restart-button">Play Again</button><button id="show-leaderboard-button-gameover">View Leaderboard</button>
         </div>
         <div id="leaderboard-overlay" class="overlay">
-            <h2>Leaderboard</h2><input type="search" id="leaderboard-search" placeholder="Search rank (e.g., 3) + Enter"><p id="leaderboard-notice">Aim for the highest score!</p><ul id="leaderboard-list"><li>Loading...</li></ul> <button id="close-leaderboard-button">Back</button>
+            <h2>Leaderboard</h2>
+            <div class="leaderboard-search-container">
+                <input type="search" id="leaderboard-search" placeholder="Search rank...">
+                <button id="leaderboard-search-button" aria-label="Search Leaderboard">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </button>
+            </div>
+            <p id="leaderboard-notice">Aim for the highest score!</p>
+            <ul id="leaderboard-list"><li>Loading...</li></ul> 
+            <button id="close-leaderboard-button">Back</button>
         </div>
     </div>
 
@@ -177,6 +226,7 @@
         const downButton = document.getElementById('down-btn');
         const leftButton = document.getElementById('left-btn');
         const rightButton = document.getElementById('right-btn');
+        const leaderboardSearchButton = document.getElementById('leaderboard-search-button');
 
         // --- DEBUG: Check if overlay elements are found ---
         console.log("DEBUG: usernameOverlay element:", usernameOverlay);
@@ -227,7 +277,17 @@
         function displayPlayerRank() { /* ... */ playerRankInfo.textContent = ''; if (score <= 0 || currentLeaderboardData.length === 0) return; const currentName = (username || 'AAA').toUpperCase().substring(0, 10); const playerIndex = currentLeaderboardData.findIndex(entry => entry.name === currentName && entry.score_value === score); if (playerIndex > -1) { const rank = playerIndex + 1; playerRankInfo.textContent = `You ranked #${rank}!`; } }
 
         /** Initializes or resets game variables */
-        function initGameVariables() { /* ... */ snake = [{ x: Math.floor(tileCount / 2), y: Math.floor(tileCount / 2) }]; dx = 0; dy = 0; changingDirection = false; score = 0; gameSpeed = 150; isGameOver = false; food = { x: -1, y: -1 }; obstacles = []; playerRankInfo.textContent = ''; lastUpdateTime = 0; accumulatedTime = 0; if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; } try { generateFood(); obstacles = generateObstacles(5); } catch (e) { console.error("Error generating obstacles or food:", e); showMessage("Error setting up board!", 3000); switchState('username'); throw e; } updateScoreDisplay(); }
+        function initGameVariables() { /* ... */ 
+            snake = [{ x: Math.floor(tileCount / 2), y: Math.floor(tileCount / 2) }]; 
+            dx = 0; dy = 0; changingDirection = false; score = 0; 
+            gameSpeed = isTouchDevice() ? 350 : 150; // Slower game speed on mobile
+            isGameOver = false; food = { x: -1, y: -1 }; obstacles = []; 
+            playerRankInfo.textContent = ''; lastUpdateTime = 0; accumulatedTime = 0; 
+            if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; } 
+            try { generateFood(); obstacles = generateObstacles(5); } 
+            catch (e) { console.error("Error generating obstacles or food:", e); showMessage("Error setting up board!", 3000); switchState('username'); throw e; } 
+            updateScoreDisplay(); 
+        }
 
         // --- Drawing Functions --- (With Gradients - unchanged)
         function clearCanvas() { ctx.fillStyle = canvasBgColor; ctx.fillRect(0, 0, canvasSize, canvasSize); ctx.fillStyle = canvasGridColor; for (let i = 1; i < tileCount; i++) { ctx.fillRect(i * gridSize - 0.5, 0, 1, canvasSize); ctx.fillRect(0, i * gridSize - 0.5, canvasSize, 1); } }
@@ -284,6 +344,7 @@
         howToPlayButton.addEventListener('click', () => { instructionsText.style.display = instructionsText.style.display === 'block' ? 'none' : 'block'; });
         leaderboardSearchInput.addEventListener('keydown', (event) => { if (event.key === 'Enter') { event.preventDefault(); handleLeaderboardSearch(); } });
         leaderboardSearchInput.addEventListener('input', () => { if (leaderboardSearchInput.value.trim() === '') { clearLeaderboardHighlight(); } });
+        leaderboardSearchButton.addEventListener('click', () => handleLeaderboardSearch());
         upButton.addEventListener('click', () => setDirection(0, -1)); downButton.addEventListener('click', () => setDirection(0, 1)); leftButton.addEventListener('click', () => setDirection(-1, 0)); rightButton.addEventListener('click', () => setDirection(1, 0));
         gameArea.addEventListener('click', handleTap);
 
