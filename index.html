@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Super Snake Deluxe (Online Leaderboard)</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
@@ -25,37 +25,36 @@
             --canvas-grid-color: rgba(255,255,255,0.04); /* Grid lines */
             --highlight-bg-color: rgba(0, 188, 212, 0.3); /* Highlight Background */
             --font-family: 'Press Start 2P', cursive;
+            --mobile-button-bg: rgba(77, 208, 225, 0.6); /* Semi-transparent cyan */
+            --mobile-button-active-bg: rgba(0, 188, 212, 0.8);
         }
 
+        /* Basic reset and body styling */
+        html, body {
+            height: 100%; margin: 0; padding: 0; overflow: hidden;
+            background: linear-gradient(45deg, var(--bg-color), #2c3e50);
+            font-family: var(--font-family); color: var(--text-color);
+            touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+        }
         body {
-            display: flex; justify-content: center; align-items: center; min-height: 100vh;
-            margin: 0; background: linear-gradient(45deg, var(--bg-color), #2c3e50);
-            font-family: var(--font-family); color: var(--text-color); flex-direction: column;
-            text-align: center; overflow: hidden;
+             display: flex; flex-direction: column; align-items: center;
+             justify-content: space-around; padding-bottom: 100px; box-sizing: border-box;
         }
-
-        h1 { color: var(--secondary-color); text-shadow: 2px 2px 0px var(--accent-color); margin-bottom: 15px; font-size: 2em; }
-
+        h1 { color: var(--secondary-color); text-shadow: 2px 2px 0px var(--accent-color); margin-bottom: 10px; margin-top: 10px; font-size: 1.8em; }
         #game-area {
             position: relative; border: 5px solid var(--border-color); border-radius: 15px;
             box-shadow: 0 0 25px rgba(0, 188, 212, 0.6); background-color: var(--canvas-bg-color);
             background-image: linear-gradient(var(--canvas-grid-color) 1px, transparent 1px),
                               linear-gradient(90deg, var(--canvas-grid-color) 1px, transparent 1px);
-            background-size: 20px 20px; /* Match grid size */
+            background-size: 20px 20px; width: 95vw; max-width: 400px; aspect-ratio: 1 / 1;
+            margin-bottom: 10px;
         }
-
-        canvas { display: block; border-radius: 10px; }
-
+        canvas { display: block; border-radius: 10px; width: 100%; height: 100%; }
         #ui-container {
-            display: flex; justify-content: center; align-items: center; /* Centered score */
-            width: 400px; margin-top: 15px; padding: 0 10px; box-sizing: border-box;
+            display: flex; justify-content: center; align-items: center;
+            width: 95vw; max-width: 400px; margin-top: 0; padding: 0 10px; box-sizing: border-box;
         }
-
-        #score { /* Keep score */
-            font-size: 1em; color: var(--secondary-color); background-color: rgba(0, 0, 0, 0.3);
-            padding: 5px 10px; border-radius: 5px;
-        }
-        /* Removed #high-score display */
+        #score { font-size: 1em; color: var(--secondary-color); background-color: rgba(0, 0, 0, 0.3); padding: 5px 10px; border-radius: 5px; }
 
         /* Overlays - Using display for visibility */
         .overlay {
@@ -64,76 +63,54 @@
             display: none; /* Hidden by default */
             flex-direction: column; justify-content: center; align-items: center;
             border-radius: 10px; text-align: center; font-size: 1em; z-index: 10;
-            padding: 25px; box-sizing: border-box;
+            padding: 15px; box-sizing: border-box;
         }
         .overlay.visible { display: flex; /* Show using flex */ }
 
-
-        /* Larger elements within username overlay */
-        #username-overlay h2 { font-size: 1.8em; margin-bottom: 20px; }
-        #username-overlay p { font-size: 1.1em; margin-bottom: 20px; }
-        #username-overlay input[type="text"] { font-size: 1.2em; padding: 12px; margin-bottom: 20px; }
-        #username-overlay button { font-size: 1.1em; padding: 14px 28px; margin-top: 15px; }
-
-        /* General Overlay elements styling (if not overridden above) */
-        .overlay h2 { color: var(--primary-color); margin-bottom: 15px; font-size: 1.5em; }
-        .overlay p { margin-bottom: 15px; }
-        .overlay input[type="text"], .overlay input[type="search"] {
-            font-family: var(--font-family); font-size: 1em; padding: 10px; margin-bottom: 15px;
-            border: 2px solid var(--border-color); background-color: var(--bg-color); color: var(--text-color);
-            border-radius: 5px; text-align: center; width: 80%; max-width: 250px;
-        }
+        /* Overlay element sizing */
+        .overlay h2 { color: var(--primary-color); margin-bottom: 15px; font-size: 1.3em; }
+        .overlay p { margin-bottom: 15px; font-size: 0.9em;}
+        .overlay input[type="text"], .overlay input[type="search"] { font-family: var(--font-family); font-size: 0.9em; padding: 10px; margin-bottom: 15px; border: 2px solid var(--border-color); background-color: var(--bg-color); color: var(--text-color); border-radius: 5px; text-align: center; width: 80%; max-width: 250px; }
         .overlay input[type="text"]:focus, .overlay input[type="search"]:focus { outline: none; box-shadow: 0 0 10px var(--primary-color); }
-        .overlay button {
-            font-family: var(--font-family); font-size: 1em; padding: 12px 25px; margin-top: 10px; cursor: pointer;
-            background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); color: white;
-            border: none; border-radius: 8px; box-shadow: 0 4px rgba(0, 0, 0, 0.3);
-            transition: all 0.1s ease; text-transform: uppercase;
-        }
+        .overlay button { font-family: var(--font-family); font-size: 0.9em; padding: 10px 20px; margin-top: 10px; cursor: pointer; background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); color: white; border: none; border-radius: 8px; box-shadow: 0 4px rgba(0, 0, 0, 0.3); transition: all 0.1s ease; text-transform: uppercase; }
         .overlay button:hover { filter: brightness(1.1); }
         .overlay button:active { box-shadow: 0 2px rgba(0, 0, 0, 0.3); transform: translateY(2px); }
 
         /* How to Play Button */
-        #how-to-play-button {
-            background: none; border: 1px solid var(--primary-color); color: var(--primary-color); padding: 6px 12px;
-            margin-top: 5px; margin-bottom: 20px; border-radius: 5px; cursor: pointer; display: inline-flex;
-            align-items: center; font-size: 0.9em; text-transform: none; box-shadow: none;
-            transition: background-color 0.2s ease, color 0.2s ease;
-        }
-        #how-to-play-button svg { width: 18px; height: 18px; margin-right: 6px; stroke: currentColor; }
+        #how-to-play-button { background: none; border: 1px solid var(--primary-color); color: var(--primary-color); padding: 5px 10px; margin-top: 5px; margin-bottom: 15px; border-radius: 5px; cursor: pointer; display: inline-flex; align-items: center; font-size: 0.8em; text-transform: none; box-shadow: none; transition: background-color 0.2s ease, color 0.2s ease; }
+        #how-to-play-button svg { width: 16px; height: 16px; margin-right: 6px; stroke: currentColor; }
         #how-to-play-button:hover { background-color: rgba(0, 188, 212, 0.1); color: var(--border-color); }
         #how-to-play-button:active { transform: none; background-color: rgba(0, 188, 212, 0.2); }
 
         /* Instructions Text */
-        #instructions-text {
-            background-color: rgba(0, 0, 0, 0.2); border-radius: 5px; padding: 15px;
-            margin-top: -15px; margin-bottom: 20px; width: 90%; max-width: 320px; box-sizing: border-box;
-            text-align: left; font-size: 0.9em; line-height: 1.5;
-            display: none; /* Hidden by default */
-        }
-         #instructions-text ul { padding-left: 20px; margin-top: 5px; margin-bottom: 5px; }
-         #instructions-text li { margin-bottom: 8px; }
+        #instructions-text { background-color: rgba(0, 0, 0, 0.2); border-radius: 5px; padding: 15px; margin-top: -10px; margin-bottom: 15px; width: 90%; max-width: 300px; box-sizing: border-box; text-align: left; font-size: 0.8em; line-height: 1.4; display: none; }
+        #instructions-text ul { padding-left: 20px; margin-top: 5px; margin-bottom: 5px; }
+        #instructions-text li { margin-bottom: 8px; }
 
         /* Leaderboard Specific */
-         #leaderboard-overlay input[type="search"] { font-size: 0.9em; margin-bottom: 5px; max-width: 200px; }
-         #leaderboard-notice { font-size: 0.7em; color: var(--text-color); opacity: 0.7; margin-top: 0; margin-bottom: 10px; font-style: italic; }
-        #leaderboard-list { list-style: none; padding: 0; margin: 0; max-height: 165px; overflow-y: auto; width: 90%; max-width: 320px; }
-        #leaderboard-list li { display: flex; justify-content: space-between; padding: 6px 5px; border-bottom: 1px dashed var(--primary-color); transition: background-color 0.3s ease; border-radius: 3px;}
+        #leaderboard-overlay input[type="search"] { font-size: 0.8em; margin-bottom: 5px; max-width: 180px; }
+        #leaderboard-notice { font-size: 0.65em; color: var(--text-color); opacity: 0.7; margin-top: 0; margin-bottom: 8px; font-style: italic; }
+        #leaderboard-list { list-style: none; padding: 0; margin: 0; max-height: 150px; overflow-y: auto; width: 90%; max-width: 300px; }
+        #leaderboard-list li { display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px dashed var(--primary-color); transition: background-color 0.3s ease; border-radius: 3px; font-size: 0.8em;}
         #leaderboard-list li:last-child { border-bottom: none; }
-        #leaderboard-list .rank { color: var(--primary-color); margin-right: 10px; min-width: 2em; text-align: right;}
-        #leaderboard-list .name { color: var(--secondary-color); text-align: left; flex-grow: 1; margin-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        #leaderboard-list .score { color: var(--accent-color); text-align: right; } /* Class name for score display */
+        #leaderboard-list .rank { color: var(--primary-color); margin-right: 8px; min-width: 1.8em; text-align: right;}
+        #leaderboard-list .name { color: var(--secondary-color); text-align: left; flex-grow: 1; margin-right: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        #leaderboard-list .score { color: var(--accent-color); text-align: right; }
         #leaderboard-list li.highlighted-rank { background-color: var(--highlight-bg-color); border-left: 3px solid var(--secondary-color); padding-left: 2px; }
 
         /* Game Over Rank Info */
-        #player-rank-info { color: var(--secondary-color); font-size: 1em; margin-top: -5px; margin-bottom: 10px; min-height: 1.2em; }
+        #player-rank-info { color: var(--secondary-color); font-size: 0.9em; margin-top: -5px; margin-bottom: 10px; min-height: 1.1em; }
 
-        #message-box {
-            position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%);
-            background-color: var(--accent-color); color: white; padding: 10px 20px; border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); z-index: 1000; font-size: 0.9em; opacity: 0;
-            transition: opacity 0.5s ease-in-out, bottom 0.3s ease-in-out;
-        }
+        /* Mobile Controls */
+        #mobile-controls { display: none; position: fixed; bottom: 0; left: 0; width: 100%; padding: 10px 0; background-color: rgba(0, 0, 0, 0.3); z-index: 20; justify-content: center; align-items: center; }
+        #mobile-controls.mobile-controls-visible { display: flex; }
+        .d-pad { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); width: 130px; height: 130px; gap: 5px; }
+        .d-pad button { font-family: var(--font-family); font-size: 1.8em; background-color: var(--mobile-button-bg); border: 2px solid var(--border-color); color: var(--text-color); border-radius: 8px; cursor: pointer; display: flex; justify-content: center; align-items: center; user-select: none; transition: background-color 0.1s ease; }
+        .d-pad button:active { background-color: var(--mobile-button-active-bg); }
+        #up-btn    { grid-column: 2; grid-row: 1; } #left-btn  { grid-column: 1; grid-row: 2; } #right-btn { grid-column: 3; grid-row: 2; } #down-btn  { grid-column: 2; grid-row: 3; }
+        .d-pad-center { grid-column: 2; grid-row: 2; }
+
+        #message-box { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background-color: var(--accent-color); color: white; padding: 10px 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); z-index: 1000; font-size: 0.9em; opacity: 0; transition: opacity 0.5s ease-in-out, bottom 0.3s ease-in-out; }
         #message-box.visible { opacity: 1; bottom: 20px; }
 
     </style>
@@ -144,46 +121,41 @@
 
     <div id="ui-container">
         <div id="score">Score: 0</div>
-        </div>
+    </div>
 
     <div id="game-area">
         <canvas id="gameCanvas" width="400" height="400"></canvas>
 
         <div id="username-overlay" class="overlay">
-            <h2>Enter Your Name</h2>
-            <p>For the Leaderboard!</p>
-            <input type="text" id="username-input" maxlength="10" placeholder="AAA">
-            <button id="how-to-play-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>How to Play?</button>
-            <div id="instructions-text"><ul><li>Use <strong>Arrow Keys</strong> or <strong>WASD</strong> to move the snake.</li><li>Eat the red apples <span style="color: var(--food-color)">●</span> to grow longer and score points!</li><li>Avoid hitting the walls, your own body, or the brown blocks <span style="color: var(--obstacle-color)">■</span> (obstacles).</li><li>Get the highest score to make the Leaderboard!</li></ul></div>
-            <button id="start-game-button">Start Game</button>
-            <button id="show-leaderboard-button-start">View Leaderboard</button>
+             <h2>Enter Your Name</h2><p>For the Leaderboard!</p><input type="text" id="username-input" maxlength="10" placeholder="AAA"><button id="how-to-play-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>How to Play?</button><div id="instructions-text"><ul><li>Use <strong>Arrow Keys</strong> or <strong>WASD</strong> to move the snake.</li><li>Eat the red apples <span style="color: var(--food-color)">●</span> to grow longer and score points!</li><li>Avoid hitting the walls, your own body, or the brown blocks <span style="color: var(--obstacle-color)">■</span> (obstacles).</li><li>Get the highest score to make the Leaderboard!</li></ul></div><button id="start-game-button">Start Game</button><button id="show-leaderboard-button-start">View Leaderboard</button>
         </div>
-
         <div id="game-over-overlay" class="overlay">
-            <h2>Game Over!</h2>
-            <div id="final-score" style="font-size: 1.2em; margin-bottom: 5px;">Score: 0</div>
-            <div id="player-rank-info"></div>
-            <button id="restart-button">Play Again</button>
-            <button id="show-leaderboard-button-gameover">View Leaderboard</button>
+            <h2>Game Over!</h2><div id="final-score" style="font-size: 1.2em; margin-bottom: 5px;">Score: 0</div><div id="player-rank-info"></div><button id="restart-button">Play Again</button><button id="show-leaderboard-button-gameover">View Leaderboard</button>
         </div>
-
         <div id="leaderboard-overlay" class="overlay">
-            <h2>Leaderboard</h2>
-            <input type="search" id="leaderboard-search" placeholder="Search rank (e.g., 3) + Enter">
-            <p id="leaderboard-notice">Note: Scores may be reset periodically.</p>
-            <ul id="leaderboard-list"><li>Loading...</li></ul> <button id="close-leaderboard-button">Back</button>
+            <h2>Leaderboard</h2><input type="search" id="leaderboard-search" placeholder="Search rank (e.g., 3) + Enter"><p id="leaderboard-notice">Note: Scores may be reset periodically.</p><ul id="leaderboard-list"><li>Loading...</li></ul> <button id="close-leaderboard-button">Back</button>
         </div>
     </div>
+
+    <div id="mobile-controls">
+        <div class="d-pad">
+            <button id="up-btn">↑</button>
+            <button id="left-btn">←</button>
+            <div class="d-pad-center"></div> <button id="right-btn">→</button>
+            <button id="down-btn">↓</button>
+        </div>
+    </div>
+
     <div id="message-box"></div>
 
     <script>
         // --- Enhanced Game Setup ---
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
+        const gameArea = document.getElementById('game-area');
 
         // UI Elements
         const scoreElement = document.getElementById('score');
-        // const highScoreElement = document.getElementById('high-score'); // Removed
         const usernameOverlay = document.getElementById('username-overlay');
         const gameOverOverlay = document.getElementById('game-over-overlay');
         const leaderboardOverlay = document.getElementById('leaderboard-overlay');
@@ -200,8 +172,19 @@
         const instructionsText = document.getElementById('instructions-text');
         const leaderboardSearchInput = document.getElementById('leaderboard-search');
         const playerRankInfo = document.getElementById('player-rank-info');
+        const mobileControlsContainer = document.getElementById('mobile-controls');
+        const upButton = document.getElementById('up-btn');
+        const downButton = document.getElementById('down-btn');
+        const leftButton = document.getElementById('left-btn');
+        const rightButton = document.getElementById('right-btn');
 
-        // --- Color Variables ---
+        // --- DEBUG: Check if overlay elements are found ---
+        console.log("DEBUG: usernameOverlay element:", usernameOverlay);
+        console.log("DEBUG: gameOverOverlay element:", gameOverOverlay);
+        console.log("DEBUG: leaderboardOverlay element:", leaderboardOverlay);
+        // --- End DEBUG ---
+
+        // --- Color Variables --- (as before)
         const computedStyle = getComputedStyle(document.documentElement);
         const foodColor = computedStyle.getPropertyValue('--food-color').trim();
         const snakeHeadColor = computedStyle.getPropertyValue('--snake-head-color').trim();
@@ -214,15 +197,18 @@
 
         // Game Constants & State Variables
         const gridSize = 20; const canvasSize = 400; const tileCount = canvasSize / gridSize;
-        let gameState = 'username'; let snake, dx, dy, food, obstacles, score, /* highScore removed */ gameLoopTimeout, gameSpeed, changingDirection, isGameOver, username;
+        let gameState = 'username'; let snake, dx, dy, food, obstacles, score, gameSpeed, changingDirection, isGameOver, username;
         let eatSound, gameOverSound; let audioReady = false;
         let lastUpdateTime = 0; let accumulatedTime = 0; let animationFrameId = null;
-        let currentLeaderboardData = []; // Cache leaderboard data
+        let currentLeaderboardData = [];
+
+        // Mobile Controls State & Triple Tap Logic
+        let mobileControlsVisible = false; let tapCount = 0; let lastTapTime = 0;
+        let lastTapX = 0; let lastTapY = 0;
+        const TAP_TIME_THRESHOLD = 300; const TAP_DISTANCE_THRESHOLD = 20;
 
         // --- API Endpoints ---
-        // !!! IMPORTANT: This URL comes from your `wrangler deploy` output !!!
-        const WORKER_URL = 'https://flat-mode-f83b.shoorviraj83.workers.dev'; // <-- Verified URL
-        // Define specific paths handled by the worker
+        const WORKER_URL = 'https://flat-mode-f83b.shoorviraj83.workers.dev'; // Your deployed worker URL
         const LEADERBOARD_ENDPOINT = `${WORKER_URL}/api/leaderboard`;
         const SCORE_ENDPOINT = `${WORKER_URL}/api/scores`;
 
@@ -232,117 +218,16 @@
         function playEatSound() { /* ... */ if (audioReady && eatSound && Tone.context.state === 'running') { try { eatSound.triggerAttackRelease('C5', '8n', Tone.now()); } catch (e) { console.error("Error playing eat sound:", e); } } }
         function playGameOverSound() { /* ... */ if (audioReady && gameOverSound && Tone.context.state === 'running') { try { gameOverSound.triggerAttackRelease('1n', Tone.now()); } catch (e) { console.error("Error playing game over sound:", e); } } }
 
-        // --- Leaderboard API Functions ---
-
-        /** Fetches leaderboard data from the API */
-        async function loadLeaderboard() {
-            leaderboardList.innerHTML = '<li>Loading...</li>';
-            leaderboardSearchInput.disabled = true;
-            try {
-                // console.log(`Fetching from: ${LEADERBOARD_ENDPOINT}`); // Debug
-                const response = await fetch(LEADERBOARD_ENDPOINT);
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                const data = await response.json();
-                // console.log("API Response Data:", data); // Debug
-                if (data && data.success && Array.isArray(data.results)) {
-                     currentLeaderboardData = data.results;
-                     return currentLeaderboardData;
-                } else throw new Error("Invalid data format received from API");
-            } catch (error) {
-                console.error("Error loading leaderboard:", error);
-                leaderboardList.innerHTML = '<li>Error loading scores!</li>';
-                currentLeaderboardData = [];
-                return [];
-            }
-        }
-
-        /** Saves a score via the API */
-        async function saveScoreToAPI(name, currentScore) { // Renamed internal variable
-            if (!name || currentScore <= 0) return;
-            try {
-                // console.log(`Saving to: ${SCORE_ENDPOINT}`); // Debug
-                const response = await fetch(SCORE_ENDPOINT, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    // Ensure the body matches the worker expectation (name, score_value)
-                    body: JSON.stringify({
-                        name: name.toUpperCase().substring(0, 10),
-                        score_value: currentScore // Send score as score_value
-                    }),
-                });
-                if (!response.ok) {
-                     let errorMsg = `HTTP error! status: ${response.status}`;
-                     try { const errorData = await response.json(); if (errorData && errorData.error) errorMsg += ` - ${errorData.error}`; } catch (e) { /* Ignore */ }
-                     throw new Error(errorMsg);
-                }
-                const result = await response.json();
-                if (!result || !result.success) { throw new Error(result.error || "API reported failure"); }
-                // console.log("Score save result:", result); // Debug
-            } catch (error) {
-                console.error("Error saving score via API:", error);
-                showMessage("Could not save score online.", 2000); // Show error to user
-            }
-        }
-
-        /** Displays the leaderboard UI using fetched data */
-        async function displayLeaderboard() {
-            const board = await loadLeaderboard(); // Fetch/get cached data
-            leaderboardList.innerHTML = '';
-            leaderboardSearchInput.value = '';
-            clearLeaderboardHighlight();
-
-            if (board.length === 0 && leaderboardList.innerHTML.includes('Error')) {
-                 leaderboardSearchInput.disabled = true;
-            } else if (board.length === 0) {
-                leaderboardList.innerHTML = '<li>No scores yet!</li>';
-                leaderboardSearchInput.disabled = true;
-            } else {
-                leaderboardSearchInput.disabled = false;
-                board.forEach((entry, index) => {
-                    const li = document.createElement('li'); const rank = index + 1;
-                    const safeName = String(entry.name || '???').replace(/</g, "&lt;").replace(/>/g, "&gt;");
-                    // Use score_value from the API response
-                    const safeScore = parseInt(entry.score_value || 0);
-                    li.innerHTML = `<span class="rank">#${rank}</span><span class="name">${safeName}</span><span class="score">${safeScore}</span>`;
-                    leaderboardList.appendChild(li);
-                });
-            }
-            switchState('leaderboard'); // Show the overlay
-        }
-
-        /** Clears any highlight from leaderboard items */
-        function clearLeaderboardHighlight() { const items = leaderboardList.querySelectorAll('li'); items.forEach(item => item.classList.remove('highlighted-rank')); }
-
-        /** Handles leaderboard search logic using cached data */
-        function handleLeaderboardSearch() {
-            clearLeaderboardHighlight(); const rankToFind = parseInt(leaderboardSearchInput.value.trim()); const items = leaderboardList.querySelectorAll('li');
-            if (!isNaN(rankToFind) && rankToFind >= 1 && rankToFind <= items.length && !items[0].textContent.includes('Loading') && !items[0].textContent.includes('Error')) {
-                const targetItem = items[rankToFind - 1];
-                if (targetItem) { targetItem.classList.add('highlighted-rank'); targetItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
-            } else if (leaderboardSearchInput.value.trim() !== '') { showMessage("Invalid rank.", 1500); leaderboardSearchInput.value = ''; }
-        }
-
-        /** Calculates and displays player rank on Game Over screen using cached data */
-        function displayPlayerRank() {
-             playerRankInfo.textContent = '';
-             if (score <= 0 || currentLeaderboardData.length === 0) return;
-             const currentName = (username || 'AAA').toUpperCase().substring(0, 10);
-             // Find rank using score_value
-             const playerIndex = currentLeaderboardData.findIndex(entry => entry.name === currentName && entry.score_value === score);
-             if (playerIndex > -1) { const rank = playerIndex + 1; playerRankInfo.textContent = `You ranked #${rank}!`; }
-        }
-
+        // --- Leaderboard API Functions --- (unchanged)
+        async function loadLeaderboard() { /* ... */ leaderboardList.innerHTML = '<li>Loading...</li>'; leaderboardSearchInput.disabled = true; try { const response = await fetch(LEADERBOARD_ENDPOINT); if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); const data = await response.json(); if (data && data.success && Array.isArray(data.results)) { currentLeaderboardData = data.results; return currentLeaderboardData; } else throw new Error("Invalid data format received from API"); } catch (error) { console.error("Error loading leaderboard:", error); leaderboardList.innerHTML = '<li>Error loading scores!</li>'; currentLeaderboardData = []; return []; } }
+        async function saveScoreToAPI(name, currentScore) { /* ... */ if (!name || currentScore <= 0) return; try { const response = await fetch(SCORE_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: name.toUpperCase().substring(0, 10), score_value: currentScore }), }); if (!response.ok) { let errorMsg = `HTTP error! status: ${response.status}`; try { const errorData = await response.json(); if (errorData && errorData.error) errorMsg += ` - ${errorData.error}`; } catch (e) { /* Ignore */ } throw new Error(errorMsg); } const result = await response.json(); if (!result || !result.success) { throw new Error(result.error || "API reported failure"); } } catch (error) { console.error("Error saving score via API:", error); showMessage("Could not save score online.", 2000); } }
+        async function displayLeaderboard() { /* ... */ const board = await loadLeaderboard(); leaderboardList.innerHTML = ''; leaderboardSearchInput.value = ''; clearLeaderboardHighlight(); if (board.length === 0 && leaderboardList.innerHTML.includes('Error')) { leaderboardSearchInput.disabled = true; } else if (board.length === 0) { leaderboardList.innerHTML = '<li>No scores yet!</li>'; leaderboardSearchInput.disabled = true; } else { leaderboardSearchInput.disabled = false; board.forEach((entry, index) => { const li = document.createElement('li'); const rank = index + 1; const safeName = String(entry.name || '???').replace(/</g, "&lt;").replace(/>/g, "&gt;"); const safeScore = parseInt(entry.score_value || 0); li.innerHTML = `<span class="rank">#${rank}</span><span class="name">${safeName}</span><span class="score">${safeScore}</span>`; leaderboardList.appendChild(li); }); } switchState('leaderboard'); }
+        function clearLeaderboardHighlight() { /* ... */ const items = leaderboardList.querySelectorAll('li'); items.forEach(item => item.classList.remove('highlighted-rank')); }
+        function handleLeaderboardSearch() { /* ... */ clearLeaderboardHighlight(); const rankToFind = parseInt(leaderboardSearchInput.value.trim()); const items = leaderboardList.querySelectorAll('li'); if (!isNaN(rankToFind) && rankToFind >= 1 && rankToFind <= items.length && !items[0].textContent.includes('Loading') && !items[0].textContent.includes('Error')) { const targetItem = items[rankToFind - 1]; if (targetItem) { targetItem.classList.add('highlighted-rank'); targetItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } } else if (leaderboardSearchInput.value.trim() !== '') { showMessage("Invalid rank.", 1500); leaderboardSearchInput.value = ''; } }
+        function displayPlayerRank() { /* ... */ playerRankInfo.textContent = ''; if (score <= 0 || currentLeaderboardData.length === 0) return; const currentName = (username || 'AAA').toUpperCase().substring(0, 10); const playerIndex = currentLeaderboardData.findIndex(entry => entry.name === currentName && entry.score_value === score); if (playerIndex > -1) { const rank = playerIndex + 1; playerRankInfo.textContent = `You ranked #${rank}!`; } }
 
         /** Initializes or resets game variables */
-        function initGameVariables() {
-            snake = [{ x: Math.floor(tileCount / 2), y: Math.floor(tileCount / 2) }]; dx = 0; dy = 0; changingDirection = false; score = 0; gameSpeed = 150; isGameOver = false;
-            food = { x: -1, y: -1 }; obstacles = []; playerRankInfo.textContent = '';
-            lastUpdateTime = 0; accumulatedTime = 0;
-            if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; }
-            try { generateFood(); obstacles = generateObstacles(5); } catch (e) { console.error("Error generating obstacles or food:", e); showMessage("Error setting up board!", 3000); switchState('username'); throw e; }
-            updateScoreDisplay();
-            // No local high score load needed
-        }
+        function initGameVariables() { /* ... */ snake = [{ x: Math.floor(tileCount / 2), y: Math.floor(tileCount / 2) }]; dx = 0; dy = 0; changingDirection = false; score = 0; gameSpeed = 150; isGameOver = false; food = { x: -1, y: -1 }; obstacles = []; playerRankInfo.textContent = ''; lastUpdateTime = 0; accumulatedTime = 0; if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; } try { generateFood(); obstacles = generateObstacles(5); } catch (e) { console.error("Error generating obstacles or food:", e); showMessage("Error setting up board!", 3000); switchState('username'); throw e; } updateScoreDisplay(); }
 
         // --- Drawing Functions --- (With Gradients - unchanged)
         function clearCanvas() { ctx.fillStyle = canvasBgColor; ctx.fillRect(0, 0, canvasSize, canvasSize); ctx.fillStyle = canvasGridColor; for (let i = 1; i < tileCount; i++) { ctx.fillRect(i * gridSize - 0.5, 0, 1, canvasSize); ctx.fillRect(0, i * gridSize - 0.5, canvasSize, 1); } }
@@ -357,53 +242,74 @@
         function generateObstacles(count) { /* ... */ const newObstacles = []; const occupied = [...(snake || []), ...(food && food.x !== -1 ? [food] : [])]; let attempts = 0; while (newObstacles.length < count && attempts < tileCount * tileCount) { const obsX = Math.floor(Math.random() * tileCount); const obsY = Math.floor(Math.random() * tileCount); const isOccupied = occupied.some(p => p.x === obsX && p.y === obsY) || newObstacles.some(o => o.x === obsX && o.y === obsY) || obsX < 1 || obsX >= tileCount - 1 || obsY < 1 || obsY >= tileCount - 1 || (obsX > tileCount*0.4 && obsX < tileCount*0.6 && obsY > tileCount*0.4 && obsY < tileCount*0.6); if (!isOccupied) { newObstacles.push({ x: obsX, y: obsY }); occupied.push({ x: obsX, y: obsY }); } attempts++; } if(attempts >= tileCount * tileCount) console.warn("Could not generate all obstacles."); return newObstacles; }
         function generateFood() { /* ... */ const occupied = [...(snake || []), ...(obstacles || [])]; let attempts = 0; while (attempts < tileCount * tileCount) { food = { x: Math.floor(Math.random() * tileCount), y: Math.floor(Math.random() * tileCount) }; let collision = occupied.some(p => p.x === food.x && p.y === food.y); if (!collision) break; attempts++; } if(attempts >= tileCount * tileCount) console.warn("Could not generate food."); }
         function checkGameOver() { /* ... */ const head = snake[0]; if (!head) return true; if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) return true; for (let i = 1; i < snake.length; i++) { if (head.x === snake[i].x && head.y === snake[i].y) return true; } if (obstacles.some(obs => obs.x === head.x && obs.y === head.y)) return true; return false; }
-        function changeDirection(event) { /* ... */ if (gameState !== 'playing' || changingDirection) return; const LEFT_KEY = 37; const RIGHT_KEY = 39; const UP_KEY = 38; const DOWN_KEY = 40; const A_KEY = 65; const D_KEY = 68; const W_KEY = 87; const S_KEY = 83; const keyPressed = event.keyCode; let newDx = dx; let newDy = dy; if ((keyPressed === LEFT_KEY || keyPressed === A_KEY) && dx !== 1) { newDx = -1; newDy = 0; } else if ((keyPressed === UP_KEY || keyPressed === W_KEY) && dy !== 1) { newDx = 0; newDy = -1; } else if ((keyPressed === RIGHT_KEY || keyPressed === D_KEY) && dx !== -1) { newDx = 1; newDy = 0; } else if ((keyPressed === DOWN_KEY || keyPressed === S_KEY) && dy !== -1) { newDx = 0; newDy = 1; } else { return; } if (dx !== newDx || dy !== newDy) { dx = newDx; dy = newDy; changingDirection = true; } }
+
+        /** Sets the snake's direction, preventing 180 turns */
+        function setDirection(newDx, newDy) { /* ... */ if (gameState !== 'playing' || changingDirection) return; const goingUp = dy === -1; const goingDown = dy === 1; const goingRight = dx === 1; const goingLeft = dx === -1; if ((newDx === -1 && goingRight) || (newDx === 1 && goingLeft) || (newDy === -1 && goingDown) || (newDy === 1 && goingUp)) { if (dx === 0 && dy === 0) {} else { return; } } dx = newDx; dy = newDy; changingDirection = true; }
+        /** Handles keyboard input */
+        function handleKeyDown(event) { /* ... */ const LEFT_KEY = 37; const RIGHT_KEY = 39; const UP_KEY = 38; const DOWN_KEY = 40; const A_KEY = 65; const D_KEY = 68; const W_KEY = 87; const S_KEY = 83; const keyPressed = event.keyCode; if (keyPressed === LEFT_KEY || keyPressed === A_KEY) setDirection(-1, 0); else if (keyPressed === UP_KEY || keyPressed === W_KEY) setDirection(0, -1); else if (keyPressed === RIGHT_KEY || keyPressed === D_KEY) setDirection(1, 0); else if (keyPressed === DOWN_KEY || keyPressed === S_KEY) setDirection(0, 1); }
         function updateScoreDisplay() { scoreElement.textContent = `Score: ${score}`; }
         function showMessage(message, duration = 2000) { messageBox.textContent = message; messageBox.classList.add('visible'); setTimeout(() => { messageBox.classList.remove('visible'); }, duration); }
-        function switchState(newState) { /* ... */ gameState = newState; usernameOverlay.classList.remove('visible'); gameOverOverlay.classList.remove('visible'); leaderboardOverlay.classList.remove('visible'); switch (newState) { case 'username': if (usernameOverlay) usernameOverlay.classList.add('visible'); instructionsText.style.display = 'none'; break; case 'playing': break; case 'gameover': if (gameOverOverlay) { finalScoreElement.textContent = `Score: ${score}`; displayPlayerRank(); gameOverOverlay.classList.add('visible'); } break; case 'leaderboard': if (leaderboardOverlay) leaderboardOverlay.classList.add('visible'); break; } }
 
-        // --- Main Game Loop (Using requestAnimationFrame) ---
-        function gameLoop(currentTime) {
-            if (gameState !== 'playing') { animationFrameId = null; return; }
-            if (lastUpdateTime === 0) lastUpdateTime = currentTime;
-            const deltaTime = currentTime - lastUpdateTime;
-            lastUpdateTime = currentTime;
-            accumulatedTime += deltaTime;
-            while (accumulatedTime >= gameSpeed) {
-                 if (isGameOver) break;
-                 changingDirection = false; moveSnake(); isGameOver = checkGameOver();
-                 if (isGameOver) {
-                     playGameOverSound();
-                     // Save score via API (async, but don't necessarily wait here)
-                     saveScoreToAPI(username, score).then(() => {
-                         // Maybe refresh leaderboard data in background after saving?
-                         // loadLeaderboard(); // Optional: pre-fetch for next view
-                     });
-                     switchState('gameover'); // Switch state immediately
-                     animationFrameId = null;
-                     return;
-                 }
-                 accumulatedTime -= gameSpeed;
+        /** Manages game state transitions and overlay visibility */
+        function switchState(newState) {
+            // console.log(`DEBUG: Switching state to: ${newState}`); // Debug Log
+            gameState = newState;
+            const overlays = [usernameOverlay, gameOverOverlay, leaderboardOverlay];
+            overlays.forEach(overlay => { if (overlay) overlay.classList.remove('visible'); });
+
+            switch (newState) {
+                case 'username': if (usernameOverlay) usernameOverlay.classList.add('visible'); instructionsText.style.display = 'none'; break;
+                case 'playing': break;
+                case 'gameover': if (gameOverOverlay) { finalScoreElement.textContent = `Score: ${score}`; displayPlayerRank(); gameOverOverlay.classList.add('visible'); } break;
+                case 'leaderboard': if (leaderboardOverlay) leaderboardOverlay.classList.add('visible'); break;
             }
-            try { clearCanvas(); drawObstacles(); drawFood(); drawSnake(); } catch(e) { console.error("Error during drawing:", e); showMessage("An error occurred during drawing!", 3000); switchState('gameover'); animationFrameId = null; return; }
-            animationFrameId = requestAnimationFrame(gameLoop);
         }
+
+        // --- Main Game Loop (Using requestAnimationFrame) --- (unchanged)
+        function gameLoop(currentTime) { /* ... */ if (gameState !== 'playing') { animationFrameId = null; return; } if (lastUpdateTime === 0) lastUpdateTime = currentTime; const deltaTime = currentTime - lastUpdateTime; lastUpdateTime = currentTime; accumulatedTime += deltaTime; while (accumulatedTime >= gameSpeed) { if (isGameOver) break; changingDirection = false; moveSnake(); isGameOver = checkGameOver(); if (isGameOver) { playGameOverSound(); saveScoreToAPI(username, score).then(() => {}); switchState('gameover'); animationFrameId = null; return; } accumulatedTime -= gameSpeed; } try { clearCanvas(); drawObstacles(); drawFood(); drawSnake(); } catch(e) { console.error("Error during drawing:", e); showMessage("An error occurred during drawing!", 3000); switchState('gameover'); animationFrameId = null; return; } animationFrameId = requestAnimationFrame(gameLoop); }
         function startGameLoop() { lastUpdateTime = 0; accumulatedTime = 0; if (animationFrameId) { cancelAnimationFrame(animationFrameId); } animationFrameId = requestAnimationFrame(gameLoop); }
+
+        // --- Mobile Controls & Detection ---
+        function isTouchDevice() { return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0); }
+        function toggleMobileControls() { mobileControlsVisible = !mobileControlsVisible; if (mobileControlsVisible) { mobileControlsContainer.classList.add('mobile-controls-visible'); } else { mobileControlsContainer.classList.remove('mobile-controls-visible'); } tapCount = 0; }
+        function handleTap(event) { if (gameState !== 'playing') { tapCount = 0; return; } const currentTime = Date.now(); const currentX = event.clientX; const currentY = event.clientY; const timeDiff = currentTime - lastTapTime; let distance = 0; if (tapCount > 0) { const dxTap = currentX - lastTapX; const dyTap = currentY - lastTapY; distance = Math.sqrt(dxTap * dxTap + dyTap * dyTap); } if (timeDiff < TAP_TIME_THRESHOLD && distance < TAP_DISTANCE_THRESHOLD) { tapCount++; } else { tapCount = 1; } lastTapTime = currentTime; lastTapX = currentX; lastTapY = currentY; if (tapCount >= 3) { toggleMobileControls(); } }
 
         // --- Event Listeners ---
         startGameButton.addEventListener('click', () => { username = usernameInput.value.trim() || 'AAA'; initAudio(); try { initGameVariables(); } catch (initError) { return; } switchState('playing'); showMessage(`Go, ${username}! Use Arrows/WASD.`, 2500); startGameLoop(); });
         restartButton.addEventListener('click', () => { try { initGameVariables(); } catch (initError) { return; } switchState('playing'); showMessage("Let's try again!", 1500); startGameLoop(); });
-        showLeaderboardButtonStart.addEventListener('click', displayLeaderboard); // Calls displayLeaderboard which now fetches
-        showLeaderboardButtonGameOver.addEventListener('click', displayLeaderboard); // Calls displayLeaderboard which now fetches
+        showLeaderboardButtonStart.addEventListener('click', displayLeaderboard);
+        showLeaderboardButtonGameOver.addEventListener('click', displayLeaderboard);
         closeLeaderboardButton.addEventListener('click', () => { leaderboardSearchInput.value = ''; clearLeaderboardHighlight(); switchState(isGameOver ? 'gameover' : 'username'); });
-        document.addEventListener('keydown', changeDirection);
+        document.addEventListener('keydown', handleKeyDown);
         howToPlayButton.addEventListener('click', () => { instructionsText.style.display = instructionsText.style.display === 'block' ? 'none' : 'block'; });
         leaderboardSearchInput.addEventListener('keydown', (event) => { if (event.key === 'Enter') { event.preventDefault(); handleLeaderboardSearch(); } });
         leaderboardSearchInput.addEventListener('input', () => { if (leaderboardSearchInput.value.trim() === '') { clearLeaderboardHighlight(); } });
+        upButton.addEventListener('click', () => setDirection(0, -1)); downButton.addEventListener('click', () => setDirection(0, 1)); leftButton.addEventListener('click', () => setDirection(-1, 0)); rightButton.addEventListener('click', () => setDirection(1, 0));
+        gameArea.addEventListener('click', handleTap);
+
 
         // --- Initial Setup ---
-        switchState('username');
-        // loadHighScore(); // Remove local high score loading
+        // Wait for DOM to be ready before setting initial state
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log("DEBUG: DOMContentLoaded event fired."); // Debug Log
+             // Check elements again just before switching state
+             if (!usernameOverlay || !gameOverOverlay || !leaderboardOverlay) {
+                 console.error("DEBUG: One or more overlay elements are null right before initial switchState!");
+                 // Attempt to re-select them? Might indicate a bigger issue.
+                 // usernameOverlay = document.getElementById('username-overlay');
+                 // gameOverOverlay = document.getElementById('game-over-overlay');
+                 // leaderboardOverlay = document.getElementById('leaderboard-overlay');
+             }
+            switchState('username');
+            // Show mobile controls automatically on touch devices
+            if (isTouchDevice()) {
+                 mobileControlsVisible = true; // Set initial state
+                 mobileControlsContainer.classList.add('mobile-controls-visible');
+            } else {
+                mobileControlsVisible = false; // Ensure hidden on non-touch
+            }
+            console.log("DEBUG: Initial setup complete. Current state:", gameState); // Debug Log
+        });
 
     </script>
 
