@@ -1,0 +1,22 @@
+{
+  "name": "Super Snake Deluxe",
+  "short_name": "Snake",
+  "description": "A fun and addictive snake game with power-ups and special features",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a1a2e",
+  "theme_color": "#00bcd4",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
