@@ -23,7 +23,7 @@
             --border-color: #4dd0e1;
             --canvas-bg-color: #263238; /* Canvas Background */
             --canvas-grid-color: rgba(255,255,255,0.04); /* Grid lines */
-            --highlight-bg-color: rgba(0, 188, 212, 0.3); /* Highlight Background */
+            --highlight-bg-color: rgba(0, 188, 212, 0.3); /* Highlight Background */     
             --font-family: 'Press Start 2P', cursive;
             --mobile-button-bg: rgba(77, 208, 225, 0.6); /* Semi-transparent cyan */
             --mobile-button-active-bg: rgba(0, 188, 212, 0.8);
@@ -141,6 +141,112 @@
         /* Game Over Rank Info */
         #player-rank-info { color: var(--secondary-color); font-size: 0.9em; margin-top: -5px; margin-bottom: 10px; min-height: 1.1em; }
 
+        /* Snake Skins */
+        .skin-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+        .skin-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid transparent;
+        }
+        .skin-option:hover {
+            transform: scale(1.1);
+        }
+        .skin-option.selected {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 8px var(--secondary-color);
+        }
+        #skin-default {
+            background: linear-gradient(45deg, var(--snake-body-color), var(--snake-head-color));
+        }
+        #skin-blue {
+            background: linear-gradient(45deg, #64b5f6, #1976d2);
+        }
+        #skin-purple {
+            background: linear-gradient(45deg, #ce93d8, #7b1fa2);
+        }
+        #skin-orange {
+            background: linear-gradient(45deg, #ffb74d, #e65100);
+        }
+
+        /* Food Types & Power-ups Indicator */
+        #power-up-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: var(--text-color);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.7em;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        #power-up-indicator.active {
+            opacity: 1;
+        }
+
+        /* Speed Boost Button */
+        #speed-boost-button {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            z-index: 5;
+            transition: transform 0.2s, opacity 0.3s;
+            opacity: 0;
+        }
+        #speed-boost-button.visible {
+            opacity: 1;
+        }
+        #speed-boost-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        #speed-boost-button.cooldown {
+            background: linear-gradient(45deg, #9e9e9e, #616161);
+            cursor: not-allowed;
+        }
+        #speed-boost-button .cooldown-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            transition: height 0.1s linear;
+        }
+        
+        /* Portal Styling */
+        @keyframes portalPulse {
+            0% { transform: scale(0.95); opacity: 0.7; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.7; }
+        }
+        @keyframes portalSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         /* Mobile Controls */
         #mobile-controls { display: none; position: fixed; bottom: 0; left: 0; width: 100%; padding: 10px 0; background-color: rgba(0, 0, 0, 0.3); z-index: 20; justify-content: center; align-items: center; }
         #mobile-controls.mobile-controls-visible { display: flex; }
@@ -165,9 +271,26 @@
 
     <div id="game-area">
         <canvas id="gameCanvas" width="400" height="400"></canvas>
+        <div id="power-up-indicator"></div>
+        <button id="speed-boost-button" aria-label="Speed Boost">
+            <span>⚡</span>
+            <div class="cooldown-overlay"></div>
+        </button>
 
         <div id="username-overlay" class="overlay">
-             <h2>Enter Your Name</h2><p>For the Leaderboard!</p><input type="text" id="username-input" maxlength="10" placeholder="AAA"><button id="how-to-play-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>How to Play?</button><div id="instructions-text"><ul><li>Use <strong>Arrow Keys</strong> or <strong>WASD</strong> to move the snake.</li><li>Eat the red apples <span style="color: var(--food-color)">●</span> to grow longer and score points!</li><li>Avoid hitting the walls, your own body, or the brown blocks <span style="color: var(--obstacle-color)">■</span> (obstacles).</li><li>Get the highest score to make the Leaderboard!</li></ul></div><button id="start-game-button">Start Game</button><button id="show-leaderboard-button-start">View Leaderboard</button>
+             <h2>Enter Your Name</h2>
+             <p>For the Leaderboard!</p>
+             <input type="text" id="username-input" maxlength="10" placeholder="AAA">
+             
+             <h3 style="font-size: 0.9em; margin-bottom: 5px; margin-top: 10px;">Choose Snake Skin</h3>
+             <div class="skin-selector">
+                <div id="skin-default" class="skin-option selected"></div>
+                <div id="skin-blue" class="skin-option"></div>
+                <div id="skin-purple" class="skin-option"></div>
+                <div id="skin-orange" class="skin-option"></div>
+             </div>
+             
+             <button id="how-to-play-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>How to Play?</button><div id="instructions-text"><ul><li>Use <strong>Arrow Keys</strong> or <strong>WASD</strong> to move the snake.</li><li>Eat the red apples <span style="color: var(--food-color)">●</span> to grow longer and score points!</li><li>Eat special foods for bonus points:</li><li>- Golden apples (20 points)</li><li>- Blueberries (5 points)</li><li>Collect power-ups for special abilities!</li><li>Use <strong>Portals</strong> to teleport across the board</li><li>Press the <strong>⚡</strong> button for a temporary speed boost</li><li>Avoid hitting the walls, your own body, or the brown blocks <span style="color: var(--obstacle-color)">■</span> (obstacles).</li><li>Get the highest score to make the Leaderboard!</li></ul></div><button id="start-game-button">Start Game</button><button id="show-leaderboard-button-start">View Leaderboard</button>
         </div>
         <div id="game-over-overlay" class="overlay">
             <h2>Game Over!</h2><div id="final-score" style="font-size: 1.2em; margin-bottom: 5px;">Score: 0</div><div id="player-rank-info"></div><button id="restart-button">Play Again</button><button id="show-leaderboard-button-gameover">View Leaderboard</button>
@@ -251,7 +374,36 @@
         let eatSound, gameOverSound; let audioReady = false;
         let lastUpdateTime = 0; let accumulatedTime = 0; let animationFrameId = null;
         let currentLeaderboardData = [];
-
+        
+        // New variables for the features
+        let currentSkin = 'default';
+        const skins = {
+            default: {
+                bodyColor: computedStyle.getPropertyValue('--snake-body-color').trim(),
+                bodyGradientEnd: computedStyle.getPropertyValue('--snake-body-gradient-end').trim(),
+                headColor: computedStyle.getPropertyValue('--snake-head-color').trim(),
+                headGradientEnd: computedStyle.getPropertyValue('--snake-head-gradient-end').trim()
+            },
+            blue: {
+                bodyColor: '#64b5f6',
+                bodyGradientEnd: '#42a5f5',
+                headColor: '#1976d2',
+                headGradientEnd: '#0d47a1'
+            },
+            purple: {
+                bodyColor: '#ce93d8',
+                bodyGradientEnd: '#ba68c8',
+                headColor: '#7b1fa2',
+                headGradientEnd: '#4a148c'
+            },
+            orange: {
+                bodyColor: '#ffb74d',
+                bodyGradientEnd: '#ffa726',
+                headColor: '#e65100',
+                headGradientEnd: '#bf360c'
+            }
+        };
+        
         // Mobile Controls State & Triple Tap Logic
         let mobileControlsVisible = false; let tapCount = 0; let lastTapTime = 0;
         let lastTapX = 0; let lastTapY = 0;
@@ -261,7 +413,37 @@
         const WORKER_URL = 'https://flat-mode-f83b.shoorviraj83.workers.dev'; // Your deployed worker URL
         const LEADERBOARD_ENDPOINT = `${WORKER_URL}/api/leaderboard`;
         const SCORE_ENDPOINT = `${WORKER_URL}/api/scores`;
-
+        
+        // Power-up variables
+        let powerUps = [];
+        let activePowerUp = null;
+        let powerUpTimer = 0;
+        const POWER_UP_DURATION = 5000; // 5 seconds
+        const POWER_UP_SPAWN_CHANCE = 0.05; // 5% chance per food eaten
+        
+        const POWER_UP_TYPES = [
+            { type: 'shield', color: '#4fc3f7', effect: 'Immunity', description: 'Shield: Immunity to collisions' },
+            { type: 'speed', color: '#ffd54f', effect: 'Speed Boost', description: 'Speed: Move faster' },
+            { type: 'slow', color: '#81c784', effect: 'Slow Motion', description: 'Slow: Move slower' }
+        ];
+        
+        // Speed boost button variables
+        let speedBoostActive = false;
+        let speedBoostCooldown = false;
+        let speedBoostTimer = 0;
+        const SPEED_BOOST_DURATION = 3000; // 3 seconds
+        const SPEED_BOOST_COOLDOWN = 10000; // 10 seconds cooldown
+        let normalGameSpeed = 0;
+        
+        // Portal variables
+        let portals = [];
+        let portalCooldown = false;
+        let lastPortalUsed = null;
+        const PORTAL_COOLDOWN = 1000; // 1 second cooldown between teleports
+        const PORTAL_COLORS = [
+            { primary: '#9C27B0', secondary: '#E1BEE7' }, // Purple portals
+            { primary: '#FF9800', secondary: '#FFE0B2' }, // Orange portals
+        ];
 
         // --- Initialization Functions --- (Audio unchanged)
         function initAudio() { /* ... */ if (audioReady || typeof Tone === 'undefined') { return; } try { eatSound = new Tone.Synth({ oscillator: { type: 'triangle' }, envelope: { attack: 0.01, decay: 0.1, sustain: 0.1, release: 0.1 } }).toDestination(); gameOverSound = new Tone.NoiseSynth({ noise: { type: 'brown' }, envelope: { attack: 0.05, decay: 0.5, sustain: 0, release: 0.2 } }).toDestination(); if (Tone.context.state !== 'running') { if (!window.toneStartedPromise) { window.toneStartedPromise = Tone.start(); } window.toneStartedPromise.then(() => { audioReady = true; }).catch(e => { console.error("Tone.start() failed:", e); audioReady = false; }).finally(() => { window.toneStartedPromise = null; }); } else { audioReady = true; } } catch (e) { console.error("Error setting up Tone.js sounds:", e); audioReady = false; } }
@@ -281,7 +463,29 @@
             snake = [{ x: Math.floor(tileCount / 2), y: Math.floor(tileCount / 2) }]; 
             dx = 0; dy = 0; changingDirection = false; score = 0; 
             gameSpeed = isTouchDevice() ? 350 : 150; // Slower game speed on mobile
-            isGameOver = false; food = { x: -1, y: -1 }; obstacles = []; 
+            normalGameSpeed = gameSpeed; // Store normal speed for boost feature
+            isGameOver = false; 
+            
+            // Reset food, power-ups and obstacles
+            food = { x: -1, y: -1, type: 'regular' }; 
+            powerUps = [];
+            activePowerUp = null;
+            powerUpTimer = 0;
+            updatePowerUpIndicator();
+            
+            // Reset portals
+            portals = [];
+            generatePortalPair();
+            portalCooldown = false;
+            lastPortalUsed = null;
+            
+            // Reset speed boost
+            speedBoostActive = false;
+            speedBoostCooldown = false;
+            speedBoostTimer = 0;
+            updateSpeedBoostButton();
+            
+            obstacles = []; 
             playerRankInfo.textContent = ''; lastUpdateTime = 0; accumulatedTime = 0; 
             if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; } 
             try { generateFood(); obstacles = generateObstacles(5); } 
@@ -291,17 +495,403 @@
 
         // --- Drawing Functions --- (With Gradients - unchanged)
         function clearCanvas() { ctx.fillStyle = canvasBgColor; ctx.fillRect(0, 0, canvasSize, canvasSize); ctx.fillStyle = canvasGridColor; for (let i = 1; i < tileCount; i++) { ctx.fillRect(i * gridSize - 0.5, 0, 1, canvasSize); ctx.fillRect(0, i * gridSize - 0.5, canvasSize, 1); } }
-        function drawSnakePart(segment, index) { const x = segment.x * gridSize; const y = segment.y * gridSize; const r = gridSize * 0.3; const gradient = ctx.createLinearGradient(x, y, x + gridSize, y + gridSize); gradient.addColorStop(0, snakeBodyColor); gradient.addColorStop(1, snakeBodyGradientEnd); ctx.fillStyle = gradient; ctx.strokeStyle = 'rgba(0,0,0,0.3)'; ctx.beginPath(); ctx.roundRect(x + 1, y + 1, gridSize - 2, gridSize - 2, r); ctx.fill(); ctx.stroke(); }
-        function drawSnakeHead(head) { const x = head.x * gridSize; const y = head.y * gridSize; const r = gridSize * 0.3; const gradient = ctx.createLinearGradient(x, y, x + gridSize, y + gridSize); gradient.addColorStop(0, snakeHeadColor); gradient.addColorStop(1, snakeHeadGradientEnd); ctx.fillStyle = gradient; ctx.strokeStyle = 'rgba(0,0,0,0.5)'; ctx.beginPath(); ctx.roundRect(x + 1, y + 1, gridSize - 2, gridSize - 2, r); ctx.fill(); ctx.stroke(); ctx.fillStyle = '#FFFFFF'; const eyeSize = gridSize / 6; const pupilSize = eyeSize / 2; let e1X, e1Y, e2X, e2Y, p1X, p1Y, p2X, p2Y; const o = gridSize * 0.25; if (dx === 1) { e1X = x + gridSize * 0.6; e1Y = y + o; e2X = x + gridSize * 0.6; e2Y = y + gridSize - o - eyeSize; p1X = e1X + eyeSize / 2; p1Y = e1Y; p2X = e2X + eyeSize / 2; p2Y = e2Y; } else if (dx === -1) { e1X = x + gridSize * 0.4 - eyeSize; e1Y = y + o; e2X = x + gridSize * 0.4 - eyeSize; e2Y = y + gridSize - o - eyeSize; p1X = e1X - eyeSize / 2; p1Y = e1Y; p2X = e2X - eyeSize / 2; p2Y = e2Y; } else if (dy === 1) { e1X = x + o; e1Y = y + gridSize * 0.6; e2X = x + gridSize - o - eyeSize; e2Y = y + gridSize * 0.6; p1X = e1X; p1Y = e1Y + eyeSize / 2; p2X = e2X; p2Y = e2Y + eyeSize / 2; } else { e1X = x + o; e1Y = y + gridSize * 0.4 - eyeSize; e2X = x + gridSize - o - eyeSize; e2Y = y + gridSize * 0.4 - eyeSize; p1X = e1X; p1Y = e1Y - eyeSize / 2; p2X = e2X; p2Y = e2Y - eyeSize / 2; } ctx.beginPath(); ctx.arc(e1X + eyeSize / 2, e1Y + eyeSize / 2, eyeSize, 0, Math.PI * 2); ctx.fill(); ctx.beginPath(); ctx.arc(e2X + eyeSize / 2, e2Y + eyeSize / 2, eyeSize, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#000000'; ctx.beginPath(); ctx.arc(p1X + pupilSize, p1Y + pupilSize, pupilSize, 0, Math.PI * 2); ctx.fill(); ctx.beginPath(); ctx.arc(p2X + pupilSize, p2Y + pupilSize, pupilSize, 0, Math.PI * 2); ctx.fill(); }
+        function drawSnakePart(segment, index) { 
+            const x = segment.x * gridSize; 
+            const y = segment.y * gridSize; 
+            const r = gridSize * 0.3; 
+            const gradient = ctx.createLinearGradient(x, y, x + gridSize, y + gridSize); 
+            
+            // Use the selected skin colors
+            gradient.addColorStop(0, skins[currentSkin].bodyColor); 
+            gradient.addColorStop(1, skins[currentSkin].bodyGradientEnd); 
+            
+            ctx.fillStyle = gradient; 
+            ctx.strokeStyle = 'rgba(0,0,0,0.3)'; 
+            ctx.beginPath(); 
+            ctx.roundRect(x + 1, y + 1, gridSize - 2, gridSize - 2, r); 
+            ctx.fill(); 
+            ctx.stroke(); 
+        }
+        
+        function drawSnakeHead(head) { 
+            const x = head.x * gridSize; 
+            const y = head.y * gridSize; 
+            const r = gridSize * 0.3; 
+            const gradient = ctx.createLinearGradient(x, y, x + gridSize, y + gridSize); 
+            
+            // Use the selected skin colors
+            gradient.addColorStop(0, skins[currentSkin].headColor); 
+            gradient.addColorStop(1, skins[currentSkin].headGradientEnd); 
+            
+            ctx.fillStyle = gradient; 
+            ctx.strokeStyle = 'rgba(0,0,0,0.5)'; 
+            ctx.beginPath(); 
+            ctx.roundRect(x + 1, y + 1, gridSize - 2, gridSize - 2, r); 
+            ctx.fill(); 
+            ctx.stroke(); 
+            
+            // Draw eyes
+            ctx.fillStyle = '#FFFFFF'; 
+            const eyeSize = gridSize / 6; 
+            const pupilSize = eyeSize / 2; 
+            let e1X, e1Y, e2X, e2Y, p1X, p1Y, p2X, p2Y; 
+            const o = gridSize * 0.25; 
+            
+            if (dx === 1) { e1X = x + gridSize * 0.6; e1Y = y + o; e2X = x + gridSize * 0.6; e2Y = y + gridSize - o - eyeSize; p1X = e1X + eyeSize / 2; p1Y = e1Y; p2X = e2X + eyeSize / 2; p2Y = e2Y; } 
+            else if (dx === -1) { e1X = x + gridSize * 0.4 - eyeSize; e1Y = y + o; e2X = x + gridSize * 0.4 - eyeSize; e2Y = y + gridSize - o - eyeSize; p1X = e1X - eyeSize / 2; p1Y = e1Y; p2X = e2X - eyeSize / 2; p2Y = e2Y; } 
+            else if (dy === 1) { e1X = x + o; e1Y = y + gridSize * 0.6; e2X = x + gridSize - o - eyeSize; e2Y = y + gridSize * 0.6; p1X = e1X; p1Y = e1Y + eyeSize / 2; p2X = e2X; p2Y = e2Y + eyeSize / 2; } 
+            else { e1X = x + o; e1Y = y + gridSize * 0.4 - eyeSize; e2X = x + gridSize - o - eyeSize; e2Y = y + gridSize * 0.4 - eyeSize; p1X = e1X; p1Y = e1Y - eyeSize / 2; p2X = e2X; p2Y = e2Y - eyeSize / 2; } 
+            
+            ctx.beginPath(); 
+            ctx.arc(e1X + eyeSize / 2, e1Y + eyeSize / 2, eyeSize, 0, Math.PI * 2); 
+            ctx.fill(); 
+            ctx.beginPath(); 
+            ctx.arc(e2X + eyeSize / 2, e2Y + eyeSize / 2, eyeSize, 0, Math.PI * 2); 
+            ctx.fill(); 
+            ctx.fillStyle = '#000000'; 
+            ctx.beginPath(); 
+            ctx.arc(p1X + pupilSize, p1Y + pupilSize, pupilSize, 0, Math.PI * 2); 
+            ctx.fill(); 
+            ctx.beginPath(); 
+            ctx.arc(p2X + pupilSize, p2Y + pupilSize, pupilSize, 0, Math.PI * 2); 
+            ctx.fill(); 
+        }
         function drawSnake() { snake.forEach((seg, i) => { if (i === 0) drawSnakeHead(seg); else drawSnakePart(seg, i); }); }
-        function drawFood() { /* ... */ const r = gridSize / 2; const x = food.x * gridSize + r; const y = food.y * gridSize + r; const p = Math.sin(Date.now() * 0.01) * 0.05 + 0.9; ctx.fillStyle = foodColor; ctx.beginPath(); ctx.arc(x, y, r * p, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = snakeHeadColor; const sw = gridSize * 0.15; const sh = gridSize * 0.3; ctx.fillRect(x - sw / 2, y - r * p - sh + 3, sw, sh); ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'; ctx.beginPath(); ctx.arc(x - r * 0.3, y - r * 0.4, r * 0.2 * p, 0, Math.PI * 2); ctx.fill(); }
+        function drawFood() { 
+            const r = gridSize / 2; 
+            const x = food.x * gridSize + r; 
+            const y = food.y * gridSize + r; 
+            const p = Math.sin(Date.now() * 0.01) * 0.05 + 0.9; 
+            
+            // Different food types
+            switch(food.type) {
+                case 'golden':
+                    // Golden apple
+                    ctx.fillStyle = '#FFD700'; 
+                    ctx.beginPath(); 
+                    ctx.arc(x, y, r * p, 0, Math.PI * 2); 
+                    ctx.fill(); 
+                    
+                    // Sparkle effect
+                    ctx.strokeStyle = '#FFF9C4';
+                    ctx.lineWidth = 1;
+                    for (let i = 0; i < 4; i++) {
+                        const angle = (i * Math.PI / 2) + (Date.now() * 0.002);
+                        ctx.beginPath();
+                        ctx.moveTo(x, y);
+                        ctx.lineTo(x + Math.cos(angle) * r * 1.5, y + Math.sin(angle) * r * 1.5);
+                        ctx.stroke();
+                    }
+                    break;
+                    
+                case 'small':
+                    // Blueberry (smaller, worth fewer points)
+                    ctx.fillStyle = '#3F51B5'; 
+                    ctx.beginPath(); 
+                    ctx.arc(x, y, r * p * 0.7, 0, Math.PI * 2); 
+                    ctx.fill(); 
+                    break;
+                    
+                case 'regular':
+                default:
+                    // Regular red apple
+                    ctx.fillStyle = foodColor; 
+                    ctx.beginPath(); 
+                    ctx.arc(x, y, r * p, 0, Math.PI * 2); 
+                    ctx.fill(); 
+                    
+                    // Stem
+                    ctx.fillStyle = snakeHeadColor; 
+                    const sw = gridSize * 0.15; 
+                    const sh = gridSize * 0.3; 
+                    ctx.fillRect(x - sw / 2, y - r * p - sh + 3, sw, sh); 
+                    
+                    // Shine
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'; 
+                    ctx.beginPath(); 
+                    ctx.arc(x - r * 0.3, y - r * 0.4, r * 0.2 * p, 0, Math.PI * 2); 
+                    ctx.fill();
+                    break;
+            }
+        }
         function drawObstacles() { /* ... */ ctx.fillStyle = obstacleColor; ctx.strokeStyle = 'rgba(0,0,0,0.5)'; obstacles.forEach(o => { const x = o.x * gridSize; const y = o.y * gridSize; ctx.beginPath(); ctx.roundRect(x + 2, y + 2, gridSize - 4, gridSize - 4, gridSize * 0.1); ctx.fill(); ctx.stroke(); }); }
+        
+        // Draw portals
+        function drawPortals() {
+            if (!portals.length) return;
+            
+            portals.forEach((portal, index) => {
+                const x = portal.x * gridSize;
+                const y = portal.y * gridSize;
+                const colors = PORTAL_COLORS[portal.pair];
+                
+                // Save current context state
+                ctx.save();
+                
+                // Portal outer glow
+                const gradient = ctx.createRadialGradient(
+                    x + gridSize/2, y + gridSize/2, gridSize/5,
+                    x + gridSize/2, y + gridSize/2, gridSize/1.5
+                );
+                gradient.addColorStop(0, colors.primary);
+                gradient.addColorStop(1, 'transparent');
+                
+                ctx.globalAlpha = 0.7 + Math.sin(Date.now() * 0.005) * 0.3;
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(x + gridSize/2, y + gridSize/2, gridSize/1.5, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Portal ring
+                ctx.globalAlpha = 0.9;
+                ctx.strokeStyle = colors.primary;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(x + gridSize/2, y + gridSize/2, gridSize/2 - 2, 0, Math.PI * 2);
+                ctx.stroke();
+                
+                // Portal inner fill
+                ctx.fillStyle = colors.secondary;
+                ctx.globalAlpha = 0.6;
+                ctx.beginPath();
+                ctx.arc(x + gridSize/2, y + gridSize/2, gridSize/3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Portal swirl effect (rotating lines)
+                ctx.globalAlpha = 0.8;
+                ctx.strokeStyle = colors.primary;
+                ctx.lineWidth = 1;
+                
+                // Create spinning effect with current time
+                const rotation = (Date.now() * 0.003) % (Math.PI * 2);
+                const lines = 5;
+                
+                for (let i = 0; i < lines; i++) {
+                    const angle = (i / lines) * Math.PI * 2 + rotation;
+                    const innerRadius = gridSize/6;
+                    const outerRadius = gridSize/3;
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(
+                        x + gridSize/2 + Math.cos(angle) * innerRadius,
+                        y + gridSize/2 + Math.sin(angle) * innerRadius
+                    );
+                    ctx.lineTo(
+                        x + gridSize/2 + Math.cos(angle) * outerRadius,
+                        y + gridSize/2 + Math.sin(angle) * outerRadius
+                    );
+                    ctx.stroke();
+                }
+                
+                // Restore context
+                ctx.restore();
+            });
+        }
 
         // --- Game Logic --- (Generation, Movement, Collision - unchanged)
-        function moveSnake() { /* ... */ if (dx === 0 && dy === 0) return; const head = { x: snake[0].x + dx, y: snake[0].y + dy }; snake.unshift(head); if (head.x === food.x && head.y === food.y) { score += 10; playEatSound(); updateScoreDisplay(); generateFood(); if (gameSpeed > 60) gameSpeed -= 2; } else { snake.pop(); } }
+        function moveSnake() { 
+            if (dx === 0 && dy === 0) return; 
+            
+            const head = { x: snake[0].x + dx, y: snake[0].y + dy }; 
+            
+            // Check for portal teleportation
+            const portalEntered = checkPortalTeleport(head);
+            if (portalEntered) {
+                // If teleported, update the head position
+                head.x = portalEntered.x;
+                head.y = portalEntered.y;
+            }
+            
+            snake.unshift(head); 
+            
+            if (head.x === food.x && head.y === food.y) { 
+                // Different points for different food types
+                let pointValue = 10; // Default
+                
+                switch(food.type) {
+                    case 'golden':
+                        pointValue = 20;
+                        break;
+                    case 'small':
+                        pointValue = 5;
+                        break;
+                }
+                
+                score += pointValue; 
+                playEatSound(); 
+                updateScoreDisplay(); 
+                generateFood(); 
+                
+                if (gameSpeed > 60 && !activePowerUp && !speedBoostActive) gameSpeed -= 2; 
+                normalGameSpeed = gameSpeed; // Update normal speed
+            } else { 
+                snake.pop(); 
+            } 
+            
+            // Check for power-up collection
+            checkPowerUpCollected();
+            // Check if active power-up has expired
+            checkPowerUpExpiry();
+            // Check speed boost status
+            checkSpeedBoostStatus();
+        }
         function generateObstacles(count) { /* ... */ const newObstacles = []; const occupied = [...(snake || []), ...(food && food.x !== -1 ? [food] : [])]; let attempts = 0; while (newObstacles.length < count && attempts < tileCount * tileCount) { const obsX = Math.floor(Math.random() * tileCount); const obsY = Math.floor(Math.random() * tileCount); const isOccupied = occupied.some(p => p.x === obsX && p.y === obsY) || newObstacles.some(o => o.x === obsX && o.y === obsY) || obsX < 1 || obsX >= tileCount - 1 || obsY < 1 || obsY >= tileCount - 1 || (obsX > tileCount*0.4 && obsX < tileCount*0.6 && obsY > tileCount*0.4 && obsY < tileCount*0.6); if (!isOccupied) { newObstacles.push({ x: obsX, y: obsY }); occupied.push({ x: obsX, y: obsY }); } attempts++; } if(attempts >= tileCount * tileCount) console.warn("Could not generate all obstacles."); return newObstacles; }
-        function generateFood() { /* ... */ const occupied = [...(snake || []), ...(obstacles || [])]; let attempts = 0; while (attempts < tileCount * tileCount) { food = { x: Math.floor(Math.random() * tileCount), y: Math.floor(Math.random() * tileCount) }; let collision = occupied.some(p => p.x === food.x && p.y === food.y); if (!collision) break; attempts++; } if(attempts >= tileCount * tileCount) console.warn("Could not generate food."); }
-        function checkGameOver() { /* ... */ const head = snake[0]; if (!head) return true; if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) return true; for (let i = 1; i < snake.length; i++) { if (head.x === snake[i].x && head.y === snake[i].y) return true; } if (obstacles.some(obs => obs.x === head.x && obs.y === head.y)) return true; return false; }
+        function generateFood() { 
+            const occupied = [...(snake || []), ...(obstacles || []), ...(powerUps || [])]; 
+            let attempts = 0; 
+            
+            while (attempts < tileCount * tileCount) { 
+                food = { 
+                    x: Math.floor(Math.random() * tileCount), 
+                    y: Math.floor(Math.random() * tileCount),
+                    type: selectRandomFoodType()
+                }; 
+                
+                let collision = occupied.some(p => p.x === food.x && p.y === food.y); 
+                if (!collision) break; 
+                attempts++; 
+            } 
+            
+            // Chance to spawn a power-up
+            if (Math.random() < POWER_UP_SPAWN_CHANCE) {
+                generatePowerUp();
+            }
+            
+            if(attempts >= tileCount * tileCount) console.warn("Could not generate food."); 
+        }
+        function selectRandomFoodType() {
+            const rand = Math.random();
+            if (rand < 0.1) {
+                return 'golden';  // 10% chance of golden apple (high value)
+            } else if (rand < 0.3) {
+                return 'small';   // 20% chance of small food (low value)
+            } else {
+                return 'regular'; // 70% chance of regular food
+            }
+        }
+        
+        function generatePowerUp() {
+            if (powerUps.length >= 1) return; // Limit to one power-up at a time
+            
+            const occupied = [...(snake || []), ...(obstacles || []), food ? [food] : []];
+            let attempts = 0;
+            
+            // Choose random power-up type
+            const powerUpType = POWER_UP_TYPES[Math.floor(Math.random() * POWER_UP_TYPES.length)];
+            
+            // Find valid position
+            while (attempts < 50) {
+                const powerUp = {
+                    x: Math.floor(Math.random() * tileCount),
+                    y: Math.floor(Math.random() * tileCount),
+                    type: powerUpType.type,
+                    color: powerUpType.color,
+                    effect: powerUpType.effect,
+                    description: powerUpType.description
+                };
+                
+                let collision = occupied.some(p => p.x === powerUp.x && p.y === powerUp.y);
+                if (!collision) {
+                    powerUps.push(powerUp);
+                    break;
+                }
+                attempts++;
+            }
+        }
+        
+        function updatePowerUpIndicator() {
+            const indicator = document.getElementById('power-up-indicator');
+            if (!indicator) return;
+            
+            if (activePowerUp) {
+                indicator.textContent = activePowerUp.description;
+                indicator.classList.add('active');
+            } else {
+                indicator.textContent = '';
+                indicator.classList.remove('active');
+            }
+        }
+        
+        function applyPowerUpEffect(powerUp) {
+            activePowerUp = powerUp;
+            powerUpTimer = Date.now() + POWER_UP_DURATION;
+            
+            // Apply effects
+            switch(powerUp.type) {
+                case 'shield':
+                    // Immunity - handled in checkGameOver()
+                    break;
+                case 'speed':
+                    gameSpeed = Math.max(40, gameSpeed * 0.6); // Faster
+                    break;
+                case 'slow':
+                    gameSpeed = gameSpeed * 1.5; // Slower
+                    break;
+            }
+            
+            updatePowerUpIndicator();
+            showMessage(`${powerUp.effect} activated!`, 2000);
+        }
+        
+        function checkPowerUpCollected() {
+            if (!powerUps.length || !snake.length) return;
+            
+            const head = snake[0];
+            const powerUpIndex = powerUps.findIndex(p => p.x === head.x && p.y === head.y);
+            
+            if (powerUpIndex !== -1) {
+                const powerUp = powerUps[powerUpIndex];
+                applyPowerUpEffect(powerUp);
+                powerUps.splice(powerUpIndex, 1);
+                playEatSound(); // Use same sound for now
+            }
+        }
+        
+        function checkPowerUpExpiry() {
+            if (!activePowerUp) return;
+            
+            if (Date.now() >= powerUpTimer) {
+                // Reset effects
+                if (activePowerUp.type === 'speed') {
+                    gameSpeed = isTouchDevice() ? 350 : 150; // Reset to normal
+                } else if (activePowerUp.type === 'slow') {
+                    gameSpeed = isTouchDevice() ? 350 : 150; // Reset to normal
+                }
+                
+                activePowerUp = null;
+                updatePowerUpIndicator();
+            }
+        }
+
+        function checkGameOver() { 
+            const head = snake[0]; 
+            if (!head) return true; 
+            
+            // If shield power-up is active, no collision death
+            if (activePowerUp && activePowerUp.type === 'shield') {
+                // Still need to check if snake is on the board
+                if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
+                    // Just reposition the head instead of game over
+                    if (head.x < 0) head.x = 0;
+                    if (head.x >= tileCount) head.x = tileCount - 1;
+                    if (head.y < 0) head.y = 0;
+                    if (head.y >= tileCount) head.y = tileCount - 1;
+                    return false;
+                }
+                return false; // No death with shield
+            }
+            
+            // Standard collision checks
+            if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) return true; 
+            
+            for (let i = 1; i < snake.length; i++) { 
+                if (head.x === snake[i].x && head.y === snake[i].y) return true; 
+            } 
+            
+            if (obstacles.some(obs => obs.x === head.x && obs.y === head.y)) return true; 
+            
+            return false; 
+        }
 
         /** Sets the snake's direction, preventing 180 turns */
         function setDirection(newDx, newDy) { /* ... */ if (gameState !== 'playing' || changingDirection) return; const goingUp = dy === -1; const goingDown = dy === 1; const goingRight = dx === 1; const goingLeft = dx === -1; if ((newDx === -1 && goingRight) || (newDx === 1 && goingLeft) || (newDy === -1 && goingDown) || (newDy === 1 && goingUp)) { if (dx === 0 && dy === 0) {} else { return; } } dx = newDx; dy = newDy; changingDirection = true; }
@@ -317,6 +907,9 @@
             const overlays = [usernameOverlay, gameOverOverlay, leaderboardOverlay];
             overlays.forEach(overlay => { if (overlay) overlay.classList.remove('visible'); });
 
+            // Update speed boost button visibility
+            updateSpeedBoostButton();
+            
             switch (newState) {
                 case 'username': if (usernameOverlay) usernameOverlay.classList.add('visible'); instructionsText.style.display = 'none'; break;
                 case 'playing': break;
@@ -348,6 +941,22 @@
         upButton.addEventListener('click', () => setDirection(0, -1)); downButton.addEventListener('click', () => setDirection(0, 1)); leftButton.addEventListener('click', () => setDirection(-1, 0)); rightButton.addEventListener('click', () => setDirection(1, 0));
         gameArea.addEventListener('click', handleTap);
 
+        // --- Event Listeners for skin selection ---
+        document.getElementById('skin-default').addEventListener('click', () => selectSkin('default'));
+        document.getElementById('skin-blue').addEventListener('click', () => selectSkin('blue'));
+        document.getElementById('skin-purple').addEventListener('click', () => selectSkin('purple'));
+        document.getElementById('skin-orange').addEventListener('click', () => selectSkin('orange'));
+        
+        function selectSkin(skinName) {
+            // Update the selected skin
+            currentSkin = skinName;
+            
+            // Update the UI to show which skin is selected
+            document.querySelectorAll('.skin-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            document.getElementById(`skin-${skinName}`).classList.add('selected');
+        }
 
         // --- Initial Setup ---
         // Wait for DOM to be ready before setting initial state
@@ -372,6 +981,197 @@
             console.log("DEBUG: Initial setup complete. Current state:", gameState); // Debug Log
         });
 
+        // --- Portal Functions ---
+        /**
+         * Generates a pair of connected portals on the board
+         */
+        function generatePortalPair() {
+            // Clear existing portals
+            portals = [];
+            
+            // Get occupied positions
+            const occupied = [
+                ...(snake || []), 
+                ...(obstacles || []), 
+                ...(powerUps || []),
+                food ? [food] : []
+            ];
+            
+            // Choose a portal pair color index
+            const pairIndex = Math.floor(Math.random() * PORTAL_COLORS.length);
+            
+            // Generate two portals (entrance and exit)
+            for (let i = 0; i < 2; i++) {
+                let attempts = 0;
+                let portalPos;
+                
+                // Find valid position
+                while (attempts < 50) {
+                    portalPos = {
+                        x: Math.floor(Math.random() * (tileCount - 2)) + 1, // Avoid edges
+                        y: Math.floor(Math.random() * (tileCount - 2)) + 1,
+                        pair: pairIndex // Store which color pair this portal belongs to
+                    };
+                    
+                    // Check if position is valid (not occupied by anything including other portals)
+                    const collision = occupied.some(p => p.x === portalPos.x && p.y === portalPos.y) ||
+                                     portals.some(p => p.x === portalPos.x && p.y === portalPos.y);
+                                     
+                    if (!collision) {
+                        // Valid position found
+                        portals.push(portalPos);
+                        occupied.push(portalPos); // Mark as occupied for next portal
+                        break;
+                    }
+                    attempts++;
+                }
+                
+                if (attempts >= 50) {
+                    console.warn("Could not generate portal");
+                    if (i === 0) {
+                        // If we couldn't place even the first portal, exit
+                        portals = [];
+                        return;
+                    }
+                }
+            }
+        }
+        
+        /**
+         * Checks if snake head entered a portal and handles teleportation
+         * @param {Object} head - The snake's head position
+         * @returns {Object|null} - New position after teleport or null if no teleport
+         */
+        function checkPortalTeleport(head) {
+            if (portals.length < 2 || portalCooldown) return null;
+            
+            // Check if head entered a portal
+            for (let i = 0; i < portals.length; i++) {
+                const portal = portals[i];
+                
+                if (head.x === portal.x && head.y === portal.y) {
+                    // Don't teleport if we just came out of this portal
+                    if (lastPortalUsed === i) return null;
+                    
+                    // Find the other portal with the same pair color
+                    const otherPortal = portals.find((p, index) => 
+                        p.pair === portal.pair && index !== i
+                    );
+                    
+                    if (otherPortal) {
+                        // Activate cooldown
+                        portalCooldown = true;
+                        lastPortalUsed = portals.indexOf(otherPortal);
+                        
+                        // Show teleport message
+                        showMessage("Teleported!", 1000);
+                        
+                        // Reset cooldown after delay
+                        setTimeout(() => {
+                            portalCooldown = false;
+                        }, PORTAL_COOLDOWN);
+                        
+                        // Return new position (exit portal location)
+                        return { x: otherPortal.x, y: otherPortal.y };
+                    }
+                }
+            }
+            
+            return null;
+        }
+
+        // --- Speed Boost Functions ---
+        
+        /**
+         * Update the speed boost button's appearance based on current state
+         */
+        function updateSpeedBoostButton() {
+            const speedBoostButton = document.getElementById('speed-boost-button');
+            const cooldownOverlay = speedBoostButton.querySelector('.cooldown-overlay');
+            
+            if (gameState !== 'playing') {
+                // Hide button when not playing
+                speedBoostButton.classList.remove('visible');
+                return;
+            }
+            
+            // Show button during gameplay
+            speedBoostButton.classList.add('visible');
+            
+            // Update button appearance based on cooldown state
+            if (speedBoostCooldown) {
+                speedBoostButton.classList.add('cooldown');
+                
+                // Calculate and display cooldown progress
+                const cooldownElapsed = Date.now() - (speedBoostTimer - SPEED_BOOST_COOLDOWN);
+                const cooldownPercentage = (cooldownElapsed / SPEED_BOOST_COOLDOWN) * 100;
+                cooldownOverlay.style.height = `${100 - Math.min(cooldownPercentage, 100)}%`;
+            } else {
+                speedBoostButton.classList.remove('cooldown');
+                cooldownOverlay.style.height = '0%';
+            }
+        }
+        
+        /**
+         * Check and update speed boost status (active duration and cooldown)
+         */
+        function checkSpeedBoostStatus() {
+            if (!speedBoostActive && !speedBoostCooldown) return;
+            
+            const currentTime = Date.now();
+            
+            if (speedBoostActive && currentTime >= speedBoostTimer) {
+                // Speed boost duration ended
+                speedBoostActive = false;
+                speedBoostCooldown = true;
+                
+                // Reset game speed to normal
+                gameSpeed = normalGameSpeed;
+                
+                // Set cooldown timer
+                speedBoostTimer = currentTime + SPEED_BOOST_COOLDOWN;
+                
+                showMessage("Speed boost ended", 1000);
+            } 
+            else if (speedBoostCooldown && currentTime >= speedBoostTimer) {
+                // Cooldown period ended
+                speedBoostCooldown = false;
+                updateSpeedBoostButton();
+                
+                showMessage("Speed boost ready", 1000);
+            }
+            
+            updateSpeedBoostButton();
+        }
+        
+        /**
+         * Activate the speed boost
+         */
+        function activateSpeedBoost() {
+            if (speedBoostActive || speedBoostCooldown || gameState !== 'playing') {
+                return; // Already active or on cooldown
+            }
+            
+            // Activate speed boost
+            speedBoostActive = true;
+            
+            // Remember normal speed to restore later
+            normalGameSpeed = gameSpeed;
+            
+            // Set boosted speed (60% faster)
+            gameSpeed = Math.max(30, Math.floor(gameSpeed * 0.4));
+            
+            // Set duration timer
+            speedBoostTimer = Date.now() + SPEED_BOOST_DURATION;
+            
+            // Show message
+            showMessage("Speed boost activated!", 1000);
+            
+            updateSpeedBoostButton();
+        }
+        
+        // Add event listener for speed boost button
+        document.getElementById('speed-boost-button').addEventListener('click', activateSpeedBoost);
     </script>
 
 </body>
