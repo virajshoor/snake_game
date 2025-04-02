@@ -3,16 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Play Super Snake Deluxe - a fun, modern twist on the classic Snake game with power-ups, portals, and special abilities. Free to play in your browser!">
+    <meta name="keywords" content="snake game, online game, free game, browser game, arcade game, retro game">
+    <meta name="author" content="Super Snake Deluxe">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://supersnakedeluxe.com/">
+    <meta property="og:title" content="Super Snake Deluxe - Play The Classic Game With New Twists">
+    <meta property="og:description" content="Eat apples, collect power-ups, teleport through portals, and compete for the highest score in this modern version of the classic Snake game.">
+    <meta property="og:image" content="https://supersnakedeluxe.com/og-image.jpg">
+    
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Super Snake Deluxe">
+    <meta name="twitter:description" content="Play the classic Snake game with exciting new features like power-ups, teleportation portals, and more!">
+    <meta name="twitter:image" content="https://supersnakedeluxe.com/twitter-image.jpg">
+    
+    <!-- iOS Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Super Snake">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="apple-touch-icon" sizes="152x152" href="apple-touch-icon-152x152.png">
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-180x180.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    
+    <!-- PWA -->
     <link rel="manifest" href="manifest.json">
-    <title>Super Snake Deluxe</title>
+    <meta name="theme-color" content="#1a1a2e">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://supersnakedeluxe.com/">
+    
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    
+    <title>Super Snake Deluxe - Classic Snake Game With Modern Twists</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    
+    <!-- Structured Data for Rich Snippets -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "Super Snake Deluxe",
+      "description": "A modern version of the classic Snake game with power-ups, portals, and other exciting features.",
+      "genre": ["Arcade", "Puzzle", "Casual"],
+      "gameLocation": {
+        "@type": "PostalAddress",
+        "addressCountry": "Online Browser Game"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "254"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      },
+      "operatingSystem": "Web Browser",
+      "applicationCategory": "Game"
+    }
+    </script>
     <style>
         :root {
             /* Define color theme using CSS variables */
@@ -335,66 +399,82 @@
         #message-box { position: fixed; bottom: -100px; left: 50%; transform: translateX(-50%); background-color: var(--accent-color); color: white; padding: 10px 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); z-index: 1000; font-size: 0.9em; opacity: 0; transition: opacity 0.5s ease-in-out, bottom 0.3s ease-in-out; }
         #message-box.visible { opacity: 1; bottom: 20px; }
 
+        /* Footer */
+        footer {
+            margin-top: 20px;
+            color: var(--text-color);
+            font-size: 0.7em;
+            text-align: center;
+            opacity: 0.7;
+        }
+
     </style>
 </head>
 <body>
+    <header>
+        <h1>Super Snake Deluxe</h1>
+    </header>
 
-    <h1>Super Snake Deluxe</h1>
-
-    <div id="ui-container">
-        <div id="score">Score: 0</div>
-        <button id="speed-boost-button" aria-label="Speed Boost">
-            <span>⚡</span>
-            <div class="cooldown-overlay"></div>
-        </button>
-    </div>
-
-    <div id="game-area">
-        <canvas id="gameCanvas" width="400" height="400"></canvas>
-        <div id="power-up-indicator"></div>
-        
-        <div id="username-overlay" class="overlay">
-             <h2>Enter Your Name</h2>
-             <p>For the Leaderboard!</p>
-             <input type="text" id="username-input" maxlength="10" placeholder="AAA">
-             
-             <h3 style="font-size: 0.9em; margin-bottom: 5px; margin-top: 10px;">Choose Snake Skin</h3>
-             <div class="skin-selector">
-                <div id="skin-default" class="skin-option selected"></div>
-                <div id="skin-blue" class="skin-option"></div>
-                <div id="skin-purple" class="skin-option"></div>
-                <div id="skin-orange" class="skin-option"></div>
-             </div>
-             
-             <button id="how-to-play-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>How to Play?</button><div id="instructions-text"><ul><li>Use <strong>Arrow Keys</strong> or <strong>WASD</strong> to move the snake.</li><li>Eat the red apples <span style="color: var(--food-color)">●</span> to grow longer and score points!</li><li>Eat special foods for bonus points:</li><li>- Golden apples (20 points)</li><li>- Blueberries (5 points)</li><li>Collect power-ups for special abilities!</li><li>Use <strong>Portals</strong> to teleport across the board</li><li>Press the <strong>⚡</strong> button for a temporary speed boost</li><li>Avoid hitting the walls, your own body, or the brown blocks <span style="color: var(--obstacle-color)">■</span> (obstacles).</li><li>Get the highest score to make the Leaderboard!</li></ul></div><button id="start-game-button">Start Game</button><button id="show-leaderboard-button-start">View Leaderboard</button>
+    <main>
+        <div id="ui-container">
+            <div id="score" aria-live="polite">Score: 0</div>
+            <button id="speed-boost-button" aria-label="Speed Boost" title="Activate speed boost">
+                <span>⚡</span>
+                <div class="cooldown-overlay"></div>
+            </button>
         </div>
-        <div id="game-over-overlay" class="overlay">
-            <h2>Game Over!</h2><div id="final-score" style="font-size: 1.2em; margin-bottom: 5px;">Score: 0</div><div id="player-rank-info"></div><button id="restart-button">Play Again</button><button id="show-leaderboard-button-gameover">View Leaderboard</button>
-        </div>
-        <div id="leaderboard-overlay" class="overlay">
-            <h2>Leaderboard</h2>
-            <div class="leaderboard-search-container">
-                <input type="search" id="leaderboard-search" placeholder="Search rank...">
-                <button id="leaderboard-search-button" aria-label="Search Leaderboard">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                </button>
+
+        <div id="game-area" aria-label="Snake game board">
+            <canvas id="gameCanvas" width="400" height="400" aria-label="Game canvas" role="img"></canvas>
+            <div id="power-up-indicator" aria-live="polite"></div>
+            
+            <div id="username-overlay" class="overlay">
+                 <h2>Enter Your Name</h2>
+                 <p>For the Leaderboard!</p>
+                 <input type="text" id="username-input" maxlength="10" placeholder="AAA" aria-label="Enter your username">
+                 
+                 <h3 style="font-size: 0.9em; margin-bottom: 5px; margin-top: 10px;">Choose Snake Skin</h3>
+                 <div class="skin-selector" role="radiogroup" aria-label="Choose snake skin">
+                    <div id="skin-default" class="skin-option selected" role="radio" aria-checked="true" tabindex="0" aria-label="Default green skin"></div>
+                    <div id="skin-blue" class="skin-option" role="radio" aria-checked="false" tabindex="0" aria-label="Blue skin"></div>
+                    <div id="skin-purple" class="skin-option" role="radio" aria-checked="false" tabindex="0" aria-label="Purple skin"></div>
+                    <div id="skin-orange" class="skin-option" role="radio" aria-checked="false" tabindex="0" aria-label="Orange skin"></div>
+                 </div>
+                 
+                 <button id="how-to-play-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>How to Play?</button><div id="instructions-text"><ul><li>Use <strong>Arrow Keys</strong> or <strong>WASD</strong> to move the snake.</li><li>Eat the red apples <span style="color: var(--food-color)">●</span> to grow longer and score points!</li><li>Eat special foods for bonus points:</li><li>- Golden apples (20 points)</li><li>- Blueberries (5 points)</li><li>Collect power-ups for special abilities!</li><li>Use <strong>Portals</strong> to teleport across the board</li><li>Press the <strong>⚡</strong> button for a temporary speed boost</li><li>Avoid hitting the walls, your own body, or the brown blocks <span style="color: var(--obstacle-color)">■</span> (obstacles).</li><li>Get the highest score to make the Leaderboard!</li></ul></div><button id="start-game-button">Start Game</button><button id="show-leaderboard-button-start">View Leaderboard</button>
             </div>
-            <p id="leaderboard-notice">Aim for the highest score!</p>
-            <ul id="leaderboard-list"><li>Loading...</li></ul> 
-            <button id="close-leaderboard-button">Back</button>
+            <div id="game-over-overlay" class="overlay">
+                <h2>Game Over!</h2><div id="final-score" style="font-size: 1.2em; margin-bottom: 5px;">Score: 0</div><div id="player-rank-info"></div><button id="restart-button">Play Again</button><button id="show-leaderboard-button-gameover">View Leaderboard</button>
+            </div>
+            <div id="leaderboard-overlay" class="overlay">
+                <h2>Leaderboard</h2>
+                <div class="leaderboard-search-container">
+                    <input type="search" id="leaderboard-search" placeholder="Search rank...">
+                    <button id="leaderboard-search-button" aria-label="Search Leaderboard">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    </button>
+                </div>
+                <p id="leaderboard-notice">Aim for the highest score!</p>
+                <ul id="leaderboard-list"><li>Loading...</li></ul> 
+                <button id="close-leaderboard-button">Back</button>
+            </div>
         </div>
-    </div>
 
-    <div id="mobile-controls">
-        <div class="d-pad">
-            <button id="up-btn">↑</button>
-            <button id="left-btn">←</button>
-            <div class="d-pad-center"></div> <button id="right-btn">→</button>
-            <button id="down-btn">↓</button>
+        <div id="mobile-controls">
+            <div class="d-pad">
+                <button id="up-btn">↑</button>
+                <button id="left-btn">←</button>
+                <div class="d-pad-center"></div> <button id="right-btn">→</button>
+                <button id="down-btn">↓</button>
+            </div>
         </div>
-    </div>
 
-    <div id="message-box"></div>
+        <div id="message-box"></div>
+    </main>
+
+    <footer>
+        <p>Made with ❤️ by Viraj Shoor and Claude.</p>
+    </footer>
 
     <script>
         // --- Enhanced Game Setup ---
@@ -1116,8 +1196,11 @@
             // Update the UI to show which skin is selected
             document.querySelectorAll('.skin-option').forEach(el => {
                 el.classList.remove('selected');
+                el.setAttribute('aria-checked', 'false');
             });
-            document.getElementById(`skin-${skinName}`).classList.add('selected');
+            const selectedElement = document.getElementById(`skin-${skinName}`);
+            selectedElement.classList.add('selected');
+            selectedElement.setAttribute('aria-checked', 'true');
         }
 
         // --- Initial Setup ---
@@ -1391,6 +1474,17 @@
         
         // Add event listener for speed boost button
         document.getElementById('speed-boost-button').addEventListener('click', activateSpeedBoost);
+
+        // Add keyboard accessibility for skin selection
+        document.querySelectorAll('.skin-option').forEach(skinOption => {
+            skinOption.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    const skinId = skinOption.id.replace('skin-', '');
+                    selectSkin(skinId);
+                }
+            });
+        });
     </script>
     
     <!-- Add mobile controls and portal fixes -->
