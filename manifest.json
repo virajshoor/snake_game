@@ -1,13 +1,23 @@
 {
   "name": "Super Snake Deluxe",
-  "short_name": "Snake",
-  "description": "A fun and addictive snake game with power-ups and special features",
-  "start_url": "/",
+  "short_name": "Snake Deluxe",
+  "description": "A modern twist on the classic Snake game with power-ups, achievements, and more!",
+  "start_url": "https://snake.virajshoor.com/",
   "display": "standalone",
   "background_color": "#1a1a2e",
-  "theme_color": "#00bcd4",
+  "theme_color": "#5bbad5",
   "orientation": "portrait",
   "icons": [
+    {
+      "src": "favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
     {
       "src": "icon-192x192.png",
       "sizes": "192x192",

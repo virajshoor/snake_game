@@ -2,81 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Play Super Snake Deluxe - a fun, modern twist on the classic Snake game with power-ups, portals, and special abilities. Free to play in your browser!">
-    <meta name="keywords" content="snake game, online game, free game, browser game, arcade game, retro game">
-    <meta name="author" content="Super Snake Deluxe">
-    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Super Snake Deluxe - An advanced snake game with power-ups, achievements, and mini-games.">
+    <title>Super Snake Deluxe</title>
     
-    <!-- Open Graph / Facebook Meta Tags -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://supersnakedeluxe.com/">
-    <meta property="og:title" content="Super Snake Deluxe - Play The Classic Game With New Twists">
-    <meta property="og:description" content="Eat apples, collect power-ups, teleport through portals, and compete for the highest score in this modern version of the classic Snake game.">
-    <meta property="og:image" content="https://supersnakedeluxe.com/og-image.jpg">
+    <!-- Inline favicon to prevent 404 errors -->
+    <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA5ElEQVR4Ae3VMUoDQRTG8Tdi4QEsBAsLe8HWKwh2ghcQG0EPYCMIXsFSvICQE9h7A/EEdhYGQiLM82XYYiUZdwZhYOb7w6/YZvn2vZ09SNu2y5IvR6e0FcDx6GmS/wJolzF6dgGpAUoNoNQASg2gtGUAVVUdlWV5nuf5KdQz6ndF9NfYv/X0/4JpmqYHZl4CXgCfwAZoCuu+xnwDL8CD9gHuwQngGdj/BDAoOANeAe39vRvgDNgCLgFfmGfuXN8HXgBN2QlwBmzjawoBvoCH7L3vdH+my38Ae8C5UrbILZ7jI1xX+gXRiDb/l94nJQAAAABJRU5ErkJggg==">
     
-    <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Super Snake Deluxe">
-    <meta name="twitter:description" content="Play the classic Snake game with exciting new features like power-ups, teleportation portals, and more!">
-    <meta name="twitter:image" content="https://supersnakedeluxe.com/twitter-image.jpg">
-    
-    <!-- iOS Meta Tags -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Super Snake">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-180x180.png">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    
-    <!-- PWA -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1a1a2e">
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://supersnakedeluxe.com/">
-    
-    <!-- Preconnect to external resources -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    
-    <title>Super Snake Deluxe - Classic Snake Game With Modern Twists</title>
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     
-    <!-- Structured Data for Rich Snippets -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "VideoGame",
-      "name": "Super Snake Deluxe",
-      "description": "A modern version of the classic Snake game with power-ups, portals, and other exciting features.",
-      "genre": ["Arcade", "Puzzle", "Casual"],
-      "gameLocation": {
-        "@type": "PostalAddress",
-        "addressCountry": "Online Browser Game"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "reviewCount": "254"
-      },
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD",
-        "availability": "https://schema.org/InStock"
-      },
-      "operatingSystem": "Web Browser",
-      "applicationCategory": "Game"
-    }
-    </script>
+    <!-- Inline CSS -->
     <style>
         :root {
             /* Define color theme using CSS variables */
@@ -117,7 +53,7 @@
             box-shadow: 0 0 25px rgba(0, 188, 212, 0.6); background-color: var(--canvas-bg-color);
             background-image: linear-gradient(var(--canvas-grid-color) 1px, transparent 1px),
                               linear-gradient(90deg, var(--canvas-grid-color) 1px, transparent 1px);
-            background-size: 20px 20px; width: 95vw; max-width: 400px; aspect-ratio: 1 / 1;
+            background-size: 20px 20px; width: 95vw; max-width: 800px; aspect-ratio: 1 / 1;
             margin-bottom: 10px;
         }
         canvas { display: block; border-radius: 10px; width: 100%; height: 100%; }
@@ -126,7 +62,7 @@
             justify-content: space-between;
             align-items: center;
             width: 95vw;
-            max-width: 400px;
+            max-width: 800px;
             margin-top: 0;
             margin-bottom: 10px;
             padding: 0 10px;
@@ -134,6 +70,13 @@
             position: relative;
         }
         #score {
+            font-size: 1em;
+            color: var(--secondary-color);
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        #timer {
             font-size: 1em;
             color: var(--secondary-color);
             background-color: rgba(0, 0, 0, 0.3);
@@ -408,68 +351,358 @@
             opacity: 0.7;
         }
 
+        /* Achievement Styling */
+        .achievements-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            width: 90%;
+            max-width: 400px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .achievement {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s ease;
+            position: relative;
+            border: 2px solid var(--border-color);
+        }
+
+        .achievement.locked {
+            filter: grayscale(1);
+            opacity: 0.5;
+        }
+
+        .achievement-icon {
+            font-size: 2em;
+            margin-bottom: 8px;
+        }
+
+        .achievement-name {
+            font-size: 0.8em;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .achievement-desc {
+            font-size: 0.6em;
+            text-align: center;
+            color: #ccc;
+        }
+
+        .achievement-progress {
+            width: 100%;
+            height: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            margin-top: 8px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .achievement-progress-fill {
+            height: 100%;
+            background-color: var(--accent-color);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Achievement Popup */
+        #achievement-popup {
+            position: fixed;
+            bottom: -100px;
+            right: 20px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border-radius: 10px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: bottom 0.5s ease;
+            z-index: 1000;
+            max-width: 300px;
+            opacity: 0;
+        }
+
+        #achievement-popup.show {
+            bottom: 20px;
+            opacity: 1;
+        }
+
+        #achievement-popup .achievement-icon {
+            font-size: 2.5em;
+            margin-right: 15px;
+            margin-bottom: 0;
+        }
+
+        #achievement-popup .achievement-content {
+            flex: 1;
+        }
+
+        #achievement-popup .achievement-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        #achievement-popup .achievement-description {
+            font-size: 0.8em;
+            opacity: 0.9;
+        }
+
+        /* Mini-games Styling */
+        .mini-game-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 15;
+            border-radius: 10px;
+        }
+
+        .mini-game-container.active {
+            display: flex;
+        }
+
+        .mini-game-title {
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+
+        .mini-game-instructions {
+            font-size: 0.8em;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            text-align: center;
+            width: 80%;
+        }
+
+        .mini-game-area {
+            width: 90%;
+            height: 200px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .mini-game-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .mini-game-button {
+            padding: 10px 15px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-family: var(--font-family);
+            font-size: 0.8em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .mini-game-button:hover {
+            filter: brightness(1.1);
+        }
+
+        .mini-game-button:active {
+            transform: scale(0.95);
+        }
+
+        /* Visual Effects */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .pulse {
+            animation: pulse 0.5s ease;
+        }
+
+        .shake {
+            animation: shake 0.5s ease;
+        }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 100;
+            will-change: transform, opacity;
+        }
+
     </style>
+    
+    <!-- Inline manifest to avoid external file request -->
+    <script>
+        // Create and install the web manifest directly
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // Create manifest data
+                const manifestData = {
+                    "name": "Super Snake Deluxe",
+                    "short_name": "Snake",
+                    "description": "An advanced snake game with power-ups and achievements",
+                    "start_url": "./",
+                    "display": "standalone",
+                    "background_color": "#121212",
+                    "theme_color": "#4CAF50",
+                    "orientation": "portrait-primary",
+                    "icons": [
+                        {
+                            "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA5ElEQVR4Ae3VMUoDQRTG8Tdi4QEsBAsLe8HWKwh2ghcQG0EPYCMIXsFSvICQE9h7A/EEdhYGQiLM82XYYiUZdwZhYOb7w6/YZvn2vZ09SNu2y5IvR6e0FcDx6GmS/wJolzF6dgGpAUoNoNQASg2gtGUAVVUdlWV5nuf5KdQz6ndF9NfYv/X0/4JpmqYHZl4CXgCfwAZoCuu+xnwDL8CD9gHuwQngGdj/BDAoOANeAe39vRvgDNgCLgFfmGfuXN8HXgBN2QlwBmzjawoBvoCH7L3vdH+my38Ae8C5UrbILZ7jI1xX+gXRiDb/l94nJQAAAABJRU5ErkJggg==",
+                            "sizes": "64x64",
+                            "type": "image/png"
+                        }
+                    ]
+                };
+                
+                // Install the manifest
+                const link = document.createElement('link');
+                link.rel = 'manifest';
+                
+                // Create a blob and set it as the href
+                const manifestBlob = new Blob([JSON.stringify(manifestData)], {type: 'application/json'});
+                link.href = URL.createObjectURL(manifestBlob);
+                
+                // Append to document
+                document.head.appendChild(link);
+                
+                console.log("Manifest installed successfully");
+            } catch (error) {
+                console.error("Error setting up manifest:", error);
+            }
+        });
+    </script>
+    
+    <!-- Global error handling for resources -->
+    <script>
+        window.addEventListener('error', function(e) {
+            // Suppress console errors for resources that fail to load
+            if (e.target.tagName === 'LINK' || e.target.tagName === 'SCRIPT' || e.target.tagName === 'IMG') {
+                console.warn(`Resource loading error for ${e.target.src || e.target.href}`);
+                e.preventDefault();
+            }
+        }, true);
+    </script>
 </head>
 <body>
     <header>
-        <h1>Super Snake Deluxe</h1>
+    <h1>Super Snake Deluxe</h1>
     </header>
 
     <main>
-        <div id="ui-container">
+    <div id="ui-container">
             <div id="score" aria-live="polite">Score: 0</div>
+            <div id="timer" aria-live="polite">Time: 0s</div>
             <button id="speed-boost-button" aria-label="Speed Boost" title="Activate speed boost">
-                <span>⚡</span>
-                <div class="cooldown-overlay"></div>
-            </button>
+            <span>⚡</span>
+            <div class="cooldown-overlay"></div>
+        </button>
         </div>
 
         <div id="game-area" aria-label="Snake game board">
-            <canvas id="gameCanvas" width="400" height="400" aria-label="Game canvas" role="img"></canvas>
+            <canvas id="gameCanvas" width="800" height="800" aria-label="Game canvas" role="img"></canvas>
             <div id="power-up-indicator" aria-live="polite"></div>
-            
-            <div id="username-overlay" class="overlay">
-                 <h2>Enter Your Name</h2>
-                 <p>For the Leaderboard!</p>
+
+        <div id="username-overlay" class="overlay">
+             <h2>Enter Your Name</h2>
+             <p>For the Leaderboard!</p>
                  <input type="text" id="username-input" maxlength="10" placeholder="AAA" aria-label="Enter your username">
-                 
-                 <h3 style="font-size: 0.9em; margin-bottom: 5px; margin-top: 10px;">Choose Snake Skin</h3>
+             
+             <h3 style="font-size: 0.9em; margin-bottom: 5px; margin-top: 10px;">Choose Snake Skin</h3>
                  <div class="skin-selector" role="radiogroup" aria-label="Choose snake skin">
                     <div id="skin-default" class="skin-option selected" role="radio" aria-checked="true" tabindex="0" aria-label="Default green skin"></div>
                     <div id="skin-blue" class="skin-option" role="radio" aria-checked="false" tabindex="0" aria-label="Blue skin"></div>
                     <div id="skin-purple" class="skin-option" role="radio" aria-checked="false" tabindex="0" aria-label="Purple skin"></div>
                     <div id="skin-orange" class="skin-option" role="radio" aria-checked="false" tabindex="0" aria-label="Orange skin"></div>
-                 </div>
-                 
-                 <button id="how-to-play-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>How to Play?</button><div id="instructions-text"><ul><li>Use <strong>Arrow Keys</strong> or <strong>WASD</strong> to move the snake.</li><li>Eat the red apples <span style="color: var(--food-color)">●</span> to grow longer and score points!</li><li>Eat special foods for bonus points:</li><li>- Golden apples (20 points)</li><li>- Blueberries (5 points)</li><li>Collect power-ups for special abilities!</li><li>Use <strong>Portals</strong> to teleport across the board</li><li>Press the <strong>⚡</strong> button for a temporary speed boost</li><li>Avoid hitting the walls, your own body, or the brown blocks <span style="color: var(--obstacle-color)">■</span> (obstacles).</li><li>Get the highest score to make the Leaderboard!</li></ul></div><button id="start-game-button">Start Game</button><button id="show-leaderboard-button-start">View Leaderboard</button>
+             </div>
+             
+             <button id="how-to-play-button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>How to Play?</button><div id="instructions-text"><ul><li>Use <strong>Arrow Keys</strong> or <strong>WASD</strong> to move the snake.</li><li>Eat the red apples <span style="color: var(--food-color)">●</span> to grow longer and score points!</li><li>Eat special foods for bonus points:</li><li>- Golden apples (20 points)</li><li>- Blueberries (5 points)</li><li>Collect power-ups for special abilities!</li><li>Use <strong>Portals</strong> to teleport across the board</li><li>Press the <strong>⚡</strong> button for a temporary speed boost</li><li>Avoid hitting the walls, your own body, or the brown blocks <span style="color: var(--obstacle-color)">■</span> (obstacles).</li><li>Get the highest score to make the Leaderboard!</li></ul></div><button id="start-game-button">Start Game</button><button id="show-leaderboard-button-start">View Leaderboard</button>
+        </div>
+        <div id="game-over-overlay" class="overlay">
+            <h2>Game Over!</h2><div id="final-score" style="font-size: 1.2em; margin-bottom: 5px;">Score: 0</div><div id="player-rank-info"></div><button id="restart-button">Play Again</button><button id="show-leaderboard-button-gameover">View Leaderboard</button>
+        </div>
+        <div id="leaderboard-overlay" class="overlay">
+            <h2>Leaderboard</h2>
+            <div class="leaderboard-search-container">
+                <input type="search" id="leaderboard-search" placeholder="Search rank...">
+                <button id="leaderboard-search-button" aria-label="Search Leaderboard">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </button>
             </div>
-            <div id="game-over-overlay" class="overlay">
-                <h2>Game Over!</h2><div id="final-score" style="font-size: 1.2em; margin-bottom: 5px;">Score: 0</div><div id="player-rank-info"></div><button id="restart-button">Play Again</button><button id="show-leaderboard-button-gameover">View Leaderboard</button>
+            <p id="leaderboard-notice">Aim for the highest score!</p>
+            <ul id="leaderboard-list"><li>Loading...</li></ul> 
+            <button id="close-leaderboard-button">Back</button>
+        </div>
+    </div>
+
+    <div id="mobile-controls">
+        <div class="d-pad">
+            <button id="up-btn">↑</button>
+            <button id="left-btn">←</button>
+            <div class="d-pad-center"></div> <button id="right-btn">→</button>
+            <button id="down-btn">↓</button>
+        </div>
+    </div>
+
+        <!-- Add Mini-Game Container -->
+        <div id="mini-game-container" class="mini-game-container">
+            <h3 class="mini-game-title">Apple Chase Challenge!</h3>
+            <p class="mini-game-instructions">Tap/click as many apples as you can in 10 seconds!</p>
+            <div class="mini-game-area" id="mini-game-area">
+                <!-- Mini-game elements will be created here -->
             </div>
-            <div id="leaderboard-overlay" class="overlay">
-                <h2>Leaderboard</h2>
-                <div class="leaderboard-search-container">
-                    <input type="search" id="leaderboard-search" placeholder="Search rank...">
-                    <button id="leaderboard-search-button" aria-label="Search Leaderboard">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                    </button>
-                </div>
-                <p id="leaderboard-notice">Aim for the highest score!</p>
-                <ul id="leaderboard-list"><li>Loading...</li></ul> 
-                <button id="close-leaderboard-button">Back</button>
+            <div class="mini-game-controls">
+                <button class="mini-game-button" id="mini-game-start">Start</button>
+                <button class="mini-game-button" id="mini-game-skip">Skip</button>
             </div>
         </div>
 
-        <div id="mobile-controls">
-            <div class="d-pad">
-                <button id="up-btn">↑</button>
-                <button id="left-btn">←</button>
-                <div class="d-pad-center"></div> <button id="right-btn">→</button>
-                <button id="down-btn">↓</button>
+        <!-- Add Achievement System Overlay -->
+        <div id="achievements-overlay" class="overlay">
+            <h2>Achievements</h2>
+            <div id="achievements-list" class="achievements-container">
+                <!-- Achievements will be populated here -->
             </div>
+            <button id="close-achievements-button">Back</button>
         </div>
 
-        <div id="message-box"></div>
+        <!-- Add achievement indicator -->
+        <div id="achievement-popup">
+            <div class="achievement-icon">🏆</div>
+            <div class="achievement-content">
+                <div class="achievement-title">Achievement Unlocked!</div>
+                <div class="achievement-description"></div>
+        </div>
+    </div>
+
+    <div id="message-box"></div>
     </main>
 
     <footer>
@@ -525,11 +758,53 @@
         const canvasGridColor = computedStyle.getPropertyValue('--canvas-grid-color').trim();
 
         // Game Constants & State Variables
-        const gridSize = 20; const canvasSize = 400; const tileCount = canvasSize / gridSize;
-        let gameState = 'username'; let snake, dx, dy, food, obstacles, score, gameSpeed, changingDirection, isGameOver, username;
-        let eatSound, gameOverSound; let audioReady = false;
-        let lastUpdateTime = 0; let accumulatedTime = 0; let animationFrameId = null;
+        const gridSize = 20; // Keep the cell size the same
+        const canvasSize = 800; // Double the canvas size from 400 to 800
+        const tileCount = canvasSize / gridSize; // Will now be 40 instead of 20
+        let gameState = 'username'; 
+        let snake, dx, dy, food, obstacles, score, gameSpeed, changingDirection, isGameOver, username;
+        let highScore = 0;
+        let eatSound, gameOverSound; 
+        let audioReady = false;
+        let lastUpdateTime = 0; 
+        let accumulatedTime = 0; 
+        let animationFrameId = null;
         let currentLeaderboardData = [];
+        
+        // Flag to prevent double-loading of leaderboard
+        window.isLeaderboardFunctionCalling = false;
+
+        // Portal colors definition
+        const PORTAL_COLORS = [
+            { primary: '#9C27B0', secondary: '#E1BEE7' }, // Purple
+            { primary: '#2196F3', secondary: '#BBDEFB' }, // Blue
+            { primary: '#FF9800', secondary: '#FFE0B2' }, // Orange
+            { primary: '#4CAF50', secondary: '#C8E6C9' }, // Green
+            { primary: '#F44336', secondary: '#FFCDD2' }  // Red
+        ];
+
+        // Power-up constants
+        const POWER_UP_TYPES = [
+            { type: 'shield', color: '#FFD700', effect: 'Shield', description: 'Shield: Temporary immunity to collisions' },
+            { type: 'speed', color: '#2196F3', effect: 'Speed Boost', description: 'Speed: Move faster' },
+            { type: 'slow', color: '#9C27B0', effect: 'Slow Motion', description: 'Slow: Move slower' },
+            { type: 'ghost', color: '#B0BEC5', effect: 'Ghost Mode', description: 'Ghost: Pass through walls and body' },
+            { type: 'magnet', color: '#F44336', effect: 'Food Magnet', description: 'Magnet: Attract food' },
+            { type: 'shrink', color: '#4CAF50', effect: 'Shrink', description: 'Shrink: Reduce snake length' }
+        ];
+        const POWER_UP_SPAWN_CHANCE = 0.1; // 10% chance to spawn a power-up when generating food
+        const POWER_UP_DURATION = 10000; // Power-up effects last for 10 seconds
+
+        // Cooldown constants
+        const PORTAL_COOLDOWN = 1500; // 1.5 seconds cooldown between portal uses
+        const SPEED_BOOST_DURATION = 5000; // 5 seconds of speed boost
+        const SPEED_BOOST_COOLDOWN = 10000; // 10 seconds cooldown for speed boost
+
+        // Timer variables
+        let gameStartTime = 0;
+        let gameElapsedTime = 0;
+        let finalTimeScore = 0;
+        let timerElement = document.getElementById('timer');
         
         // New variables for the features
         let currentSkin = 'default';
@@ -567,60 +842,349 @@
 
         // --- API Endpoints ---
         const WORKER_URL = 'https://flat-mode-f83b.shoorviraj83.workers.dev'; // Your deployed worker URL
-        const LEADERBOARD_ENDPOINT = `${WORKER_URL}/api/leaderboard`;
-        const SCORE_ENDPOINT = `${WORKER_URL}/api/scores`;
-        
-        // Power-up variables
-        let powerUps = [];
-        let activePowerUp = null;
-        let powerUpTimer = 0;
-        const POWER_UP_DURATION = 5000; // 5 seconds
-        const POWER_UP_SPAWN_CHANCE = 0.05; // 5% chance per food eaten
-        
-        const POWER_UP_TYPES = [
-            { type: 'shield', color: '#4fc3f7', effect: 'Immunity', description: 'Shield: Immunity to collisions' },
-            { type: 'speed', color: '#ffd54f', effect: 'Speed Boost', description: 'Speed: Move faster' },
-            { type: 'slow', color: '#81c784', effect: 'Slow Motion', description: 'Slow: Move slower' }
-        ];
-        
-        // Speed boost button variables
-        let speedBoostActive = false;
-        let speedBoostCooldown = false;
-        let speedBoostTimer = 0;
-        const SPEED_BOOST_DURATION = 3000; // 3 seconds
-        const SPEED_BOOST_COOLDOWN = 10000; // 10 seconds cooldown
-        let normalGameSpeed = 0;
-        
-        // Portal variables
-        let portals = [];
-        let portalCooldown = false;
-        let lastPortalUsed = null;
-        const PORTAL_COOLDOWN = 1000; // 1 second cooldown between teleports
-        const PORTAL_COLORS = [
-            { primary: '#9C27B0', secondary: '#E1BEE7' }, // Purple portals
-            { primary: '#FF9800', secondary: '#FFE0B2' }, // Orange portals
-        ];
+        const LOCAL_URL = window.location.origin; // Fallback to local server
 
-        // --- Initialization Functions --- (Audio unchanged)
-        function initAudio() { /* ... */ if (audioReady || typeof Tone === 'undefined') { return; } try { eatSound = new Tone.Synth({ oscillator: { type: 'triangle' }, envelope: { attack: 0.01, decay: 0.1, sustain: 0.1, release: 0.1 } }).toDestination(); gameOverSound = new Tone.NoiseSynth({ noise: { type: 'brown' }, envelope: { attack: 0.05, decay: 0.5, sustain: 0, release: 0.2 } }).toDestination(); if (Tone.context.state !== 'running') { if (!window.toneStartedPromise) { window.toneStartedPromise = Tone.start(); } window.toneStartedPromise.then(() => { audioReady = true; }).catch(e => { console.error("Tone.start() failed:", e); audioReady = false; }).finally(() => { window.toneStartedPromise = null; }); } else { audioReady = true; } } catch (e) { console.error("Error setting up Tone.js sounds:", e); audioReady = false; } }
-        function playEatSound() { /* ... */ if (audioReady && eatSound && Tone.context.state === 'running') { try { eatSound.triggerAttackRelease('C5', '8n', Tone.now()); } catch (e) { console.error("Error playing eat sound:", e); } } }
-        function playGameOverSound() { /* ... */ if (audioReady && gameOverSound && Tone.context.state === 'running') { try { gameOverSound.triggerAttackRelease('1n', Tone.now()); } catch (e) { console.error("Error playing game over sound:", e); } } }
+        // Determine which API endpoints to use (will be set after checking)
+        let LEADERBOARD_ENDPOINT = `${WORKER_URL}/api/leaderboard`;
+        let SCORE_ENDPOINT = `${WORKER_URL}/api/scores`;
 
-        // --- Leaderboard API Functions --- (unchanged)
-        async function loadLeaderboard() { /* ... */ leaderboardList.innerHTML = '<li>Loading...</li>'; leaderboardSearchInput.disabled = true; try { const response = await fetch(LEADERBOARD_ENDPOINT); if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`); const data = await response.json(); if (data && data.success && Array.isArray(data.results)) { currentLeaderboardData = data.results; return currentLeaderboardData; } else throw new Error("Invalid data format received from API"); } catch (error) { console.error("Error loading leaderboard:", error); leaderboardList.innerHTML = '<li>Error loading scores!</li>'; currentLeaderboardData = []; return []; } }
-        async function saveScoreToAPI(name, currentScore) { /* ... */ if (!name || currentScore <= 0) return; try { const response = await fetch(SCORE_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: name.toUpperCase().substring(0, 10), score_value: currentScore }), }); if (!response.ok) { let errorMsg = `HTTP error! status: ${response.status}`; try { const errorData = await response.json(); if (errorData && errorData.error) errorMsg += ` - ${errorData.error}`; } catch (e) { /* Ignore */ } throw new Error(errorMsg); } const result = await response.json(); if (!result || !result.success) { throw new Error(result.error || "API reported failure"); } } catch (error) { console.error("Error saving score via API:", error); showMessage("Could not save score online.", 2000); } }
-        async function displayLeaderboard() { /* ... */ const board = await loadLeaderboard(); leaderboardList.innerHTML = ''; leaderboardSearchInput.value = ''; clearLeaderboardHighlight(); if (board.length === 0 && leaderboardList.innerHTML.includes('Error')) { leaderboardSearchInput.disabled = true; } else if (board.length === 0) { leaderboardList.innerHTML = '<li>No scores yet!</li>'; leaderboardSearchInput.disabled = true; } else { leaderboardSearchInput.disabled = false; board.forEach((entry, index) => { const li = document.createElement('li'); const rank = index + 1; const safeName = String(entry.name || '???').replace(/</g, "&lt;").replace(/>/g, "&gt;"); const safeScore = parseInt(entry.score_value || 0); li.innerHTML = `<span class="rank">#${rank}</span><span class="name">${safeName}</span><span class="score">${safeScore}</span>`; leaderboardList.appendChild(li); }); } switchState('leaderboard'); }
+        // Function to check if the worker API is reachable
+        async function checkApiEndpoint() {
+            console.log("Checking if worker API is reachable...");
+            
+            try {
+                // Send a HEAD request with a timeout to see if the API is responsive
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 3000);
+                
+                const response = await fetch(`${WORKER_URL}/api/leaderboard`, {
+                    method: 'HEAD',
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                
+                console.log(`API check response status: ${response.status}`);
+                return response.ok;
+            } catch (error) {
+                console.error("Error checking API endpoint:", error);
+                return false;
+            }
+        }
+
+        async function loadLeaderboard() {
+            leaderboardList.innerHTML = '<li>Loading...</li>';
+            leaderboardSearchInput.disabled = true;
+            
+            try {
+                // First check if the API is reachable
+                const isApiReachable = await checkApiEndpoint();
+                if (!isApiReachable) {
+                    console.warn("Worker API not reachable, using local data");
+                    throw new Error("API not reachable");
+                }
+                
+                console.log("Fetching leaderboard from:", LEADERBOARD_ENDPOINT);
+                
+                // Use no-cors mode to avoid CORS issues
+                const response = await fetch(LEADERBOARD_ENDPOINT, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                        // Remove Cache-Control which is causing CORS issues
+                    }
+                });
+                
+                console.log("Leaderboard response status:", response.status);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log("Leaderboard data received:", data);
+                
+                if (data && data.success && Array.isArray(data.results)) {
+                    currentLeaderboardData = data.results;
+                    return currentLeaderboardData;
+                } else {
+                    throw new Error("Invalid data format received from API");
+                }
+            } catch (error) {
+                console.error("Error loading leaderboard:", error);
+                
+                // Show a more helpful error message
+                leaderboardList.innerHTML = `<li>Error loading scores! Using backup data</li>`;
+                
+                // Create a backup sample leaderboard when API fails
+                console.log("Creating fallback leaderboard data");
+                currentLeaderboardData = [
+                    { name: "PLAYER1", score_value: 100, time_score: 120 },
+                    { name: "PLAYER2", score_value: 80, time_score: 150 },
+                    { name: "PLAYER3", score_value: 60, time_score: 200 },
+                    { name: "PLAYER4", score_value: 40, time_score: 180 },
+                    { name: "PLAYER5", score_value: 20, time_score: 220 }
+                ];
+                return currentLeaderboardData;
+            }
+        }
+
+        async function saveScoreToAPI(name, currentScore, timeScore) {
+            if (!name || currentScore <= 0) return;
+            
+            try {
+                // First check if the API is reachable
+                const isApiReachable = await checkApiEndpoint();
+                if (!isApiReachable) {
+                    console.warn("Worker API not reachable, score not saved");
+                    showMessage("Network error - Score not saved", 3000);
+                    return true; // Continue game flow regardless
+                }
+                
+                // CRITICAL FIX: Ensure time_score is a valid INTEGER as expected by D1 database
+                let validTimeScore = 0;
+                
+                if (timeScore === undefined || timeScore === null) {
+                    console.warn("timeScore is undefined/null - using current game time");
+                    // Use gameElapsedTime as fallback
+                    validTimeScore = Math.max(1, Math.floor((Date.now() - gameStartTime) / 1000));
+                } else if (typeof timeScore === 'number' && !isNaN(timeScore)) {
+                    validTimeScore = Math.max(1, Math.floor(timeScore)); // Ensure it's a positive integer
+                } else if (typeof timeScore === 'string') {
+                    const parsed = parseInt(timeScore, 10);
+                    validTimeScore = isNaN(parsed) ? 1 : Math.max(1, parsed);
+                } else {
+                    console.warn("Invalid timeScore type, using default of 1 second");
+                    validTimeScore = 1; // Use 1 as minimum value instead of 0
+                }
+                
+                console.log(`Saving score to API: ${name} - ${currentScore} - Time: ${validTimeScore}s`);
+                console.log(`DEBUG: Original timeScore: type=${typeof timeScore}, value=${timeScore}, validTimeScore=${validTimeScore}`);
+                
+                // Ensure the API data follows the exact format expected by the D1 database
+                const scoreData = {
+                    name: name.toUpperCase().substring(0, 10),
+                    score_value: parseInt(currentScore, 10), // Ensure this is an integer too
+                    time_score: validTimeScore 
+                };
+                
+                console.log(`DEBUG: Final score data being sent:`, JSON.stringify(scoreData, null, 2));
+                
+                // Use proper CORS mode for cross-origin requests
+                const response = await fetch(SCORE_ENDPOINT, {
+                    method: 'POST',
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(scoreData),
+                });
+                
+                if (!response.ok) {
+                    console.error(`Error saving score to API: ${response.status} ${response.statusText}`);
+                    const errorText = await response.text().catch(() => "Could not read error response");
+                    console.error("Error details:", errorText);
+                    showMessage("Error saving score", 2000);
+                    // Still continue even if save fails
+                    return true;
+                }
+                
+                const data = await response.json();
+                console.log("Score save response:", data);
+                
+                if (data && data.success) {
+                    showMessage("Score saved successfully!", 2000);
+                    console.log("Time score successfully saved:", validTimeScore);
+                }
+                
+                return true;
+            } catch (error) {
+                console.error("Network error when saving score:", error);
+                showMessage("Network error - Score not saved", 3000);
+                // Don't let API errors block the game
+                return true;
+            }
+        }
+
+        // --- Leaderboard API Functions ---
+        async function displayLeaderboard() {
+            console.log("Displaying leaderboard...");
+            
+            // Create a flag to prevent conflicts
+            if (window.isDisplayingLeaderboard) {
+                console.log("Leaderboard display already in progress, ignoring duplicate request");
+                return;
+            }
+            
+            // Set flags to prevent double loading and state transitions
+            window.isLeaderboardFunctionCalling = true;
+            window.isDisplayingLeaderboard = true;
+            
+            // Save the previous state to ensure we can return to it properly
+            const previousState = gameState;
+            
+            // Ensure the leaderboard overlay is visible first
+            switchState('leaderboard');
+            
+            try {
+                showMessage("Loading leaderboard...", 2000);
+                
+                // Update UI to show loading state
+                try {
+                    const startButton = usernameOverlay.querySelector('#show-leaderboard-button-start');
+                    const gameOverButton = gameOverOverlay.querySelector('#show-leaderboard-button-gameover');
+                    
+                    if (startButton) startButton.textContent = 'Loading...';
+                    if (gameOverButton) gameOverButton.textContent = 'Loading...';
+                } catch (btnError) {
+                    console.error("Error updating button text:", btnError);
+                }
+                
+                // Load data with timeout to prevent hanging
+                let leaderboardPromise = loadLeaderboard();
+                let timeoutPromise = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error("Leaderboard load timeout")), 8000)
+                );
+                
+                const board = await Promise.race([leaderboardPromise, timeoutPromise]);
+                
+                // Reset button text
+                try {
+                    const startButton = usernameOverlay.querySelector('#show-leaderboard-button-start');
+                    const gameOverButton = gameOverOverlay.querySelector('#show-leaderboard-button-gameover');
+                    
+                    if (startButton) startButton.textContent = 'View Leaderboard';
+                    if (gameOverButton) gameOverButton.textContent = 'View Leaderboard';
+                } catch (btnError) {
+                    console.error("Error resetting button text:", btnError);
+                }
+                
+                // Ensure we're still on the leaderboard screen
+                const leaderboardOverlay = document.getElementById('leaderboard-overlay');
+                if (!leaderboardOverlay || !leaderboardOverlay.classList.contains('visible')) {
+                    console.log("Leaderboard overlay not visible, re-showing it");
+                    switchState('leaderboard');
+                }
+                
+                // Clear the list and search input
+                leaderboardList.innerHTML = '';
+                leaderboardSearchInput.value = '';
+                clearLeaderboardHighlight();
+                
+                console.log("Received leaderboard data:", board);
+                
+                if (!board || board.length === 0) {
+                    console.log("No scores found in leaderboard data");
+                    leaderboardList.innerHTML = '<li>No scores yet!</li>';
+                    leaderboardSearchInput.disabled = true;
+                } else {
+                    leaderboardSearchInput.disabled = false;
+                    
+                    // Create and append all list items at once using a document fragment for better performance
+                    const fragment = document.createDocumentFragment();
+                    
+                    board.forEach((entry, index) => {
+                        const li = document.createElement('li');
+                        const rank = index + 1;
+                        const safeName = String(entry.name || '???').replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                        const safeScore = parseInt(entry.score_value || 0);
+                        
+                        // Add more detailed logging for time_score debugging
+                        console.log(`Entry ${index} (${safeName}): Raw time_score:`, 
+                                    entry.time_score, 
+                                    `Type: ${typeof entry.time_score}`,
+                                    `ParsedInt: ${parseInt(entry.time_score || 0)}`);
+                        
+                        const timeScore = parseInt(entry.time_score || 0);
+                        
+                        let timeDisplay = '';
+                        if (timeScore > 0) {
+                            timeDisplay = ` (${formatTime(timeScore)})`;
+                            console.log(`Formatted time for ${safeName}: ${formatTime(timeScore)}`);
+                        } else {
+                            console.warn(`No time score (or zero) for ${safeName}`);
+                        }
+                        
+                        li.innerHTML = `
+                            <span class="rank">#${rank}</span>
+                            <span class="name">${safeName}</span>
+                            <span class="score">${safeScore}${timeDisplay}</span>
+                        `;
+                        
+                        fragment.appendChild(li);
+                    });
+                    
+                    // Append all entries at once
+                    leaderboardList.appendChild(fragment);
+                    
+                    // Highlight player score if available
+                    if (username) {
+                        // Look for the player in the leaderboard (case insensitive)
+                        const upperUsername = username.toUpperCase().substring(0, 10);
+                        const playerEntry = board.find(entry => entry.name === upperUsername);
+                        
+                        if (playerEntry) {
+                            const playerRank = board.indexOf(playerEntry);
+                            console.log(`Found player at rank ${playerRank + 1} with score ${playerEntry.score_value}`);
+                            
+                            setTimeout(() => {
+                                const items = leaderboardList.querySelectorAll('li');
+                                if (items[playerRank]) {
+                                    items[playerRank].classList.add('highlighted-rank');
+                                    items[playerRank].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                                }
+                            }, 100);
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error("Error in displayLeaderboard:", e);
+                
+                // Reset button text
+                try {
+                    const startButton = usernameOverlay.querySelector('#show-leaderboard-button-start');
+                    const gameOverButton = gameOverOverlay.querySelector('#show-leaderboard-button-gameover');
+                    
+                    if (startButton) startButton.textContent = 'View Leaderboard';
+                    if (gameOverButton) gameOverButton.textContent = 'View Leaderboard';
+                } catch (btnError) {
+                    console.error("Error resetting button text:", btnError);
+                }
+                
+                // Make sure we always show something in the leaderboard
+                leaderboardList.innerHTML = '<li>Error showing scores. Try again later.</li>';
+            } finally {
+                // Reset flags to allow normal operation again
+                window.isLeaderboardFunctionCalling = false;
+                
+                // Wait a moment before allowing new leaderboard requests
+                setTimeout(() => {
+                    window.isDisplayingLeaderboard = false;
+                }, 500);
+            }
+        }
         function clearLeaderboardHighlight() { /* ... */ const items = leaderboardList.querySelectorAll('li'); items.forEach(item => item.classList.remove('highlighted-rank')); }
         function handleLeaderboardSearch() { /* ... */ clearLeaderboardHighlight(); const rankToFind = parseInt(leaderboardSearchInput.value.trim()); const items = leaderboardList.querySelectorAll('li'); if (!isNaN(rankToFind) && rankToFind >= 1 && rankToFind <= items.length && !items[0].textContent.includes('Loading') && !items[0].textContent.includes('Error')) { const targetItem = items[rankToFind - 1]; if (targetItem) { targetItem.classList.add('highlighted-rank'); targetItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } } else if (leaderboardSearchInput.value.trim() !== '') { showMessage("Invalid rank.", 1500); leaderboardSearchInput.value = ''; } }
         function displayPlayerRank() { /* ... */ playerRankInfo.textContent = ''; if (score <= 0 || currentLeaderboardData.length === 0) return; const currentName = (username || 'AAA').toUpperCase().substring(0, 10); const playerIndex = currentLeaderboardData.findIndex(entry => entry.name === currentName && entry.score_value === score); if (playerIndex > -1) { const rank = playerIndex + 1; playerRankInfo.textContent = `You ranked #${rank}!`; } }
 
         /** Initializes or resets game variables */
-        function initGameVariables() { /* ... */ 
+        function initGameVariables() {
             snake = [{ x: Math.floor(tileCount / 2), y: Math.floor(tileCount / 2) }]; 
             dx = 0; dy = 0; changingDirection = false; score = 0; 
             gameSpeed = isTouchDevice() ? 350 : 150; // Slower game speed on mobile
             normalGameSpeed = gameSpeed; // Store normal speed for boost feature
             isGameOver = false; 
+            
+            // Load high score from localStorage
+            highScore = parseInt(localStorage.getItem('snakeHighScore')) || 0;
+            
+            // Reset timer
+            gameStartTime = Date.now();
+            gameElapsedTime = 0;
+            finalTimeScore = 0;
+            updateTimerDisplay();
             
             // Reset food, power-ups and obstacles
             food = { x: -1, y: -1, type: 'regular' }; 
@@ -644,8 +1208,24 @@
             obstacles = []; 
             playerRankInfo.textContent = ''; lastUpdateTime = 0; accumulatedTime = 0; 
             if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; } 
-            try { generateFood(); obstacles = generateObstacles(5); } 
-            catch (e) { console.error("Error generating obstacles or food:", e); showMessage("Error setting up board!", 3000); switchState('username'); throw e; } 
+            try { 
+                generateFood(); 
+                obstacles = generateObstacles(10); 
+            } catch (e) { 
+                console.error("Error generating obstacles or food:", e); 
+                showMessage("Error setting up board! Retrying...", 2000); 
+                // Don't throw the error, handle it gracefully
+                obstacles = []; // Ensure obstacles is an array even if generation failed
+                
+                // Try again with fewer obstacles
+                try {
+                    generateFood();
+                    obstacles = generateObstacles(5);
+                } catch (innerError) {
+                    console.error("Second attempt to generate obstacles failed:", innerError);
+                    obstacles = []; // Just use no obstacles rather than breaking the game
+                }
+            } 
             updateScoreDisplay(); 
         }
 
@@ -861,6 +1441,9 @@
             // Check for portal teleportation
             const portalEntered = checkPortalTeleport(head);
             if (portalEntered) {
+                // Update achievement for portal usage
+                updateAchievement('portal_master', 1);
+                
                 // If teleported, update the head position
                 head.x = portalEntered.x;
                 head.y = portalEntered.y;
@@ -868,26 +1451,13 @@
             
             snake.unshift(head); 
             
+            // Handle magnet power-up
+            if (activePowerUp && activePowerUp.type === 'magnet') {
+                handleMagnetPowerUp(head);
+            }
+            
             if (head.x === food.x && head.y === food.y) { 
-                // Different points for different food types
-                let pointValue = 10; // Default
-                
-                switch(food.type) {
-                    case 'golden':
-                        pointValue = 20;
-                        break;
-                    case 'small':
-                        pointValue = 5;
-                        break;
-                }
-                
-                score += pointValue; 
-                playEatSound(); 
-                updateScoreDisplay(); 
-                generateFood(); 
-                
-                if (gameSpeed > 60 && !activePowerUp && !speedBoostActive) gameSpeed -= 2; 
-                normalGameSpeed = gameSpeed; // Update normal speed
+                handleFoodCollision(head);
             } else { 
                 snake.pop(); 
             } 
@@ -991,10 +1561,28 @@
                 case 'slow':
                     gameSpeed = gameSpeed * 1.5; // Slower
                     break;
+                case 'ghost':
+                    // Ghost mode - handled in checkGameOver() and draw functions
+                    // Will allow passing through walls and own body
+                    break;
+                case 'magnet':
+                    // Magnet effect - implemented in moveSnake()
+                    break;
+                case 'shrink':
+                    // Shrink the snake by removing the last 3 segments (or half, whichever is less)
+                    const segmentsToRemove = Math.min(3, Math.floor(snake.length / 2));
+                    if (snake.length > segmentsToRemove) {
+                        snake.splice(snake.length - segmentsToRemove, segmentsToRemove);
+                    }
+                    break;
             }
             
             updatePowerUpIndicator();
             showMessage(`${powerUp.effect} activated!`, 2000);
+            
+            // Add visual effect
+            gameArea.classList.add('pulse');
+            setTimeout(() => gameArea.classList.remove('pulse'), 500);
         }
         
         function checkPowerUpCollected() {
@@ -1031,18 +1619,26 @@
             const head = snake[0]; 
             if (!head) return true; 
             
-            // If shield power-up is active, no collision death
-            if (activePowerUp && activePowerUp.type === 'shield') {
+            // If shield power-up is active or ghost mode, no collision death
+            if (activePowerUp && (activePowerUp.type === 'shield' || activePowerUp.type === 'ghost')) {
                 // Still need to check if snake is on the board
                 if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
-                    // Just reposition the head instead of game over
+                    // Just wrap around the board for ghost mode
+                    if (activePowerUp.type === 'ghost') {
+                        if (head.x < 0) head.x = tileCount - 1;
+                        if (head.x >= tileCount) head.x = 0;
+                        if (head.y < 0) head.y = tileCount - 1;
+                        if (head.y >= tileCount) head.y = 0;
+                    } else {
+                        // For shield, just stop at edges
                     if (head.x < 0) head.x = 0;
                     if (head.x >= tileCount) head.x = tileCount - 1;
                     if (head.y < 0) head.y = 0;
                     if (head.y >= tileCount) head.y = tileCount - 1;
+                    }
                     return false;
                 }
-                return false; // No death with shield
+                return false; // No death with shield or ghost
             }
             
             // Standard collision checks
@@ -1065,107 +1661,253 @@
         function showMessage(message, duration = 2000) { messageBox.textContent = message; messageBox.classList.add('visible'); setTimeout(() => { messageBox.classList.remove('visible'); }, duration); }
 
         /** Manages game state transitions and overlay visibility */
-        function switchState(newState) {
-            // console.log(`DEBUG: Switching state to: ${newState}`); // Debug Log
-            gameState = newState;
-            const overlays = [usernameOverlay, gameOverOverlay, leaderboardOverlay];
-            overlays.forEach(overlay => { if (overlay) overlay.classList.remove('visible'); });
-
-            // Update speed boost button visibility
+        function switchState(state) {
+            try {
+                console.log(`Switching state: ${gameState} -> ${state}`);
+                
+                // Only update gameState when switching to a new, different state
+                if (gameState !== state) {
+                    gameState = state;
+                }
+                
+                // Hide all containers
+                try {
+                    const allContainers = document.querySelectorAll('.game-container, .overlay');
+                    allContainers.forEach(container => {
+                        if (container.classList.contains('overlay')) {
+                            container.classList.remove('visible');
+                        } else {
+                            container.style.display = 'none';
+                        }
+                    });
+                } catch (e) {
+                    console.error("Error hiding containers:", e);
+                }
+                
+                // Show the relevant UI for the current state
+                switch (state) {
+                    case 'username':
+                        try {
+                            const usernameOverlay = document.getElementById('username-overlay');
+                            if (usernameOverlay) {
+                                usernameOverlay.classList.add('visible');
+                                const usernameInput = document.getElementById('username-input');
+                                if (usernameInput) usernameInput.focus();
+                            } else {
+                                console.error("username-overlay element not found");
+                            }
+                        } catch (e) {
+                            console.error("Error showing username overlay:", e);
+                        }
+                        break;
+                        
+                    case 'menu':
+                        try {
+                            const menuOverlay = document.getElementById('menu-overlay');
+                            if (menuOverlay) {
+                                menuOverlay.classList.add('visible');
+                            } else {
+                                console.error("menu-overlay element not found");
+                            }
+                        } catch (e) {
+                            console.error("Error showing menu overlay:", e);
+                        }
+                        break;
+                        
+                    case 'playing':
+                        try {
+                            const gameArea = document.getElementById('game-area');
+                            if (gameArea) {
+                                gameArea.style.display = 'block';
+                                
+                                // Initialize and start the game
+                                try {
+                                    initGameVariables();
+                                    startGameLoop();
+                                } catch (err) {
+                                    console.error("Error starting game:", err);
+                                }
+                            } else {
+                                console.error("game-area element not found");
+                            }
+                        } catch (e) {
+                            console.error("Error showing game area:", e);
+                        }
+                        break;
+                        
+                    case 'paused':
+                        try {
+                            const gameArea = document.getElementById('game-area');
+                            const pauseOverlay = document.getElementById('pause-overlay');
+                            
+                            if (gameArea) gameArea.style.display = 'block';
+                            if (pauseOverlay) pauseOverlay.classList.add('visible');
+                        } catch (e) {
+                            console.error("Error showing pause overlay:", e);
+                        }
+                        break;
+                        
+                    case 'gameover':
+                        try {
+                            const gameArea = document.getElementById('game-area');
+                            const gameOverOverlay = document.getElementById('game-over-overlay');
+                            const finalScore = document.getElementById('final-score');
+                            
+                            if (gameArea) gameArea.style.display = 'block';
+                            if (gameOverOverlay) gameOverOverlay.classList.add('visible');
+                            if (finalScore) finalScore.textContent = `Score: ${score}`;
+                        } catch (e) {
+                            console.error("Error showing game over overlay:", e);
+                        }
+                        break;
+                        
+                    case 'leaderboard':
+                        try {
+                            // Show the leaderboard overlay
+                            console.log("Switching to leaderboard state");
+                            const leaderboardOverlay = document.getElementById('leaderboard-overlay');
+                            
+                            if (leaderboardOverlay) {
+                                leaderboardOverlay.classList.add('visible');
+                                
+                                // Only load leaderboard data if we're not coming from displayLeaderboard
+                                if (!window.isLeaderboardFunctionCalling) {
+                                    // Load fresh leaderboard data when showing the leaderboard
+                                    console.log("Loading fresh leaderboard data from switchState...");
+                                    
+                                    loadLeaderboard()
+                                        .then(data => {
+                                            clearLeaderboardHighlight();
+                                            
+                                            // Highlight the player's score if it exists
+                                            if (username && score > 0) {
+                                                const playerRank = data.findIndex(entry => 
+                                                    entry.name === username.toUpperCase().substring(0, 10) && 
+                                                    entry.score_value === score
+                                                );
+                                                
+                                                if (playerRank >= 0) {
+                                                    console.log(`Found player at rank ${playerRank + 1}`);
+                                                    setTimeout(() => {
+                                                        const items = document.querySelectorAll('#leaderboard-list li');
+                                                        if (items[playerRank]) {
+                                                            items[playerRank].classList.add('highlighted-rank');
+                                                            items[playerRank].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                                                        }
+                                                    }, 100);
+                                                }
+                                            }
+                                        })
+                                        .catch(err => {
+                                            console.error("Error loading leaderboard from switchState:", err);
+                                        });
+                                } else {
+                                    console.log("Skipping leaderboard load from switchState as displayLeaderboard is already handling it");
+                                }
+                            } else {
+                                console.error("leaderboard-overlay element not found");
+                            }
+                        } catch (e) {
+                            console.error("Error showing leaderboard overlay:", e);
+                        }
+                        break;
+                        
+                    case 'achievements':
+                        try {
+                            const achievementsOverlay = document.getElementById('achievements-overlay');
+                            if (achievementsOverlay) {
+                                achievementsOverlay.classList.add('visible');
+                            } else {
+                                console.error("achievements-overlay element not found");
+                            }
+                        } catch (e) {
+                            console.error("Error showing achievements overlay:", e);
+                        }
+                        break;
+                        
+                    case 'options':
+                        try {
+                            const optionsOverlay = document.getElementById('options-overlay');
+                            if (optionsOverlay) {
+                                optionsOverlay.classList.add('visible');
+                            } else {
+                                console.error("options-overlay element not found");
+                            }
+                        } catch (e) {
+                            console.error("Error showing options overlay:", e);
+                        }
+                        break;
+                        
+                    default:
+                        console.error(`Unknown game state: ${state}`);
+                        try {
+                            const menuOverlay = document.getElementById('menu-overlay');
+                            if (menuOverlay) menuOverlay.classList.add('visible');
+                        } catch (e) {
+                            console.error("Error showing fallback menu overlay:", e);
+                        }
+                }
+                
+                // Update UI based on state change
+                try {
             updateSpeedBoostButton();
-            
-            switch (newState) {
-                case 'username': if (usernameOverlay) usernameOverlay.classList.add('visible'); instructionsText.style.display = 'none'; break;
-                case 'playing': break;
-                case 'gameover': if (gameOverOverlay) { finalScoreElement.textContent = `Score: ${score}`; displayPlayerRank(); gameOverOverlay.classList.add('visible'); } break;
-                case 'leaderboard': if (leaderboardOverlay) leaderboardOverlay.classList.add('visible'); break;
+                } catch (e) {
+                    console.error("Error updating speed boost button:", e);
+                }
+            } catch (e) {
+                console.error(`Critical error in switchState('${state}'):`, e);
             }
         }
 
         // --- Main Game Loop (Using requestAnimationFrame) ---
-        function gameLoop(currentTime) { 
-            if (gameState !== 'playing') { 
-                animationFrameId = null; 
-                return; 
-            } 
+        function gameLoop(timestamp) {
+            if (gameState !== 'playing') return;
             
-            if (lastUpdateTime === 0) lastUpdateTime = currentTime; 
-            const deltaTime = currentTime - lastUpdateTime; 
-            lastUpdateTime = currentTime; 
-            accumulatedTime += deltaTime; 
+            if (!lastUpdateTime) lastUpdateTime = timestamp;
+            const deltaTime = timestamp - lastUpdateTime;
+            lastUpdateTime = timestamp;
             
-            while (accumulatedTime >= gameSpeed) { 
-                if (isGameOver) break; 
-                changingDirection = false; 
-                moveSnake(); 
-                isGameOver = checkGameOver(); 
+            accumulatedTime += deltaTime;
+            
+            // Update the timer every frame, regardless of snake movement
+            updateTimerDisplay();
+            
+            // Check if enough time has passed to update the game state
+            if (accumulatedTime >= gameSpeed) {
+                moveSnake();
                 
-                if (isGameOver) { 
-                    playGameOverSound(); 
-                    saveScoreToAPI(username, score).then(() => {}); 
-                    switchState('gameover'); 
-                    animationFrameId = null; 
-                    return; 
-                } 
+                if (checkGameOver()) {
+                    handleGameOver();
+                    return;
+                }
                 
-                accumulatedTime -= gameSpeed; 
-            } 
-            
-            try { 
                 clearCanvas();
-                
-                // Make sure portals are drawn first (background layer)
-                if (portals && portals.length > 0) {
-                    drawPortals();
-                }
-                
-                // Then obstacles
                 drawObstacles();
-                
-                // Draw power-ups
-                if (powerUps && powerUps.length > 0) {
-                    powerUps.forEach(p => {
-                        // Draw power-up
-                        ctx.fillStyle = p.color;
-                        ctx.beginPath();
-                        ctx.arc(p.x * gridSize + gridSize/2, p.y * gridSize + gridSize/2, gridSize/2 - 2, 0, Math.PI * 2);
-                        ctx.fill();
-                        ctx.strokeStyle = 'white';
-                        ctx.lineWidth = 1;
-                        ctx.stroke();
-                        
-                        // Add power-up icon/symbol
-                        ctx.fillStyle = 'white';
-                        ctx.font = 'bold 14px Arial';
-                        ctx.textAlign = 'center';
-                        ctx.textBaseline = 'middle';
-                        let icon = '?';
-                        if (p.type === 'shield') icon = 'S';
-                        if (p.type === 'speed') icon = '⚡';
-                        if (p.type === 'slow') icon = '⏱️';
-                        ctx.fillText(icon, p.x * gridSize + gridSize/2, p.y * gridSize + gridSize/2);
-                    });
-                }
-                
-                // Then food
+                drawPortals();
                 drawFood();
-                
-                // Then snake on top
                 drawSnake();
-            } catch(e) { 
-                console.error("Error during drawing:", e); 
-                showMessage("An error occurred during drawing!", 3000); 
-                switchState('gameover'); 
-                animationFrameId = null; 
-                return; 
-            } 
+                drawPowerUps();
+                
+                accumulatedTime = 0;
+                changingDirection = false;
+            }
             
-            animationFrameId = requestAnimationFrame(gameLoop); 
+            // Continue the game loop
+            animationFrameId = requestAnimationFrame(gameLoop);
         }
         function startGameLoop() { lastUpdateTime = 0; accumulatedTime = 0; if (animationFrameId) { cancelAnimationFrame(animationFrameId); } animationFrameId = requestAnimationFrame(gameLoop); }
 
         // --- Mobile Controls & Detection ---
-        function isTouchDevice() { return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0); }
+        function isTouchDevice() {
+            try {
+                return (('ontouchstart' in window) ||
+                    (navigator.maxTouchPoints > 0) ||
+                    (navigator.msMaxTouchPoints > 0));
+            } catch (e) {
+                console.error("Error detecting touch device:", e);
+                return false;
+            }
+        }
         function toggleMobileControls() { mobileControlsVisible = !mobileControlsVisible; if (mobileControlsVisible) { mobileControlsContainer.classList.add('mobile-controls-visible'); } else { mobileControlsContainer.classList.remove('mobile-controls-visible'); } tapCount = 0; }
         function handleTap(event) { if (gameState !== 'playing') { tapCount = 0; return; } const currentTime = Date.now(); const currentX = event.clientX; const currentY = event.clientY; const timeDiff = currentTime - lastTapTime; let distance = 0; if (tapCount > 0) { const dxTap = currentX - lastTapX; const dyTap = currentY - lastTapY; distance = Math.sqrt(dxTap * dxTap + dyTap * dyTap); } if (timeDiff < TAP_TIME_THRESHOLD && distance < TAP_DISTANCE_THRESHOLD) { tapCount++; } else { tapCount = 1; } lastTapTime = currentTime; lastTapX = currentX; lastTapY = currentY; if (tapCount >= 3) { toggleMobileControls(); } }
 
@@ -1174,7 +1916,34 @@
         restartButton.addEventListener('click', () => { try { initGameVariables(); } catch (initError) { return; } switchState('playing'); showMessage("Let's try again!", 1500); startGameLoop(); });
         showLeaderboardButtonStart.addEventListener('click', displayLeaderboard);
         showLeaderboardButtonGameOver.addEventListener('click', displayLeaderboard);
-        closeLeaderboardButton.addEventListener('click', () => { leaderboardSearchInput.value = ''; clearLeaderboardHighlight(); switchState(isGameOver ? 'gameover' : 'username'); });
+        closeLeaderboardButton.addEventListener('click', function() {
+            console.log("Close leaderboard button clicked, current game state:", gameState);
+            
+            // Clear any search and selections
+            leaderboardSearchInput.value = '';
+            clearLeaderboardHighlight();
+            
+            // Determine which state to return to based on game state
+            // If game is over, go back to game over screen
+            // Otherwise go to username screen or previous state
+            if (isGameOver) {
+                console.log("Returning to game over screen");
+                switchState('gameover');
+                
+                // Ensure the game over screen is visible
+                setTimeout(() => {
+                    const gameOverOverlay = document.getElementById('game-over-overlay');
+                    if (gameOverOverlay && !gameOverOverlay.classList.contains('visible')) {
+                        console.log("Forcing game over overlay visibility after leaderboard close");
+                        gameOverOverlay.classList.add('visible');
+                    }
+                }, 100);
+            } else {
+                // Return to username screen or whatever state we were in
+                console.log("Returning to username screen");
+                switchState('username');
+            }
+        });
         document.addEventListener('keydown', handleKeyDown);
         howToPlayButton.addEventListener('click', () => { instructionsText.style.display = instructionsText.style.display === 'block' ? 'none' : 'block'; });
         leaderboardSearchInput.addEventListener('keydown', (event) => { if (event.key === 'Enter') { event.preventDefault(); handleLeaderboardSearch(); } });
@@ -1208,20 +1977,17 @@
         document.addEventListener('DOMContentLoaded', () => {
             console.log("DEBUG: DOMContentLoaded event fired.");
             
-            // Create base64 icons for iOS (placeholder)
-            createPlaceholderIcons();
-            
-            // Check elements again just before switching state
-            if (!usernameOverlay || !gameOverOverlay || !leaderboardOverlay) {
-                console.error("DEBUG: One or more overlay elements are null right before initial switchState!");
-            }
+             // Check elements again just before switching state
+             if (!usernameOverlay || !gameOverOverlay || !leaderboardOverlay) {
+                 console.error("DEBUG: One or more overlay elements are null right before initial switchState!");
+             }
             
             switchState('username');
             
             // Show mobile controls automatically on touch devices
             if (isTouchDevice()) {
                 mobileControlsVisible = true;
-                mobileControlsContainer.classList.add('mobile-controls-visible');
+                 mobileControlsContainer.classList.add('mobile-controls-visible');
                 
                 // Ensure controls are properly positioned
                 window.addEventListener('resize', () => {
@@ -1335,8 +2101,6 @@
         
         /**
          * Checks if snake head entered a portal and handles teleportation
-         * @param {Object} head - The snake's head position
-         * @returns {Object|null} - New position after teleport or null if no teleport
          */
         function checkPortalTeleport(head) {
             if (portals.length < 2 || portalCooldown) return null;
@@ -1346,8 +2110,8 @@
                 const portal = portals[i];
                 
                 if (head.x === portal.x && head.y === portal.y) {
-                    // Don't teleport if we just came out of this portal
-                    if (lastPortalUsed === i) return null;
+                    // Remove the check that prevents portals from working
+                    // if (lastPortalUsed === i) return null;
                     
                     // Find the other portal with the same pair color
                     const otherPortal = portals.find((p, index) => 
@@ -1357,7 +2121,9 @@
                     if (otherPortal) {
                         // Activate cooldown
                         portalCooldown = true;
-                        lastPortalUsed = portals.indexOf(otherPortal);
+                        
+                        // Set the last portal used (but no longer check it)
+                        lastPortalUsed = i;
                         
                         // Show teleport message
                         showMessage("Teleported!", 1000);
@@ -1365,6 +2131,7 @@
                         // Reset cooldown after delay
                         setTimeout(() => {
                             portalCooldown = false;
+                            lastPortalUsed = null; // Reset last portal used
                         }, PORTAL_COOLDOWN);
                         
                         // Return new position (exit portal location)
@@ -1404,12 +2171,12 @@
                 const cooldownElapsed = Date.now() - (speedBoostTimer - SPEED_BOOST_COOLDOWN);
                 const cooldownPercentage = (cooldownElapsed / SPEED_BOOST_COOLDOWN) * 100;
                 if (cooldownOverlay) {
-                    cooldownOverlay.style.height = `${100 - Math.min(cooldownPercentage, 100)}%`;
+                cooldownOverlay.style.height = `${100 - Math.min(cooldownPercentage, 100)}%`;
                 }
             } else {
                 speedBoostButton.classList.remove('cooldown');
                 if (cooldownOverlay) {
-                    cooldownOverlay.style.height = '0%';
+                cooldownOverlay.style.height = '0%';
                 }
             }
         }
@@ -1485,9 +2252,2271 @@
                 }
             });
         });
+
+        // --- Achievement System ---
+        const ACHIEVEMENTS = [
+            {
+                id: 'first_apple',
+                name: 'First Bite',
+                description: 'Eat your first apple',
+                icon: '🍎',
+                requirement: 1,
+                progress: 0,
+                reward: null,
+                unlocked: false
+            },
+            {
+                id: 'apple_collector',
+                name: 'Apple Collector',
+                description: 'Eat 25 apples',
+                icon: '🍏',
+                requirement: 25,
+                progress: 0,
+                reward: null,
+                unlocked: false
+            },
+            {
+                id: 'golden_hunter',
+                name: 'Golden Hunter',
+                description: 'Collect 5 golden apples',
+                icon: '✨',
+                requirement: 5,
+                progress: 0,
+                reward: null,
+                unlocked: false
+            },
+            {
+                id: 'portal_master',
+                name: 'Portal Master',
+                description: 'Use portals 10 times',
+                icon: '🌀',
+                requirement: 10,
+                progress: 0,
+                reward: null,
+                unlocked: false
+            },
+            {
+                id: 'speed_demon',
+                name: 'Speed Demon',
+                description: 'Use speed boost 3 times',
+                icon: '⚡',
+                requirement: 3,
+                progress: 0,
+                reward: null,
+                unlocked: false
+            },
+            {
+                id: 'long_snake',
+                name: 'Long Snake',
+                description: 'Grow to length 20',
+                icon: '🐍',
+                requirement: 20,
+                progress: 0,
+                reward: null,
+                unlocked: false
+            },
+            {
+                id: 'mini_game_master',
+                name: 'Mini-Game Master',
+                description: 'Score 15+ points in a mini-game',
+                icon: '🎮',
+                requirement: 15,
+                progress: 0,
+                reward: null,
+                unlocked: false
+            }
+        ];
+
+        // Track achievements and save to localStorage
+        let playerAchievements = JSON.parse(localStorage.getItem('snake_achievements')) || [...ACHIEVEMENTS];
+
+        function updateAchievement(id, increment = 1) {
+            const achievement = playerAchievements.find(a => a.id === id);
+            if (!achievement || achievement.unlocked) return;
+            
+            achievement.progress += increment;
+            
+            // Check if achievement is completed
+            if (achievement.progress >= achievement.requirement) {
+                achievement.unlocked = true;
+                achievement.progress = achievement.requirement;
+                showAchievementPopup(achievement);
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('snake_achievements', JSON.stringify(playerAchievements));
+            
+            // Update UI if achievements overlay is visible
+            if (document.getElementById('achievements-overlay').classList.contains('visible')) {
+                populateAchievements();
+            }
+        }
+
+        function populateAchievements() {
+            try {
+                const container = document.getElementById('achievements-list');
+                if (!container) {
+                    console.error("Achievements list container not found!");
+                    return;
+                }
+                
+                // Clear container safely
+                container.innerHTML = '';
+                
+                playerAchievements.forEach(achievement => {
+                    try {
+                        const elem = document.createElement('div');
+                        elem.className = `achievement ${achievement.unlocked ? '' : 'locked'}`;
+                        
+                        const progressPercent = Math.min(100, (achievement.progress / achievement.requirement) * 100);
+                        
+                        elem.innerHTML = `
+                            <div class="achievement-icon">${achievement.icon}</div>
+                            <div class="achievement-name">${achievement.name}</div>
+                            <div class="achievement-desc">${achievement.description}</div>
+                            <div class="achievement-progress">
+                                <div class="achievement-progress-fill" style="width: ${progressPercent}%"></div>
+                            </div>
+                        `;
+                        
+                        safeAppendChild(container, elem);
+                    } catch (achievementError) {
+                        console.error("Error creating achievement element:", achievementError);
+                    }
+                });
+            } catch (e) {
+                console.error("Error in populateAchievements:", e);
+            }
+        }
+
+        function showAchievementPopup(achievement) {
+            try {
+                const popup = document.getElementById('achievement-popup');
+                if (!popup) return;
+                
+                const title = popup.querySelector('.achievement-title');
+                const description = popup.querySelector('.achievement-description');
+                
+                if (title) title.textContent = `Achievement Unlocked: ${achievement.name}`;
+                if (description) description.textContent = achievement.description;
+                
+                popup.classList.add('show');
+                
+                // Auto-hide after 3 seconds
+                setTimeout(() => {
+                    try {
+                        popup.classList.remove('show');
+                    } catch (e) {
+                        console.error("Error hiding achievement popup:", e);
+                    }
+                }, 3000);
+            } catch (e) {
+                console.error("Error showing achievement popup:", e);
+            }
+        }
+
+        // --- Mini-Games ---
+        let miniGameActive = false;
+        let miniGameScore = 0;
+        let miniGameTimer = 0;
+        let miniGameInterval = null;
+
+        function startMiniGame(isFromGameOver = false) {
+            try {
+                console.log(`Starting mini-game (isFromGameOver: ${isFromGameOver})`);
+                
+                // Store the isFromGameOver flag in a global variable to ensure it's available later
+                window.miniGameIsFromGameOver = isFromGameOver;
+                
+                const miniGameContainer = document.getElementById('mini-game-container');
+                if (!miniGameContainer) {
+                    console.error("Mini-game container not found!");
+                    if (isFromGameOver) {
+                        switchState('gameover');
+                    }
+                    return;
+                }
+                
+                const miniGameArea = document.getElementById('mini-game-area');
+                if (!miniGameArea) {
+                    console.error("Mini-game area not found!");
+                    if (isFromGameOver) {
+                        switchState('gameover');
+                    }
+                    return;
+                }
+                
+                const miniGameTitle = miniGameContainer.querySelector('.mini-game-title');
+                const miniGameInstructions = miniGameContainer.querySelector('.mini-game-instructions');
+                
+                // Set different texts based on context
+                if (isFromGameOver) {
+                    if (miniGameTitle) miniGameTitle.textContent = 'Bonus Round!';
+                    if (miniGameInstructions) miniGameInstructions.textContent = 'Tap/click as many apples as you can in 10 seconds for bonus points!';
+                } else {
+                    if (miniGameTitle) miniGameTitle.textContent = 'Apple Chase Challenge!';
+                    if (miniGameInstructions) miniGameInstructions.textContent = 'Tap/click as many apples as you can in 10 seconds!';
+                }
+                
+                // Cancel any ongoing animation frames
+                if (animationFrameId) {
+                    try {
+                        cancelAnimationFrame(animationFrameId);
+                        animationFrameId = null;
+                    } catch (e) {
+                        console.error("Error canceling animation frame:", e);
+                    }
+                }
+                
+                // Clear any existing interval
+                if (miniGameInterval) {
+                    clearInterval(miniGameInterval);
+                    miniGameInterval = null;
+                }
+                
+                miniGameContainer.classList.add('active');
+                miniGameActive = true;
+                miniGameScore = 0;
+                miniGameTimer = 10; // 10 seconds
+                
+                // Clear previous game
+                miniGameArea.innerHTML = `
+                    <div id="mini-game-timer" aria-live="polite">10</div>
+                    <div id="mini-game-score" aria-live="polite">Score: 0</div>
+                `;
+                
+                // Create apples immediately
+                try {
+                    console.log("Creating apples in startMiniGame");
+                    createApples();
+                    
+                    // Verify apples were created
+                    const appleCount = miniGameArea.querySelectorAll('.mini-game-apple').length;
+                    console.log(`Created ${appleCount} apples`);
+                    
+                    // If no apples were created, try again
+                    if (appleCount === 0) {
+                        console.log("No apples created, trying again");
+                        setTimeout(() => {
+                            createApples();
+                        }, 100);
+                    }
+                } catch (e) {
+                    console.error("Error creating apples:", e);
+                }
+                
+                // Don't start timer automatically - let user click Start button
+                // This allows them to see the instructions before starting
+            } catch (e) {
+                console.error("Error starting mini-game:", e);
+                if (isFromGameOver) {
+                    switchState('gameover');
+                }
+            }
+        }
+
+        function createApples() {
+            try {
+                const miniGameArea = document.getElementById('mini-game-area');
+                if (!miniGameArea) {
+                    console.error("Mini-game area element not found!");
+                    return;
+                }
+                
+                const appleCount = isTouchDevice() ? 4 : 6; // Fewer apples on mobile for better UX
+                
+                for (let i = 0; i < appleCount; i++) {
+                    createApple();
+                }
+                
+                // Add touch event listeners for mobile
+                // Remove existing listeners first to avoid duplicates
+                miniGameArea.removeEventListener('touchstart', handleMiniGameTouch);
+                miniGameArea.removeEventListener('touchmove', handleMiniGameTouch);
+                
+                // Add both touchstart and touchmove for better responsiveness
+                if (isTouchDevice()) {
+                    miniGameArea.addEventListener('touchstart', handleMiniGameTouch, { passive: false });
+                    miniGameArea.addEventListener('touchmove', handleMiniGameTouch, { passive: false });
+                    
+                    console.log("Touch event listeners added for mini-game");
+                    
+                    // Make sure touch visual is more prominent
+                    document.querySelectorAll('.mini-game-apple').forEach(apple => {
+                        apple.style.width = '40px';  // Bigger targets for touch
+                        apple.style.height = '40px';
+                    });
+                }
+            } catch (e) {
+                console.error("Error in createApples:", e);
+            }
+        }
+
+        function createApple() {
+            try {
+                const miniGameArea = document.getElementById('mini-game-area');
+                if (!miniGameArea) {
+                    console.error("Mini-game area element not found!");
+                    return null;
+                }
+                
+                // Create the apple element
+                const apple = document.createElement('div');
+                apple.className = 'mini-game-apple';
+                
+                // Make sure apple is visible
+                apple.style.width = '30px'; // Slightly larger
+                apple.style.height = '30px';
+                apple.style.position = 'absolute';
+                apple.style.borderRadius = '50%';
+                apple.style.backgroundColor = foodColor;
+                apple.style.zIndex = '100'; // Ensure it's on top
+                apple.style.boxShadow = '0 0 5px rgba(0,0,0,0.5)'; // Add shadow for visibility
+                apple.style.cursor = 'pointer'; // Make clickable by default
+                apple.style.transition = 'transform 0.1s';
+                apple.style.opacity = '1'; // Fully visible by default
+                apple.dataset.clickable = 'true'; // Mark as clickable by default
+                
+                // Safely get dimensions
+                const areaWidth = miniGameArea.clientWidth || 300;
+                const areaHeight = miniGameArea.clientHeight || 200;
+                
+                // Position the apple with some padding from edges
+                const padding = 40;
+                apple.style.left = `${padding + Math.random() * (areaWidth - 30 - padding*2)}px`;
+                apple.style.top = `${padding + Math.random() * (areaHeight - 30 - padding*2)}px`;
+                
+                // Add hover effect
+                apple.addEventListener('mouseover', () => {
+                    if (apple.dataset.clickable === 'true') {
+                        apple.style.transform = 'scale(1.1)';
+                    }
+                });
+                
+                apple.addEventListener('mouseout', () => {
+                    apple.style.transform = 'scale(1)';
+                });
+                
+                // Add click handler
+                apple.addEventListener('click', (e) => {
+                    // Prevent event bubbling
+                    e.stopPropagation();
+                    
+                    // Increase score
+                    miniGameScore += 1;
+                    const scoreElement = document.getElementById('mini-game-score');
+                    if (scoreElement) {
+                        scoreElement.textContent = `Score: ${miniGameScore}`;
+                    }
+                    
+                    // Remove apple and create a new one
+                    if (apple.parentNode) {
+                        apple.parentNode.removeChild(apple);
+                    } else {
+                        console.warn("Apple has no parent node when clicked");
+                    }
+                    
+                    // Create a new apple
+                    try {
+                        createApple();
+                    } catch (e) {
+                        console.error("Error creating new apple:", e);
+                    }
+                    
+                    // Add visual effect
+                    try {
+                        const x = parseInt(apple.style.left) || 0;
+                        const y = parseInt(apple.style.top) || 0;
+                        createParticles(3, '🍎', {
+                            x: e.clientX,
+                            y: e.clientY
+                        }, miniGameArea);
+                        
+                        // Play sound if available
+                        try {
+                            if (audioReady && eatSound) {
+                                eatSound.triggerAttackRelease('C6', '32n', Tone.now());
+                            }
+                        } catch (soundError) {
+                            console.error("Error playing apple sound:", soundError);
+                        }
+                    } catch (particleError) {
+                        console.error("Error creating particles:", particleError);
+                    }
+                });
+                
+                // Add to mini-game area
+                safeAppendChild(miniGameArea, apple);
+                
+                return apple;
+            } catch (e) {
+                console.error("Error in createApple:", e);
+                return null;
+            }
+        }
+
+        function endMiniGame(isFromGameOver = false) {
+            try {
+                console.log("Ending mini-game, cleaning up resources...");
+                
+                // Use the stored global variable if available, otherwise use the parameter
+                // This ensures consistency between start and end of mini-game
+                isFromGameOver = window.miniGameIsFromGameOver || isFromGameOver;
+                console.log(`endMiniGame called with isFromGameOver: ${isFromGameOver}`);
+                
+                if (miniGameInterval) {
+                    clearInterval(miniGameInterval);
+                    miniGameInterval = null;
+                }
+                
+                const miniGameContainer = document.getElementById('mini-game-container');
+                if (miniGameContainer) {
+                    miniGameContainer.classList.remove('active');
+                }
+                
+                miniGameActive = false;
+                
+                // Award points based on mini-game score
+                const pointsEarned = miniGameScore * 2;
+                score += pointsEarned;
+                updateScoreDisplay();
+                
+                // Update achievement for mini-games
+                try {
+                    updateAchievement('apple_collector', miniGameScore);
+                    updateAchievement('mini_game_master', miniGameScore);
+                } catch (e) {
+                    console.error("Error updating achievements:", e);
+                }
+                
+                // Show celebration if player achieved a high mini-game score
+                if (miniGameScore >= 15) {
+                    try {
+                        createParticles(10, '🎮', {
+                            x: window.innerWidth / 2,
+                            y: window.innerHeight / 2
+                        });
+                        playAchievementSound();
+                    } catch (e) {
+                        console.error("Error creating celebration:", e);
+                    }
+                }
+                
+                showMessage(`Mini-game complete! Earned ${pointsEarned} points!`, 2000);
+                
+                // Save the final score to API again after mini-game points are added
+                if (username && score > 0) {
+                    try {
+                        // Use the stored finalTimeScore from window or from the regular variable
+                        const currentTimeScore = window.finalSnakeTimeScore || finalTimeScore;
+                        
+                        console.log(`Saving final score to API after mini-game: ${username}, ${score}, ${currentTimeScore}`);
+                        
+                        // Verify time score is a valid number
+                        if (isNaN(currentTimeScore) || typeof currentTimeScore !== 'number') {
+                            console.warn("Invalid time score detected in endMiniGame, using current game time");
+                            finalTimeScore = Math.floor((Date.now() - gameStartTime) / 1000);
+                        } else {
+                            finalTimeScore = currentTimeScore;
+                        }
+                        
+                        console.log(`Validated time score: ${finalTimeScore}`);
+                        
+                        saveScoreToAPI(username, score, finalTimeScore)
+                            .then(() => {
+                                console.log("Score saved successfully after mini-game");
+                            })
+                            .catch(err => {
+                                console.error("Error saving score after mini-game:", err);
+                            });
+                    } catch (e) {
+                        console.error("Error saving score after mini-game:", e);
+                    }
+                }
+                
+                // Make sure we always show the game over screen after a short delay
+                // This is important to prevent the game from getting stuck
+                setTimeout(() => {
+                    console.log(`Mini-game ended, isFromGameOver: ${isFromGameOver}`);
+                    
+                    if (isFromGameOver) {
+                        // Now show the game over screen
+                        console.log("Switching to gameover state");
+                        
+                        // Force game over state
+                        isGameOver = true;
+                        gameState = 'gameover';
+                        
+                        // Update the final score display to include mini-game points
+                        if (finalScoreElement) {
+                            finalScoreElement.textContent = `Score: ${score} | Time: ${formatTime(finalTimeScore)}`;
+                        }
+                        
+                        // Clear any stored flags
+                        window.miniGameIsFromGameOver = undefined;
+                        
+                        // Hide all overlays first to ensure a clean state
+                        document.querySelectorAll('.overlay').forEach(overlay => overlay.classList.remove('visible'));
+                        
+                        // Hide the mini-game container explicitly
+                        const miniGameContainer = document.getElementById('mini-game-container');
+                        if (miniGameContainer) {
+                            miniGameContainer.classList.remove('active');
+                        }
+                        
+                        // Directly call switchState to ensure the overlay is visible
+                        switchState('gameover');
+                        
+                        // Double-check the overlay is visible as a fallback
+                        setTimeout(() => {
+                            const gameOverOverlay = document.getElementById('game-over-overlay');
+                            if (gameOverOverlay && !gameOverOverlay.classList.contains('visible')) {
+                                console.log("Forcing game over overlay visibility");
+                                gameOverOverlay.classList.add('visible');
+                            }
+                            
+                            // Log the current state to help with debugging
+                            console.log("Game state after mini-game end: ", {
+                                gameState: gameState,
+                                isGameOver: isGameOver,
+                                isGameOverOverlayVisible: gameOverOverlay?.classList.contains('visible'),
+                                miniGameActive: miniGameActive
+                            });
+                            
+                            // Third safety check - direct DOM manipulation if needed
+                            if (gameState === 'gameover' && (!gameOverOverlay || !gameOverOverlay.classList.contains('visible'))) {
+                                console.warn("Game over screen still not visible! Using direct method.");
+                                // Try direct DOM manipulation
+                                document.querySelectorAll('.overlay').forEach(overlay => overlay.classList.remove('visible'));
+                                const gameOver = document.getElementById('game-over-overlay');
+                                if (gameOver) {
+                                    gameOver.classList.add('visible');
+                                    // Update player rank info if possible
+                                    loadLeaderboard().then(() => {
+                                        displayPlayerRank();
+                                    }).catch(e => console.error("Error loading leaderboard:", e));
+                                }
+                            }
+                        }, 100);
+                        
+                        // Update high score if needed
+                        try {
+                            if (score > highScore) {
+                                highScore = score;
+                                localStorage.setItem('snakeHighScore', score);
+                                showMessage("New High Score! 🎉", 3000);
+                            }
+                        } catch (e) {
+                            console.error("Error updating high score:", e);
+                        }
+                    } else if (gameState === 'playing') {
+                        // Resume main game if was playing
+                        startGameLoop();
+                    } else {
+                        // Fallback in case we're in an unknown state
+                        console.warn("Unknown game state when ending mini-game:", gameState);
+                        switchState('gameover');
+                    }
+                }, 1000); // Longer delay to ensure messages are visible and transition is smoother
+            } catch (e) {
+                console.error("Error in endMiniGame:", e);
+                // Ensure we at least transition to a valid state
+                gameState = 'gameover';
+                isGameOver = true;
+                
+                // Force switch to game over as a fallback
+                try {
+                    switchState('gameover');
+                    
+                    // Direct approach if switchState fails
+                    document.getElementById('game-over-overlay').classList.add('visible');
+                } catch (finalError) {
+                    console.error("Critical error showing game over screen:", finalError);
+                }
+            }
+        }
+
+        // --- Visual Effects ---
+        function createParticles(count, emoji, position = null, container = document.body) {
+            // Default position to center of screen if not provided
+            if (!position) {
+                position = {
+                    x: window.innerWidth / 2,
+                    y: window.innerHeight / 2
+                };
+            }
+            
+            // Ensure position has x and y properties
+            if (typeof position !== 'object' || position === null || typeof position.x !== 'number' || typeof position.y !== 'number') {
+                console.warn("Invalid position for particles, using default position");
+                position = {
+                    x: window.innerWidth / 2,
+                    y: window.innerHeight / 2
+                };
+            }
+            
+            for (let i = 0; i < count; i++) {
+                try {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.textContent = emoji || '✨'; // Default emoji if none provided
+                    
+                    const x = position.x + (Math.random() * 40 - 20);
+                    const y = position.y + (Math.random() * 40 - 20);
+                    
+                    particle.style.left = `${x}px`;
+                    particle.style.top = `${y}px`;
+                    
+                    // Random direction
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 1 + Math.random() * 3;
+                    const vx = Math.cos(angle) * speed;
+                    const vy = Math.sin(angle) * speed;
+                    
+                    // Store velocity
+                    particle.dataset.vx = vx;
+                    particle.dataset.vy = vy;
+                    
+                    // Add to container using our safe append function
+                    if (container && container.appendChild) {
+                        safeAppendChild(container, particle);
+                    } else {
+                        safeAppendChild(document.body, particle);
+                    }
+                    
+                    // Animate and remove after animation
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.parentNode.removeChild(particle);
+                        }
+                    }, 1000);
+                    
+                    // Move particles
+                    let animTime = 0;
+                    const moveParticle = (timestamp) => {
+                        if (!particle.parentNode) return;
+                        
+                        if (!animTime) animTime = timestamp;
+                        const elapsed = timestamp - animTime;
+                        animTime = timestamp;
+                        
+                        const currentX = parseFloat(particle.style.left);
+                        const currentY = parseFloat(particle.style.top);
+                        const vx = parseFloat(particle.dataset.vx);
+                        const vy = parseFloat(particle.dataset.vy) + 0.1; // Add gravity
+                        
+                        particle.style.left = `${currentX + vx}px`;
+                        particle.style.top = `${currentY + vy}px`;
+                        particle.dataset.vy = vy;
+                        
+                        // Fade out
+                        particle.style.opacity = parseFloat(particle.style.opacity || 1) - 0.02;
+                        
+                        if (parseFloat(particle.style.opacity) > 0) {
+                            requestAnimationFrame(moveParticle);
+                        }
+                    };
+                    
+                    requestAnimationFrame(moveParticle);
+                } catch (e) {
+                    console.error("Error creating particle:", e);
+                }
+            }
+        }
+
+        function playAchievementSound() {
+            if (audioReady && eatSound && Tone.context.state === 'running') {
+                try {
+                    // Play a C major chord for achievement
+                    eatSound.triggerAttackRelease('C4', '8n', Tone.now());
+                    setTimeout(() => {
+                        eatSound.triggerAttackRelease('E4', '8n', Tone.now());
+                    }, 100);
+                    setTimeout(() => {
+                        eatSound.triggerAttackRelease('G4', '8n', Tone.now());
+                    }, 200);
+                } catch (e) {
+                    console.error("Error playing achievement sound:", e);
+                }
+            }
+        }
+
+        // --- Modified Game Functions to Support New Features ---
+
+        // Update checkGameOver to handle ghost mode
+        function checkGameOver() { 
+            const head = snake[0]; 
+            if (!head) return true; 
+            
+            // If shield power-up is active or ghost mode, no collision death
+            if (activePowerUp && (activePowerUp.type === 'shield' || activePowerUp.type === 'ghost')) {
+                // Still need to check if snake is on the board
+                if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
+                    // Just wrap around the board for ghost mode
+                    if (activePowerUp.type === 'ghost') {
+                        if (head.x < 0) head.x = tileCount - 1;
+                        if (head.x >= tileCount) head.x = 0;
+                        if (head.y < 0) head.y = tileCount - 1;
+                        if (head.y >= tileCount) head.y = 0;
+                    } else {
+                        // For shield, just stop at edges
+                        if (head.x < 0) head.x = 0;
+                        if (head.x >= tileCount) head.x = tileCount - 1;
+                        if (head.y < 0) head.y = 0;
+                        if (head.y >= tileCount) head.y = tileCount - 1;
+                    }
+                    return false;
+                }
+                return false; // No death with shield or ghost
+            }
+            
+            // Standard collision checks
+            if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) return true; 
+            
+            for (let i = 1; i < snake.length; i++) { 
+                if (head.x === snake[i].x && head.y === snake[i].y) return true; 
+            } 
+            
+            if (obstacles.some(obs => obs.x === head.x && obs.y === head.y)) return true; 
+            
+            return false; 
+        }
+
+        // Update moveSnake to handle magnet power-up
+        function moveSnake() { 
+            if (dx === 0 && dy === 0) return; 
+            
+            const head = { x: snake[0].x + dx, y: snake[0].y + dy }; 
+            
+            // Check for portal teleportation
+            const portalEntered = checkPortalTeleport(head);
+            if (portalEntered) {
+                // Update achievement for portal usage
+                updateAchievement('portal_master', 1);
+                
+                // If teleported, update the head position
+                head.x = portalEntered.x;
+                head.y = portalEntered.y;
+            }
+            
+            snake.unshift(head); 
+            
+            // Handle magnet power-up
+            if (activePowerUp && activePowerUp.type === 'magnet') {
+                handleMagnetPowerUp(head);
+            }
+            
+            if (head.x === food.x && head.y === food.y) { 
+                handleFoodCollision(head);
+            } else { 
+                snake.pop(); 
+            } 
+            
+            // Check for power-up collection
+            checkPowerUpCollected();
+            // Check if active power-up has expired
+            checkPowerUpExpiry();
+            // Check speed boost status
+            checkSpeedBoostStatus();
+        }
+
+        // Extract magnet power-up logic to a separate function
+        function handleMagnetPowerUp(head) {
+            // Calculate distance to food
+            const dx = food.x - head.x;
+            const dy = food.y - head.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            // If food is within range (5 grid cells)
+            if (distance < 5) {
+                // Move food closer to snake head
+                const moveX = dx > 0 ? 1 : dx < 0 ? -1 : 0;
+                const moveY = dy > 0 ? 1 : dy < 0 ? -1 : 0;
+                
+                // Check if moving food would place it on an obstacle
+                const newFoodX = food.x - moveX;
+                const newFoodY = food.y - moveY;
+                
+                const isCollision = obstacles.some(o => o.x === newFoodX && o.y === newFoodY) || 
+                                   snake.some(s => s.x === newFoodX && s.y === newFoodY);
+                
+                if (!isCollision) {
+                    food.x = newFoodX;
+                    food.y = newFoodY;
+                }
+            }
+        }
+
+        // Extract food collision logic to a separate function
+        function handleFoodCollision(head) {
+            // Different points for different food types
+            let pointValue = 10; // Default
+            
+            switch(food.type) {
+                case 'golden':
+                    pointValue = 20;
+                    updateAchievement('golden_hunter', 1);
+                    break;
+                case 'small':
+                    pointValue = 5;
+                    break;
+                default:
+                    updateAchievement('first_apple', 1);
+                    updateAchievement('apple_collector', 1);
+                    break;
+            }
+            
+            score += pointValue; 
+            playEatSound(); 
+            updateScoreDisplay(); 
+            generateFood(); 
+            
+            // Check snake length achievement
+            if (snake.length >= 20) {
+                updateAchievement('long_snake', 1);
+            }
+            
+            if (gameSpeed > 60 && !activePowerUp && !speedBoostActive) gameSpeed -= 2; 
+            normalGameSpeed = gameSpeed; // Update normal speed
+            
+            // Create particles for visual effect
+            createParticles(3, '✨', {
+                x: head.x * gridSize + gridSize/2,
+                y: head.y * gridSize + gridSize/2
+            });
+        }
+
+        // Update activateSpeedBoost to track achievements
+        function activateSpeedBoost() {
+            if (speedBoostActive || speedBoostCooldown || gameState !== 'playing') {
+                return; // Already active or on cooldown
+            }
+            
+            // Update achievement
+            updateAchievement('speed_demon', 1);
+            
+            // Activate speed boost
+            speedBoostActive = true;
+            
+            // Remember normal speed to restore later
+            normalGameSpeed = gameSpeed;
+            
+            // Set boosted speed (60% faster)
+            gameSpeed = Math.max(30, Math.floor(gameSpeed * 0.4));
+            
+            // Set duration timer
+            speedBoostTimer = Date.now() + SPEED_BOOST_DURATION;
+            
+            // Show message
+            showMessage("Speed boost activated!", 1000);
+            
+            // Create particles for visual effect
+            createParticles(5, '⚡', {
+                x: snake[0].x * gridSize + gridSize/2,
+                y: snake[0].y * gridSize + gridSize/2
+            });
+            
+            // Add shake effect to game area
+            gameArea.classList.add('shake');
+            setTimeout(() => gameArea.classList.remove('shake'), 500);
+            
+            updateSpeedBoostButton();
+        }
+
+        // Update UI with achievements button
+        function updateUI() {
+            // Create achievement button if not exists
+            if (!document.getElementById('show-achievements-button')) {
+                const ui = document.getElementById('ui-container');
+                const achievementButton = document.createElement('button');
+                achievementButton.id = 'show-achievements-button';
+                achievementButton.innerHTML = '🏆';
+                achievementButton.style.marginLeft = '10px';
+                achievementButton.style.background = 'none';
+                achievementButton.style.border = '1px solid var(--primary-color)';
+                achievementButton.style.color = 'var(--primary-color)';
+                achievementButton.style.borderRadius = '50%';
+                achievementButton.style.width = '30px';
+                achievementButton.style.height = '30px';
+                achievementButton.style.display = 'flex';
+                achievementButton.style.alignItems = 'center';
+                achievementButton.style.justifyContent = 'center';
+                achievementButton.style.cursor = 'pointer';
+                achievementButton.title = 'Achievements';
+                
+                achievementButton.addEventListener('click', () => {
+                    populateAchievements();
+                    document.getElementById('achievements-overlay').classList.add('visible');
+                });
+                
+                ui.insertBefore(achievementButton, document.getElementById('speed-boost-button'));
+            }
+        }
+
+        // Add event listeners for mini-game and achievements
+        document.getElementById('mini-game-start').addEventListener('click', startMiniGame);
+        document.getElementById('mini-game-skip').addEventListener('click', function() {
+            try {
+                // Determine if we're coming from a game over state
+                const isFromGameOver = gameState !== 'playing';
+                console.log(`Skipping mini-game (isFromGameOver: ${isFromGameOver})`);
+                
+                // Use the endMiniGame function to properly handle this
+                endMiniGame(isFromGameOver);
+            } catch (e) {
+                console.error("Error skipping mini-game:", e);
+                if (gameState !== 'playing') {
+                    switchState('gameover');
+                }
+            }
+        });
+
+        document.getElementById('close-achievements-button').addEventListener('click', () => {
+            document.getElementById('achievements-overlay').classList.remove('visible');
+        });
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log("DOM Content Loaded - Initializing game");
+            
+            // Check if API is reachable
+            const isApiReachable = await checkApiEndpoint();
+            console.log(`API reachable: ${isApiReachable}`);
+            
+            // Generate a fallback leaderboard JSON file if needed
+            const createLeaderboardLink = document.createElement('button');
+            createLeaderboardLink.textContent = 'Download Sample Leaderboard';
+            createLeaderboardLink.style.position = 'fixed';
+            createLeaderboardLink.style.bottom = '10px';
+            createLeaderboardLink.style.right = '10px';
+            createLeaderboardLink.style.fontSize = '10px';
+            createLeaderboardLink.style.padding = '5px';
+            createLeaderboardLink.style.zIndex = '1000';
+            createLeaderboardLink.style.opacity = '0.5';
+            createLeaderboardLink.addEventListener('click', createLocalLeaderboardFile);
+            document.body.appendChild(createLeaderboardLink);
+            
+            // Set up audio
+            try {
+                initAudio();
+            } catch (e) {
+                console.warn("Could not initialize audio:", e);
+            }
+            
+            // Initialize achievements and UI
+            updateUI();
+        });
+
+        // Update the game over handling to show mini-game as a bonus
+        function handleGameOver() {
+            if (isGameOver) return; // Prevent multiple calls
+            
+            console.log("handleGameOver called - game is ending");
+            
+            isGameOver = true;
+            dx = 0;
+            dy = 0;
+            
+            try {
+                // CRITICAL TIME SCORE CALCULATION
+                // First ensure gameStartTime was set
+                if (!gameStartTime || isNaN(gameStartTime)) {
+                    console.warn("gameStartTime was not set properly!");
+                    gameStartTime = Date.now() - 60000; // Assume at least 1 minute of play
+                }
+                
+                // Calculate final time score - try all possible sources in order of reliability
+                let calculatedTimeScore = Math.floor((Date.now() - gameStartTime) / 1000);
+                
+                // First try window.lastKnownTimeScore (continuously updated by timer)
+                if (window.lastKnownTimeScore && typeof window.lastKnownTimeScore === 'number') {
+                    finalTimeScore = Math.max(1, window.lastKnownTimeScore);
+                    console.log(`Using lastKnownTimeScore: ${finalTimeScore}`);
+                } 
+                // Then try timerElement's data attribute (if available)
+                else if (timerElement && timerElement.getAttribute('data-seconds')) {
+                    const dataSeconds = parseInt(timerElement.getAttribute('data-seconds'), 10);
+                    if (!isNaN(dataSeconds) && dataSeconds > 0) {
+                        finalTimeScore = dataSeconds;
+                        console.log(`Using timer data attribute: ${finalTimeScore}`);
+                    } else {
+                        finalTimeScore = Math.max(1, calculatedTimeScore);
+                        console.log(`Using calculated time: ${finalTimeScore}`);
+                    }
+                } 
+                // Finally fall back to direct calculation
+                else {
+                    finalTimeScore = Math.max(1, calculatedTimeScore);
+                    console.log(`Using calculated time: ${finalTimeScore}`);
+                }
+                
+                // Ensure finalTimeScore is at least 1 second and is an integer
+                finalTimeScore = Math.max(1, Math.floor(finalTimeScore));
+                
+                // CRUCIAL: Save to multiple locations for redundancy
+                window.finalSnakeTimeScore = finalTimeScore;
+                window.lastKnownTimeScore = finalTimeScore;
+                
+                console.log(`Game over - Final time: ${finalTimeScore} seconds (type: ${typeof finalTimeScore})`);
+                
+                // Play game over sound
+                playGameOverSound();
+                
+                // CRITICAL: Save score to API if username exists
+                if (username) {
+                    console.log(`Calling saveScoreToAPI with name=${username}, score=${score}, time=${finalTimeScore}`);
+                    saveScoreToAPI(username, score, finalTimeScore);
+                }
+                
+                // Update high score if needed
+                if (score > highScore) {
+                    highScore = score; 
+                    localStorage.setItem('snakeHighScore', score);
+                    showMessage("New High Score! 🎉", 3000);
+                }
+                
+                // Show game over screen with final score and time
+                if (finalScoreElement) {
+                    finalScoreElement.textContent = `Score: ${score} | Time: ${formatTime(finalTimeScore)}`;
+                }
+                
+                // Check if we should show mini-game
+                const shouldShowMiniGame = Math.random() < 0.75; // Increased chance to 75% for testing
+                
+                console.log("Game Over - preparing to show game over screen");
+                console.log(`Should show mini-game: ${shouldShowMiniGame}`);
+                
+                // Make sure we're in a consistent state
+                gameState = 'gameover';
+                
+                if (shouldShowMiniGame) {
+                    // First, explicitly hide all overlays to avoid state conflicts
+                    document.querySelectorAll('.overlay').forEach(overlay => {
+                        overlay.classList.remove('visible');
+                    });
+                    
+                    console.log("Starting mini-game from game over");
+                    
+                    // Clear any previous mini-game state
+                    miniGameActive = false;
+                    if (miniGameInterval) {
+                        clearInterval(miniGameInterval);
+                        miniGameInterval = null;
+                    }
+                    
+                    // Briefly show a message to prepare the user
+                    showMessage("Bonus mini-game coming up!", 1500);
+                    
+                    // Start the mini-game with a delay to ensure clean state transition
+                    setTimeout(() => {
+                        startMiniGame(true);
+                    }, 500);
+                } else {
+                    console.log("No mini-game, showing game over screen directly");
+                    switchState('gameover');
+                    
+                    // Update leaderboard info if possible
+                    try {
+                        loadLeaderboard().then(() => {
+                            displayPlayerRank();
+                        });
+                    } catch (e) {
+                        console.error("Error loading leaderboard in game over:", e);
+                    }
+                }
+            } catch (e) {
+                console.error("Error in game over flow:", e);
+                // Make sure we always show the game over screen as fallback
+                switchState('gameover');
+            }
+        }
+
+        // Helper function to safely show game over screen
+        function safelyShowGameOver() {
+            try {
+                console.log("Safely showing game over screen");
+                
+                // Ensure we're in the game over state
+                switchState('gameover');
+                
+                // Also make sure the overlay is visible, as a fallback
+                const gameOverOverlay = document.getElementById('game-over-overlay');
+                if (gameOverOverlay) {
+                    gameOverOverlay.classList.add('visible');
+                    
+                    // Make sure the final score is set
+                    const finalScore = document.getElementById('final-score');
+                    if (finalScore) {
+                        finalScore.textContent = `Score: ${score}`;
+                    }
+                } else {
+                    console.error("Game over overlay not found!");
+                }
+            } catch (error) {
+                console.error("Critical error showing game over screen:", error);
+                
+                // Direct attempt to show the game over overlay as last resort
+                try {
+                    document.getElementById('game-over-overlay').classList.add('visible');
+                } catch (finalError) {
+                    console.error("Failed to show game over screen:", finalError);
+                }
+            }
+        }
+
+        // Handle mini-game touch events
+        function handleMiniGameTouch(e) {
+            // Prevent default to avoid scrolling but don't prevent all other events
+            e.preventDefault();
+            
+            const miniGameArea = document.getElementById('mini-game-area');
+            if (!miniGameArea) {
+                console.error("Mini-game area not found in touch handler!");
+                return;
+            }
+            
+            try {
+                const rect = miniGameArea.getBoundingClientRect();
+                
+                // Process each touch point
+                for (let i = 0; i < e.touches.length; i++) {
+                    // Get touch coordinates
+                    const touchX = e.touches[i].clientX - rect.left;
+                    const touchY = e.touches[i].clientY - rect.top;
+                    
+                    console.log(`Touch detected at ${touchX}, ${touchY}`);
+                    
+                    // Check if any apple was touched
+                    const apples = miniGameArea.querySelectorAll('.mini-game-apple');
+                    let appleTouched = false;
+                    
+                    apples.forEach(apple => {
+                        try {
+                            if (apple.dataset.clickable !== 'true') {
+                                return;
+                            }
+                            
+                            const appleRect = apple.getBoundingClientRect();
+                            const appleRelativeRect = {
+                                left: appleRect.left - rect.left,
+                                top: appleRect.top - rect.top,
+                                right: appleRect.right - rect.left,
+                                bottom: appleRect.bottom - rect.top
+                            };
+                            
+                            // Increase hit area for better touch experience
+                            const touchMargin = 10;
+                            
+                            if (touchX >= (appleRelativeRect.left - touchMargin) && 
+                                touchX <= (appleRelativeRect.right + touchMargin) &&
+                                touchY >= (appleRelativeRect.top - touchMargin) && 
+                                touchY <= (appleRelativeRect.bottom + touchMargin)) {
+                                
+                                console.log("Apple touched!");
+                                appleTouched = true;
+                                
+                                // Remove from parent to prevent double-clicking
+                                if (apple.parentNode) {
+                                    apple.parentNode.removeChild(apple);
+                                } else {
+                                    console.warn("Apple has no parent node when clicked");
+                                }
+                                
+                                // Increase score
+                                miniGameScore += 1;
+                                const scoreElement = document.getElementById('mini-game-score');
+                                if (scoreElement) {
+                                    scoreElement.textContent = `Score: ${miniGameScore}`;
+                                }
+                                
+                                // Create a new apple
+                                try {
+                                    createApple();
+                                } catch (e) {
+                                    console.error("Error creating new apple:", e);
+                                }
+                                
+                                // Add visual effect
+                                try {
+                                    createParticles(3, '🍎', {
+                                        x: e.touches[i].clientX,
+                                        y: e.touches[i].clientY
+                                    }, miniGameArea);
+                                    
+                                    // Play sound if available
+                                    try {
+                                        if (audioReady && eatSound) {
+                                            eatSound.triggerAttackRelease('C6', '32n', Tone.now());
+                                        }
+                                    } catch (soundError) {
+                                        console.error("Error playing apple sound:", soundError);
+                                    }
+                                } catch (particleError) {
+                                    console.error("Error creating particles:", particleError);
+                                }
+                            }
+                        } catch (appleError) {
+                            console.error("Error handling apple touch:", appleError);
+                        }
+                    });
+                }
+            } catch (touchError) {
+                console.error("Error handling touch:", touchError);
+            }
+        }
+
+        // Update particle creation to work in different containers
+        function createParticles(count, emoji, position = null, container = document.body) {
+            // Default position to center of screen if not provided
+            if (!position) {
+                position = {
+                    x: window.innerWidth / 2,
+                    y: window.innerHeight / 2
+                };
+            }
+            
+            // Ensure position has x and y properties
+            if (typeof position !== 'object' || position === null || typeof position.x !== 'number' || typeof position.y !== 'number') {
+                console.warn("Invalid position for particles, using default position");
+                position = {
+                    x: window.innerWidth / 2,
+                    y: window.innerHeight / 2
+                };
+            }
+            
+            for (let i = 0; i < count; i++) {
+                try {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.textContent = emoji || '✨'; // Default emoji if none provided
+                    
+                    const x = position.x + (Math.random() * 40 - 20);
+                    const y = position.y + (Math.random() * 40 - 20);
+                    
+                    particle.style.left = `${x}px`;
+                    particle.style.top = `${y}px`;
+                    
+                    // Random direction
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 1 + Math.random() * 3;
+                    const vx = Math.cos(angle) * speed;
+                    const vy = Math.sin(angle) * speed;
+                    
+                    // Store velocity
+                    particle.dataset.vx = vx;
+                    particle.dataset.vy = vy;
+                    
+                    // Add to container using our safe append function
+                    if (container && container.appendChild) {
+                        safeAppendChild(container, particle);
+                    } else {
+                        safeAppendChild(document.body, particle);
+                    }
+                    
+                    // Animate and remove after animation
+                    setTimeout(() => {
+                        if (particle.parentNode) {
+                            particle.parentNode.removeChild(particle);
+                        }
+                    }, 1000);
+                    
+                    // Move particles
+                    let animTime = 0;
+                    const moveParticle = (timestamp) => {
+                        if (!particle.parentNode) return;
+                        
+                        if (!animTime) animTime = timestamp;
+                        const elapsed = timestamp - animTime;
+                        animTime = timestamp;
+                        
+                        const currentX = parseFloat(particle.style.left);
+                        const currentY = parseFloat(particle.style.top);
+                        const vx = parseFloat(particle.dataset.vx);
+                        const vy = parseFloat(particle.dataset.vy) + 0.1; // Add gravity
+                        
+                        particle.style.left = `${currentX + vx}px`;
+                        particle.style.top = `${currentY + vy}px`;
+                        particle.dataset.vy = vy;
+                        
+                        // Fade out
+                        particle.style.opacity = parseFloat(particle.style.opacity || 1) - 0.02;
+                        
+                        if (parseFloat(particle.style.opacity) > 0) {
+                            requestAnimationFrame(moveParticle);
+                        }
+                    };
+                    
+                    requestAnimationFrame(moveParticle);
+                } catch (e) {
+                    console.error("Error creating particle:", e);
+                }
+            }
+        }
+
+        // Enhanced event listener for mobile to ensure mini-game works properly
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize achievements
+            populateAchievements();
+            
+            // Make sure mini-game works on mobile
+            const miniGameArea = document.getElementById('mini-game-area');
+            const gameArea = document.getElementById('gameCanvas');
+            
+            // Improve rendering for high-DPI screens
+            setupHighDPICanvas();
+            
+            // Set up mini-game buttons
+            setupMiniGameControls();
+            
+            // Set up enhanced touch controls for mobile
+            if (isTouchDevice()) {
+                setupTouchControls();
+            }
+        });
+
+        // Setup high-DPI canvas for better mobile display
+        function setupHighDPICanvas() {
+            const canvas = document.getElementById('gameCanvas');
+            const dpr = window.devicePixelRatio || 1;
+            
+            // Get the original canvas dimensions from CSS
+            const originalWidth = canvas.clientWidth;
+            const originalHeight = canvas.clientHeight;
+            
+            // Set the canvas dimensions accounting for device pixel ratio
+            canvas.width = originalWidth * dpr;
+            canvas.height = originalHeight * dpr;
+            
+            // Scale the context to ensure correct drawing operations
+            ctx.scale(dpr, dpr);
+            
+            // Set the CSS dimensions back to original
+            canvas.style.width = `${originalWidth}px`;
+            canvas.style.height = `${originalHeight}px`;
+        }
+
+        // Setup mini-game control buttons for better mobile experience
+        function setupMiniGameControls() {
+            const startButton = document.getElementById('mini-game-start');
+            const skipButton = document.getElementById('mini-game-skip');
+            
+            // Make buttons larger and more visible for mobile
+            if (isTouchDevice()) {
+                if (startButton) {
+                    startButton.style.fontSize = '18px';
+                    startButton.style.padding = '15px 25px';
+                    startButton.style.margin = '10px';
+                }
+                
+                if (skipButton) {
+                    skipButton.style.fontSize = '18px';
+                    skipButton.style.padding = '15px 25px';
+                    skipButton.style.margin = '10px';
+                }
+                
+                // Make the mini-game container larger on mobile
+                const miniGameContainer = document.getElementById('mini-game-container');
+                if (miniGameContainer) {
+                    miniGameContainer.style.fontSize = '1.2em';
+                }
+            }
+            
+            if (startButton) {
+                startButton.addEventListener('click', function() {
+                    try {
+                        console.log("Start button clicked, current game state:", gameState);
+                        
+                        const miniGameArea = document.getElementById('mini-game-area');
+                        if (!miniGameArea) {
+                            console.error("Mini-game area not found!");
+                            return;
+                        }
+                        
+                        miniGameArea.focus();
+                        
+                        // Clear existing apples first
+                        miniGameArea.querySelectorAll('.mini-game-apple').forEach(apple => {
+                            try {
+                                if (apple.parentNode) {
+                                    apple.parentNode.removeChild(apple);
+                                }
+                            } catch (e) {
+                                console.error("Error removing apple:", e);
+                            }
+                        });
+                        
+                        // Reset timer and score
+                        miniGameTimer = 10;
+                        miniGameScore = 0;
+                        
+                        // Update UI
+                        const timerElement = document.getElementById('mini-game-timer');
+                        const scoreElement = document.getElementById('mini-game-score');
+                        
+                        if (timerElement) {
+                            timerElement.textContent = miniGameTimer;
+                        }
+                        
+                        if (scoreElement) {
+                            scoreElement.textContent = `Score: ${miniGameScore}`;
+                        }
+                        
+                        // Clear any existing interval
+                        if (miniGameInterval) {
+                            clearInterval(miniGameInterval);
+                        }
+                        
+                        // Create new apples
+                        try {
+                            createApples();
+                            
+                            // Enable clicking on apples
+                            miniGameArea.querySelectorAll('.mini-game-apple').forEach(apple => {
+                                apple.style.cursor = 'pointer';
+                                apple.style.opacity = '1';
+                                apple.dataset.clickable = 'true';
+                            });
+                        } catch (e) {
+                            console.error("Error creating apples:", e);
+                        }
+                        
+                        // Store whether we're coming from game over for later use
+                        const isFromGameOver = gameState === 'gameover';
+                        
+                        // Start new timer interval
+                        miniGameInterval = setInterval(() => {
+                            try {
+                                miniGameTimer--;
+                                const timerElement = document.getElementById('mini-game-timer');
+                                if (timerElement) {
+                                    timerElement.textContent = miniGameTimer;
+                                }
+                                
+                                if (miniGameTimer <= 0) {
+                                    // Use the stored value from when the timer started
+                                    endMiniGame(isFromGameOver);
+                                }
+                            } catch (e) {
+                                console.error("Error in mini-game timer:", e);
+                                clearInterval(miniGameInterval);
+                                // Use the stored value from when the timer started
+                                endMiniGame(isFromGameOver);
+                            }
+                        }, 1000);
+                    } catch (e) {
+                        console.error("Error handling start button click:", e);
+                    }
+                });
+            }
+            
+            if (skipButton) {
+                skipButton.addEventListener('click', function() {
+                    try {
+                        console.log("Skip button clicked, current game state:", gameState);
+                        
+                        // When skipping, set mini-game score to 0
+                        miniGameScore = 0;
+                        
+                        // Always end the mini-game with isFromGameOver=true when skipping
+                        // This ensures we go to game over screen
+                        endMiniGame(true);
+                        
+                        // Force a transition to game over state after a short delay
+                        setTimeout(() => {
+                            console.log("Forcing transition to game over after skip");
+                            switchState('gameover');
+                        }, 300);
+                    } catch (e) {
+                        console.error("Error handling skip button click:", e);
+                        // Last resort fallback to ensure game over is shown
+                        switchState('gameover');
+                    }
+                });
+            }
+        }
+
+        // Enhance touchscreen controls for better mobile experience
+        function setupTouchControls() {
+            if (!isTouchDevice()) return;
+            
+            // Make directional buttons more visible on mobile
+            const controlButtons = document.querySelectorAll('.control-button');
+            controlButtons.forEach(button => {
+                button.style.opacity = '0.7';
+                button.style.width = '60px';
+                button.style.height = '60px';
+            });
+            
+            // Make speed boost button more visible on mobile
+            const speedBoostButton = document.getElementById('speed-boost-button');
+            if (speedBoostButton) {
+                speedBoostButton.style.width = '70px';
+                speedBoostButton.style.height = '70px';
+                speedBoostButton.style.fontSize = '16px';
+            }
+        }
+
+        // Add this function to detect touch devices
+        function isTouchDevice() {
+            return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+        }
+
+        // Update init function to set up touch controls
+        function initGame() {
+            score = 0;
+            isGameOver = false;
+            lastUpdateTime = 0;
+            accumulatedTime = 0;
+            snake = [
+                { x: Math.floor(tileCount / 2), y: Math.floor(tileCount / 2) }
+            ];
+            dx = 0;
+            dy = 0;
+            
+            // Reset speed
+            gameSpeed = initialGameSpeed;
+            normalGameSpeed = gameSpeed;
+            
+            speedBoostActive = false;
+            speedBoostCooldown = false;
+            
+            // Reset power-ups
+            activePowerUp = null;
+            powerUps = [];
+            generatePowerUp();
+            
+            // Generate obstacles
+            generateObstacles();
+            
+            // Generate portals
+            generatePortals();
+            
+            // Generate initial food
+            generateFood();
+            
+            // Set up mobile controls if on touch device
+            if (isTouchDevice()) {
+                setupTouchControls();
+            }
+            
+            // Update UI
+            updateUI();
+            
+            // Hide game over screen
+            document.getElementById('game-over-overlay').classList.remove('visible');
+
+            // Show game board
+            switchState('playing');
+            
+            // Start game loop
+            startGameLoop();
+        }
+
+        // Ensure we call setupTouchControls on window load in addition to init
+        window.addEventListener('load', function() {
+            // Initialize the high-DPI canvas
+            setupHighDPICanvas();
+            
+            // Set up touch controls if on a touch device
+            if (isTouchDevice()) {
+                setupTouchControls();
+            }
+            
+            // Initialize achievements if not already done
+            if (!document.getElementById('achievements-list').children.length) {
+                populateAchievements();
+            }
+            
+            // Set up mini-game controls
+            setupMiniGameControls();
+        });
+
+        // Extract power-up drawing to a separate function
+        function drawPowerUps() {
+            if (!powerUps || powerUps.length === 0) return;
+            
+            powerUps.forEach(powerUp => {
+                const x = powerUp.x * gridSize;
+                const y = powerUp.y * gridSize;
+                const radius = gridSize / 2;
+                
+                // Draw colored circle
+                ctx.fillStyle = powerUp.color;
+                ctx.beginPath();
+                ctx.arc(x + radius, y + radius, radius * 0.7, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Add a glowing effect
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.beginPath();
+                ctx.arc(x + radius * 0.7, y + radius * 0.7, radius * 0.3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Add pulsing animation
+                const pulseScale = 1 + Math.sin(Date.now() * 0.01) * 0.1;
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(x + radius, y + radius, radius * 0.9 * pulseScale, 0, Math.PI * 2);
+                ctx.stroke();
+            });
+        }
+
+        // Ensure resources load properly with error handling
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize achievements with error handling
+            try {
+                populateAchievements();
+            } catch (e) {
+                console.error("Error initializing achievements:", e);
+            }
+            
+            // Make sure mini-game works on mobile
+            const miniGameArea = document.getElementById('mini-game-area');
+            const gameCanvas = document.getElementById('gameCanvas');
+            
+            // Improve rendering for high-DPI screens
+            try {
+                if (gameCanvas) {
+                    setupHighDPICanvas();
+                }
+            } catch (e) {
+                console.error("Error setting up high-DPI canvas:", e);
+            }
+            
+            // Set up mini-game buttons
+            try {
+                setupMiniGameControls();
+            } catch (e) {
+                console.error("Error setting up mini-game controls:", e);
+            }
+            
+            // Set up enhanced touch controls for mobile
+            try {
+                if (isTouchDevice()) {
+                    setupTouchControls();
+                }
+            } catch (e) {
+                console.error("Error setting up touch controls:", e);
+            }
+            
+            // Handle CORS errors for manifest and other resources
+            window.addEventListener('error', function(e) {
+                if (e.target && (e.target.tagName === 'LINK' || e.target.tagName === 'SCRIPT' || e.target.tagName === 'IMG')) {
+                    console.warn('Resource loading error:', e.target.src || e.target.href);
+                    // Don't let resource loading failures break the game
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }, true);
+        });
+
+        // Fix HierarchyRequestError when appending elements
+        function safeAppendChild(parent, child) {
+            if (!parent || !child) return;
+            
+            try {
+                // Check if the child is already a child of the parent
+                if (!parent.contains(child)) {
+                    parent.appendChild(child);
+                }
+            } catch (e) {
+                console.error("Error appending child:", e);
+            }
+        }
+
+        // Fix errors with favicon and other resources
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle resource loading errors
+            window.addEventListener('error', function(e) {
+                // Check if this is a resource loading error (not a JavaScript error)
+                if (e.target && (e.target.tagName === 'LINK' || e.target.tagName === 'SCRIPT' || e.target.tagName === 'IMG')) {
+                    // Prevent error from showing in console
+                    e.preventDefault();
+                    console.warn('Resource loading suppressed:', e.target.src || e.target.href);
+                    return true;
+                }
+            }, true);
+            
+            // Create a data URI favicon if it fails to load
+            const links = document.querySelectorAll('link[rel*="icon"]');
+            links.forEach(link => {
+                link.onerror = function() {
+                    // Create a simple colored square as backup favicon
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 16;
+                    canvas.height = 16;
+                    const ctx = canvas.getContext('2d');
+                    ctx.fillStyle = '#5bbad5';
+                    ctx.fillRect(0, 0, 16, 16);
+                    link.href = canvas.toDataURL();
+                };
+            });
+        });
+
+        // Safe method to append a child to prevent hierarchy errors
+        function safeAppendChild(parent, child) {
+            try {
+                // Check if parent and child exist
+                if (!parent || !child) {
+                    console.warn("Invalid parent or child element");
+                    
+                    // If parent doesn't exist but child does, try to add to body as fallback
+                    if (!parent && child && document.body) {
+                        document.body.appendChild(child);
+                        return true;
+                    }
+                    return false;
+                }
+                
+                // Check if child is already a child of parent (avoid duplicate append)
+                if (child.parentNode === parent) {
+                    return true;
+                }
+                
+                // Try to append
+                parent.appendChild(child);
+                return true;
+            } catch (e) {
+                console.error("Error in safeAppendChild:", e);
+                
+                // Try to append to body as fallback
+                try {
+                    if (child && document.body) {
+                        document.body.appendChild(child);
+                        return true;
+                    }
+                } catch (innerError) {
+                    console.error("Failed fallback append to body:", innerError);
+                }
+                
+                return false;
+            }
+        }
+
+        // Update DOM initialization code to use safeAppendChild
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // Initialize achievements
+                populateAchievements();
+                
+                // Improve rendering for high-DPI screens
+                try {
+                    setupHighDPICanvas();
+                } catch (e) {
+                    console.error("Error setting up high DPI canvas:", e);
+                }
+                
+                // Set up mini-game buttons
+                try {
+                    setupMiniGameControls();
+                } catch (e) {
+                    console.error("Error setting up mini-game controls:", e);
+                }
+                
+                // Set up enhanced touch controls for mobile
+                if (isTouchDevice()) {
+                    try {
+                        setupTouchControls();
+                    } catch (e) {
+                        console.error("Error setting up touch controls:", e);
+                    }
+                }
+                
+                // Set global error handler for resources
+                window.addEventListener('error', function(e) {
+                    // Suppress console errors for resources that fail to load
+                    if (e.target && (e.target.tagName === 'LINK' || e.target.tagName === 'SCRIPT' || e.target.tagName === 'IMG')) {
+                        console.warn(`Resource failed to load: ${e.target.src || e.target.href}`);
+                        e.preventDefault();
+                        return true;
+                    }
+                }, true);
+            } catch (e) {
+                console.error("Error in DOMContentLoaded:", e);
+            }
+        });
+
+        // Function to update the timer display
+        function updateTimerDisplay() {
+            // Only update timer if we're playing
+            if (gameState !== 'playing') return;
+            
+            try {
+                if (!gameStartTime) {
+                    console.warn("gameStartTime not set, initializing now");
+                    gameStartTime = Date.now();
+                }
+                
+                // Calculate elapsed time
+                const currentTime = Date.now();
+                gameElapsedTime = currentTime - gameStartTime;
+                const elapsedSeconds = Math.floor(gameElapsedTime / 1000);
+                
+                // Format time as MM:SS
+                const minutes = Math.floor(elapsedSeconds / 60);
+                const seconds = elapsedSeconds % 60;
+                const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Update timer display
+                if (timerElement) {
+                    timerElement.textContent = formattedTime;
+                    
+                    // Store raw seconds in data attribute for debugging
+                    timerElement.setAttribute('data-seconds', elapsedSeconds);
+                }
+                
+                // IMPORTANT: Update finalTimeScore continuously during gameplay
+                // This ensures it's always available, even if handleGameOver doesn't run properly
+                finalTimeScore = elapsedSeconds;
+                
+                // Store in window variable as backup
+                window.lastKnownTimeScore = elapsedSeconds;
+                
+                // Log time every 10 seconds for debugging
+                if (elapsedSeconds % 10 === 0 && elapsedSeconds > 0) {
+                    console.log(`Game time: ${formattedTime} (${elapsedSeconds} seconds)`);
+                }
+            } catch (e) {
+                console.error("Error updating timer:", e);
+            }
+        }
+
+        // Format time as MM:SS
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function createLocalLeaderboardFile() {
+            try {
+                const sampleData = {
+                    success: true,
+                    results: [
+                        { name: "PLAYER1", score_value: 100, time_score: 120 },
+                        { name: "PLAYER2", score_value: 80, time_score: 150 },
+                        { name: "PLAYER3", score_value: 60, time_score: 200 },
+                        { name: "PLAYER4", score_value: 40, time_score: 180 },
+                        { name: "PLAYER5", score_value: 20, time_score: 220 }
+                    ]
+                };
+                
+                // Create a downloadable JSON file
+                const dataStr = JSON.stringify(sampleData, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                
+                // Create download link
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'leaderboard.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                
+                console.log("Sample leaderboard.json file created. Please place it in your server root directory.");
+            } catch (e) {
+                console.error("Error creating sample leaderboard file:", e);
+            }
+        }
+
+        // --- Initialization Functions --- (Audio unchanged)
+        function initAudio() {
+            if (audioReady || typeof Tone === 'undefined') {
+                return;
+            }
+            
+            try {
+                eatSound = new Tone.Synth({
+                    oscillator: { type: 'triangle' },
+                    envelope: { attack: 0.01, decay: 0.1, sustain: 0.1, release: 0.1 }
+                }).toDestination();
+                
+                gameOverSound = new Tone.NoiseSynth({
+                    noise: { type: 'brown' },
+                    envelope: { attack: 0.05, decay: 0.5, sustain: 0, release: 0.2 }
+                }).toDestination();
+                
+                if (Tone.context.state !== 'running') {
+                    if (!window.toneStartedPromise) {
+                        window.toneStartedPromise = Tone.start();
+                    }
+                    
+                    window.toneStartedPromise.then(() => {
+                        audioReady = true;
+                    }).catch(e => {
+                        console.error("Tone.start() failed:", e);
+                        audioReady = false;
+                    }).finally(() => {
+                        window.toneStartedPromise = null;
+                    });
+                } else {
+                    audioReady = true;
+                }
+            } catch (e) {
+                console.error("Error setting up Tone.js sounds:", e);
+                audioReady = false;
+            }
+        }
+
+        function playEatSound() {
+            if (audioReady && eatSound && Tone.context.state === 'running') {
+                try {
+                    eatSound.triggerAttackRelease('C5', '8n', Tone.now());
+                } catch (e) {
+                    console.error("Error playing eat sound:", e);
+                }
+            }
+        }
+
+        function playGameOverSound() {
+            if (audioReady && gameOverSound && Tone.context.state === 'running') {
+                try {
+                    gameOverSound.triggerAttackRelease('1n', Tone.now());
+                } catch (e) {
+                    console.error("Error playing game over sound:", e);
+                }
+            }
+        }
+
+        // Add a forcibly show game over function that can be called as a last resort
+        function forceGameOverScreen() {
+            console.log("Forcing game over screen to appear");
+            
+            try {
+                // Set correct game state
+                isGameOver = true;
+                gameState = 'gameover';
+                
+                // Cancel any ongoing animation or timers
+                if (animationFrameId) {
+                    cancelAnimationFrame(animationFrameId);
+                    animationFrameId = null;
+                }
+                
+                if (miniGameInterval) {
+                    clearInterval(miniGameInterval);
+                    miniGameInterval = null;
+                }
+                
+                // Reset mini-game state
+                miniGameActive = false;
+                const miniGameContainer = document.getElementById('mini-game-container');
+                if (miniGameContainer) {
+                    miniGameContainer.classList.remove('active');
+                }
+                
+                // Clear any global variables
+                window.miniGameIsFromGameOver = undefined;
+                window.isLeaderboardFunctionCalling = false;
+                
+                // Hide ALL overlays first to ensure clean state
+                document.querySelectorAll('.overlay').forEach(overlay => {
+                    overlay.classList.remove('visible');
+                });
+                
+                // Update final score display
+                if (finalScoreElement) {
+                    finalScoreElement.textContent = `Score: ${score} | Time: ${formatTime(finalTimeScore)}`;
+                }
+                
+                // Show game over overlay
+                const gameOverOverlay = document.getElementById('game-over-overlay');
+                if (gameOverOverlay) {
+                    gameOverOverlay.classList.add('visible');
+                    console.log("Game over overlay made visible");
+                } else {
+                    console.error("CRITICAL: Game over overlay element not found!");
+                }
+                
+                // Notify the user
+                showMessage("Game complete! Check your score.", 3000);
+                
+                // Try to load leaderboard data for player rank
+                try {
+                    loadLeaderboard().then(() => {
+                        displayPlayerRank();
+                    }).catch(e => console.error("Error loading leaderboard:", e));
+                } catch (e) {
+                    console.error("Error loading leaderboard:", e);
+                }
+                
+                return true;
+            } catch (error) {
+                console.error("Critical error in forceGameOverScreen:", error);
+                
+                // Last resort - direct DOM manipulation
+                try {
+                    document.querySelectorAll('.overlay').forEach(el => el.classList.remove('visible'));
+                    const gameOver = document.getElementById('game-over-overlay');
+                    if (gameOver) gameOver.classList.add('visible');
+                } catch (finalError) {
+                    console.error("FATAL ERROR showing game over screen:", finalError);
+                }
+                
+                return false;
+            }
+        }
+
+        // Modify the endMiniGame function to call the force function if needed
+        function endMiniGame(isFromGameOver = false) {
+            try {
+                console.log("Ending mini-game, cleaning up resources...");
+                
+                // Use the stored global variable if available, otherwise use the parameter
+                // This ensures consistency between start and end of mini-game
+                isFromGameOver = window.miniGameIsFromGameOver || isFromGameOver;
+                console.log(`endMiniGame called with isFromGameOver: ${isFromGameOver}`);
+                
+                if (miniGameInterval) {
+                    clearInterval(miniGameInterval);
+                    miniGameInterval = null;
+                }
+                
+                const miniGameContainer = document.getElementById('mini-game-container');
+                if (miniGameContainer) {
+                    miniGameContainer.classList.remove('active');
+                }
+                
+                miniGameActive = false;
+                
+                // Award points based on mini-game score
+                const pointsEarned = miniGameScore * 2;
+                score += pointsEarned;
+                updateScoreDisplay();
+                
+                // Update achievement for mini-games
+                try {
+                    updateAchievement('apple_collector', miniGameScore);
+                    updateAchievement('mini_game_master', miniGameScore);
+                } catch (e) {
+                    console.error("Error updating achievements:", e);
+                }
+                
+                // Show celebration if player achieved a high mini-game score
+                if (miniGameScore >= 15) {
+                    try {
+                        createParticles(10, '🎮', {
+                            x: window.innerWidth / 2,
+                            y: window.innerHeight / 2
+                        });
+                        playAchievementSound();
+                    } catch (e) {
+                        console.error("Error creating celebration:", e);
+                    }
+                }
+                
+                showMessage(`Mini-game complete! Earned ${pointsEarned} points!`, 2000);
+                
+                // Save the final score to API again after mini-game points are added
+                if (username && score > 0) {
+                    try {
+                        // Use the stored finalTimeScore from window or from the regular variable
+                        const currentTimeScore = window.finalSnakeTimeScore || finalTimeScore;
+                        
+                        console.log(`Saving final score to API after mini-game: ${username}, ${score}, ${currentTimeScore}`);
+                        
+                        // Verify time score is a valid number
+                        if (isNaN(currentTimeScore) || typeof currentTimeScore !== 'number') {
+                            console.warn("Invalid time score detected in endMiniGame, using current game time");
+                            finalTimeScore = Math.floor((Date.now() - gameStartTime) / 1000);
+                        } else {
+                            finalTimeScore = currentTimeScore;
+                        }
+                        
+                        console.log(`Validated time score: ${finalTimeScore}`);
+                        
+                        saveScoreToAPI(username, score, finalTimeScore)
+                            .then(() => {
+                                console.log("Score saved successfully after mini-game");
+                            })
+                            .catch(err => {
+                                console.error("Error saving score after mini-game:", err);
+                            });
+                    } catch (e) {
+                        console.error("Error saving score after mini-game:", e);
+                    }
+                }
+                
+                // Make sure we always show the game over screen after a short delay
+                // This is important to prevent the game from getting stuck
+                setTimeout(() => {
+                    console.log(`Mini-game ended, isFromGameOver: ${isFromGameOver}`);
+                    
+                    if (isFromGameOver) {
+                        // First attempt using normal flow
+                        console.log("Switching to gameover state");
+                        
+                        // Force game over state
+                        isGameOver = true;
+                        gameState = 'gameover';
+                        
+                        // Update the final score display to include mini-game points
+                        if (finalScoreElement) {
+                            finalScoreElement.textContent = `Score: ${score} | Time: ${formatTime(finalTimeScore)}`;
+                        }
+                        
+                        // Clear any stored flags
+                        window.miniGameIsFromGameOver = undefined;
+                        
+                        // Hide all overlays first to ensure a clean state
+                        document.querySelectorAll('.overlay').forEach(overlay => overlay.classList.remove('visible'));
+                        
+                        // Hide the mini-game container explicitly
+                        const miniGameContainer = document.getElementById('mini-game-container');
+                        if (miniGameContainer) {
+                            miniGameContainer.classList.remove('active');
+                        }
+                        
+                        // Try the normal switchState method
+                        switchState('gameover');
+                        
+                        // Set a backup timer to force the game over screen if it doesn't appear
+                        setTimeout(() => {
+                            const gameOverOverlay = document.getElementById('game-over-overlay');
+                            const isOverlayVisible = gameOverOverlay && gameOverOverlay.classList.contains('visible');
+                            
+                            if (!isOverlayVisible) {
+                                console.warn("Game over screen did not appear within timeout! Forcing it...");
+                                forceGameOverScreen();
+                            } else {
+                                console.log("Game over screen is visible, no need to force it");
+                            }
+                        }, 1500);
+                        
+                        // Update high score if needed
+                        try {
+                            if (score > highScore) {
+                                highScore = score;
+                                localStorage.setItem('snakeHighScore', score);
+                                showMessage("New High Score! 🎉", 3000);
+                            }
+                        } catch (e) {
+                            console.error("Error updating high score:", e);
+                        }
+                    } else if (gameState === 'playing') {
+                        // Resume main game if was playing
+                        startGameLoop();
+                    } else {
+                        // Fallback in case we're in an unknown state
+                        console.warn("Unknown game state when ending mini-game:", gameState);
+                        switchState('gameover');
+                    }
+                }, 1000); // Longer delay to ensure messages are visible and transition is smoother
+            } catch (e) {
+                console.error("Error in endMiniGame:", e);
+                // Ultimate fallback - force the game over screen
+                forceGameOverScreen();
+            }
+        }
     </script>
-    
+
     <!-- Add mobile controls and portal fixes -->
     <script src="fix-mobile-controls.js"></script>
+
+    <!-- Enhanced error handling for resources -->
+    <script>
+        // Global error handler for resource loading
+        window.addEventListener('error', function(e) {
+            // Suppress console errors for resources that fail to load
+            if (e.target.tagName === 'LINK' || e.target.tagName === 'SCRIPT' || e.target.tagName === 'IMG') {
+                console.warn(`Resource failed to load: ${e.target.src || e.target.href}`);
+                e.preventDefault();
+            }
+        }, true);
+    </script>
+
+    <!-- Add event listeners for game controls -->
+    <script>
+        // Add event listeners for game controls
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Setting up game event listeners...");
+            
+            // Start game button
+            const startGameButton = document.getElementById('start-game-button');
+            if (startGameButton) {
+                console.log("Found start game button, adding event listener");
+                startGameButton.addEventListener('click', function() {
+                    console.log("Start button clicked");
+                    username = usernameInput.value.trim() || 'AAA';
+                    console.log(`Starting game with username: ${username}`);
+                    
+                    // Reset the game variables
+                    initGameVariables();
+                    
+                    // Set up game state
+                    gameStartTime = Date.now();
+                    
+                    console.log("Switching state to playing");
+                    switchState('playing');
+                    
+                    // Start the game loop
+                    if (!animationFrameId) {
+                        console.log("Starting game loop");
+                        animationFrameId = requestAnimationFrame(gameLoop);
+                    }
+                });
+            } else {
+                console.error("Start game button not found!");
+            }
+            
+            // Restart game button
+            const restartButton = document.getElementById('restart-button');
+            if (restartButton) {
+                restartButton.addEventListener('click', function() {
+                    console.log("Restart button clicked");
+                    
+                    // Reset the game variables
+                    initGameVariables();
+                    
+                    // Set up game state
+                    gameStartTime = Date.now();
+                    
+                    console.log("Switching state to playing from restart");
+                    switchState('playing');
+                    
+                    // Start the game loop
+                    if (!animationFrameId) {
+                        console.log("Starting game loop from restart");
+                        animationFrameId = requestAnimationFrame(gameLoop);
+                    }
+                });
+            }
+            
+            // Leaderboard buttons
+            const showLeaderboardButtonStart = document.getElementById('show-leaderboard-button-start');
+            if (showLeaderboardButtonStart) {
+                showLeaderboardButtonStart.addEventListener('click', displayLeaderboard);
+            }
+            
+            const showLeaderboardButtonGameOver = document.getElementById('show-leaderboard-button-gameover');
+            if (showLeaderboardButtonGameOver) {
+                showLeaderboardButtonGameOver.addEventListener('click', displayLeaderboard);
+            }
+            
+            // Close leaderboard button
+            const closeLeaderboardButton = document.getElementById('close-leaderboard-button');
+            if (closeLeaderboardButton) {
+                closeLeaderboardButton.addEventListener('click', function() {
+                    // Determine which state to return to
+                    const prevState = (gameState === 'gameover') ? 'gameover' : 'username';
+                    switchState(prevState);
+                });
+            }
+            
+            // Username input submission
+            const usernameInput = document.getElementById('username-input');
+            if (usernameInput) {
+                usernameInput.addEventListener('keyup', function(e) {
+                    if (e.key === 'Enter') {
+                        console.log("Enter pressed in username input");
+                        username = usernameInput.value.trim() || 'AAA';
+                        switchState('playing');
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>

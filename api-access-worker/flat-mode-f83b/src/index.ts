@@ -3,7 +3,7 @@
  * - Includes CORS headers.
  * - Updates score only if the new score is higher for a given name.
  * - Interacts with a D1 database bound as 'DB'.
- * - Assumes D1 table 'scores' with columns 'name' (TEXT) and 'score_value' (INTEGER).
+ * - Assumes D1 table 'scores' with columns 'name' (TEXT), 'score_value' (INTEGER), and 'time_score' (INTEGER).
  * - Provides endpoints:
  * - GET /api/leaderboard: Returns ALL scores, ordered by score DESC.
  * - POST /api/scores: Saves/Updates a score.
@@ -17,18 +17,21 @@ export interface Env {
 interface ScorePostBody {
 	name?: string;
 	score_value?: number;
+	time_score?: number;
 }
 
 interface ScoreEntry {
     name: string;
     score_value: number;
+    time_score?: number;
 }
 
-// CORS Headers
+// CORS Headers - Update to accept any origin
 const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, HEAD',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Max-Age': '86400',
 };
 
 // Helper Functions
@@ -43,11 +46,9 @@ function errorResponse(message: string, status = 400): Response {
 	return new Response(JSON.stringify({ success: false, error: message }), { status: status, headers: headers });
 }
 function handleOptions(request: Request): Response {
-    if ( request.headers.get('Origin') !== null && request.headers.get('Access-Control-Request-Method') !== null && request.headers.get('Access-Control-Request-Headers') !== null ) {
-        return new Response(null, { headers: corsHeaders });
-    } else {
-        return new Response(null, { headers: { Allow: 'GET, POST, OPTIONS' } });
-    }
+    return new Response(null, { 
+        headers: corsHeaders
+    });
 }
 
 // Main Worker Logic
@@ -58,18 +59,27 @@ export default {
 		if (!env.DB) { console.error('D1 binding "DB" not found.'); return errorResponse('Database binding not configured', 500); }
 
 		const url = new URL(request.url);
+        console.log(`Handling ${request.method} request for ${url.pathname}`);
 
 		try {
 			// --- GET /api/leaderboard ---
 			if (url.pathname === '/api/leaderboard' && request.method === 'GET') {
 				console.log('Handling GET /api/leaderboard (fetching ALL scores)');
-                // Removed LIMIT 10 from the query
+                // Include time_score in the query
 				const stmt = env.DB.prepare(
-					'SELECT name, score_value FROM scores ORDER BY score_value DESC'
+					'SELECT name, score_value, time_score FROM scores ORDER BY score_value DESC'
 				);
 				const { results } = await stmt.all<ScoreEntry>();
 				console.log('Fetched scores:', results?.length);
 				return jsonResponse({ success: true, results: results || [] });
+			}
+
+			// Support HEAD requests for checking API availability
+			if (request.method === 'HEAD') {
+				return new Response(null, { 
+					status: 200, 
+					headers: corsHeaders
+				});
 			}
 
 			// --- POST /api/scores ---
@@ -81,35 +91,45 @@ export default {
 
 				const name = String(scoreData?.name || '').trim().toUpperCase().substring(0, 10);
 				const newScore = parseInt(String(scoreData?.score_value ?? NaN));
+				const timeScore = parseInt(String(scoreData?.time_score ?? 0));
 
 				if (!name) return errorResponse('Name is required', 400);
 				if (isNaN(newScore) || newScore < 0) return errorResponse('Invalid or missing score_value', 400);
 
-				console.log(`Processing score: ${name} - ${newScore}`);
+				console.log(`Processing score: ${name} - ${newScore} (time: ${timeScore})`);
 
-                // Check existing score
-                const checkStmt = env.DB.prepare('SELECT score_value FROM scores WHERE name = ?');
-                const existing = await checkStmt.bind(name).first<ScoreEntry>();
+				// Check existing score
+				const checkStmt = env.DB.prepare('SELECT score_value, time_score FROM scores WHERE name = ?');
+				const existing = await checkStmt.bind(name).first<ScoreEntry>();
 
-                if (existing) {
-                    const existingScore = existing.score_value;
-                    if (newScore > existingScore) {
-                        console.log(`Updating score for ${name} from ${existingScore} to ${newScore}`);
-                        const updateStmt = env.DB.prepare('UPDATE scores SET score_value = ? WHERE name = ?');
-                        const info = await updateStmt.bind(newScore, name).run();
-                        if (!info.success) throw new Error(`D1 Update failed: ${info.error || 'Unknown reason'}`);
-                         return jsonResponse({ success: true, message: 'Score updated' });
-                    } else {
-                        console.log(`New score ${newScore} not higher than existing ${existingScore} for ${name}. No update.`);
-                         return jsonResponse({ success: true, message: 'Existing score is higher or equal' });
-                    }
-                } else {
-                    console.log(`Inserting new score for ${name}: ${newScore}`);
-                    const insertStmt = env.DB.prepare('INSERT INTO scores (name, score_value) VALUES (?, ?)');
-                    const info = await insertStmt.bind(name, newScore).run();
-                    if (!info.success) throw new Error(`D1 Insert failed: ${info.error || 'Unknown reason'}`);
-                    return jsonResponse({ success: true, message: 'Score saved' });
-                }
+				if (existing) {
+					const existingScore = existing.score_value;
+					// Always update time_score for an existing player, even if the score isn't higher
+					if (newScore > existingScore) {
+						// Update score and time_score when score is higher
+						console.log(`Updating score and time for ${name} from ${existingScore} to ${newScore} with time ${timeScore}`);
+						const updateStmt = env.DB.prepare('UPDATE scores SET score_value = ?, time_score = ? WHERE name = ?');
+						const info = await updateStmt.bind(newScore, timeScore, name).run();
+						if (!info.success) throw new Error(`D1 Update failed: ${info.error || 'Unknown reason'}`);
+						return jsonResponse({ success: true, message: 'Score and time updated' });
+					} else if (timeScore > 0) {
+						// Just update time_score when score is not higher but we have a valid time
+						console.log(`Keeping score ${existingScore} but updating time to ${timeScore} for ${name}`);
+						const updateTimeStmt = env.DB.prepare('UPDATE scores SET time_score = ? WHERE name = ?');
+						const info = await updateTimeStmt.bind(timeScore, name).run();
+						if (!info.success) throw new Error(`D1 Update time failed: ${info.error || 'Unknown reason'}`);
+						return jsonResponse({ success: true, message: 'Time score updated' });
+					} else {
+						console.log(`No updates needed for ${name}. Score ${newScore} not higher than ${existingScore} and time ${timeScore} is invalid.`);
+						return jsonResponse({ success: true, message: 'No updates needed' });
+					}
+				} else {
+					console.log(`Inserting new score for ${name}: ${newScore} with time ${timeScore}`);
+					const insertStmt = env.DB.prepare('INSERT INTO scores (name, score_value, time_score) VALUES (?, ?, ?)');
+					const info = await insertStmt.bind(name, newScore, timeScore).run();
+					if (!info.success) throw new Error(`D1 Insert failed: ${info.error || 'Unknown reason'}`);
+					return jsonResponse({ success: true, message: 'Score saved' });
+				}
 			}
 
 			// --- Not Found for other /api/ routes ---
